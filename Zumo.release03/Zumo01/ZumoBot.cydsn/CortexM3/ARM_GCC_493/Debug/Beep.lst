@@ -1,0 +1,2874 @@
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Beep.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Beep,"ax",%progbits
+  19              		.align	2
+  20              		.global	Beep
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Beep, %function
+  24              	Beep:
+  25              	.LFB63:
+  26              		.file 1 "ZumoLibrary\\Beep.c"
+   1:ZumoLibrary/Beep.c **** /* ========================================
+   2:ZumoLibrary/Beep.c ****  *
+   3:ZumoLibrary/Beep.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:ZumoLibrary/Beep.c ****  * All Rights Reserved
+   5:ZumoLibrary/Beep.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:ZumoLibrary/Beep.c ****  *
+   7:ZumoLibrary/Beep.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:ZumoLibrary/Beep.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:ZumoLibrary/Beep.c ****  *
+  10:ZumoLibrary/Beep.c ****  * ========================================
+  11:ZumoLibrary/Beep.c **** */
+  12:ZumoLibrary/Beep.c **** #include <project.h>
+  13:ZumoLibrary/Beep.c **** #include "Beep.h"
+  14:ZumoLibrary/Beep.c **** int qua = 150;
+  15:ZumoLibrary/Beep.c **** uint8 a[] = {0,0,0,0,251,224,199};
+  16:ZumoLibrary/Beep.c **** uint8 b[] = {188,167,149,141,125,111,99};
+  17:ZumoLibrary/Beep.c **** uint8 c[] = {93,83,74,70,62,55,49};
+  18:ZumoLibrary/Beep.c **** 
+  19:ZumoLibrary/Beep.c **** void Beep(uint32 length, uint8 pitch)
+  20:ZumoLibrary/Beep.c **** {
+  27              		.loc 1 20 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 70B5     		push	{r4, r5, r6, lr}
+  33              		.cfi_def_cfa_offset 16
+  34              		.cfi_offset 4, -16
+  35              		.cfi_offset 5, -12
+  36              		.cfi_offset 6, -8
+  37              		.cfi_offset 14, -4
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 2
+
+
+  38 0002 0546     		mov	r5, r0
+  39 0004 0C46     		mov	r4, r1
+  21:ZumoLibrary/Beep.c ****     uint8 cmp = pitch / 2;
+  40              		.loc 1 21 0
+  41 0006 4E08     		lsrs	r6, r1, #1
+  42              	.LVL1:
+  22:ZumoLibrary/Beep.c ****     Buzzer_PWM_Start();
+  43              		.loc 1 22 0
+  44 0008 FFF7FEFF 		bl	Buzzer_PWM_Start
+  45              	.LVL2:
+  23:ZumoLibrary/Beep.c ****     Buzzer_PWM_WriteCompare(cmp);
+  46              		.loc 1 23 0
+  47 000c 3046     		mov	r0, r6
+  48 000e FFF7FEFF 		bl	Buzzer_PWM_WriteCompare
+  49              	.LVL3:
+  24:ZumoLibrary/Beep.c ****     Buzzer_PWM_WritePeriod(pitch);
+  50              		.loc 1 24 0
+  51 0012 2046     		mov	r0, r4
+  52 0014 FFF7FEFF 		bl	Buzzer_PWM_WritePeriod
+  53              	.LVL4:
+  25:ZumoLibrary/Beep.c ****     CyDelay(length);
+  54              		.loc 1 25 0
+  55 0018 2846     		mov	r0, r5
+  56 001a FFF7FEFF 		bl	CyDelay
+  57              	.LVL5:
+  26:ZumoLibrary/Beep.c ****     Buzzer_PWM_Stop();
+  58              		.loc 1 26 0
+  59 001e FFF7FEFF 		bl	Buzzer_PWM_Stop
+  60              	.LVL6:
+  61 0022 70BD     		pop	{r4, r5, r6, pc}
+  62              		.cfi_endproc
+  63              	.LFE63:
+  64              		.size	Beep, .-Beep
+  65              		.section	.text.Beep_black,"ax",%progbits
+  66              		.align	2
+  67              		.global	Beep_black
+  68              		.thumb
+  69              		.thumb_func
+  70              		.type	Beep_black, %function
+  71              	Beep_black:
+  72              	.LFB64:
+  27:ZumoLibrary/Beep.c **** }
+  28:ZumoLibrary/Beep.c **** 
+  29:ZumoLibrary/Beep.c **** void Beep_black(uint8 pitch) {
+  73              		.loc 1 29 0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              	.LVL7:
+  78 0000 08B5     		push	{r3, lr}
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 3, -8
+  81              		.cfi_offset 14, -4
+  82 0002 0146     		mov	r1, r0
+  30:ZumoLibrary/Beep.c ****     Beep(qua - 10, pitch);
+  83              		.loc 1 30 0
+  84 0004 044B     		ldr	r3, .L5
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 3
+
+
+  85 0006 1868     		ldr	r0, [r3]
+  86              	.LVL8:
+  87 0008 0A38     		subs	r0, r0, #10
+  88 000a FFF7FEFF 		bl	Beep
+  89              	.LVL9:
+  31:ZumoLibrary/Beep.c ****     CyDelay(10);
+  90              		.loc 1 31 0
+  91 000e 0A20     		movs	r0, #10
+  92 0010 FFF7FEFF 		bl	CyDelay
+  93              	.LVL10:
+  94 0014 08BD     		pop	{r3, pc}
+  95              	.L6:
+  96 0016 00BF     		.align	2
+  97              	.L5:
+  98 0018 00000000 		.word	.LANCHOR0
+  99              		.cfi_endproc
+ 100              	.LFE64:
+ 101              		.size	Beep_black, .-Beep_black
+ 102              		.section	.text.Beep_white,"ax",%progbits
+ 103              		.align	2
+ 104              		.global	Beep_white
+ 105              		.thumb
+ 106              		.thumb_func
+ 107              		.type	Beep_white, %function
+ 108              	Beep_white:
+ 109              	.LFB65:
+  32:ZumoLibrary/Beep.c **** }
+  33:ZumoLibrary/Beep.c **** 
+  34:ZumoLibrary/Beep.c **** void Beep_white(uint8 pitch) {
+ 110              		.loc 1 34 0
+ 111              		.cfi_startproc
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              	.LVL11:
+ 115 0000 08B5     		push	{r3, lr}
+ 116              		.cfi_def_cfa_offset 8
+ 117              		.cfi_offset 3, -8
+ 118              		.cfi_offset 14, -4
+ 119 0002 0146     		mov	r1, r0
+  35:ZumoLibrary/Beep.c ****     Beep (qua * 2 - 10, pitch);
+ 120              		.loc 1 35 0
+ 121 0004 044B     		ldr	r3, .L9
+ 122 0006 1868     		ldr	r0, [r3]
+ 123              	.LVL12:
+ 124 0008 0538     		subs	r0, r0, #5
+ 125 000a 4000     		lsls	r0, r0, #1
+ 126 000c FFF7FEFF 		bl	Beep
+ 127              	.LVL13:
+  36:ZumoLibrary/Beep.c ****     CyDelay(10);
+ 128              		.loc 1 36 0
+ 129 0010 0A20     		movs	r0, #10
+ 130 0012 FFF7FEFF 		bl	CyDelay
+ 131              	.LVL14:
+ 132 0016 08BD     		pop	{r3, pc}
+ 133              	.L10:
+ 134              		.align	2
+ 135              	.L9:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 4
+
+
+ 136 0018 00000000 		.word	.LANCHOR0
+ 137              		.cfi_endproc
+ 138              	.LFE65:
+ 139              		.size	Beep_white, .-Beep_white
+ 140              		.section	.text.Beep_half,"ax",%progbits
+ 141              		.align	2
+ 142              		.global	Beep_half
+ 143              		.thumb
+ 144              		.thumb_func
+ 145              		.type	Beep_half, %function
+ 146              	Beep_half:
+ 147              	.LFB66:
+  37:ZumoLibrary/Beep.c **** }
+  38:ZumoLibrary/Beep.c **** 
+  39:ZumoLibrary/Beep.c **** void Beep_half(uint8 pitch) {
+ 148              		.loc 1 39 0
+ 149              		.cfi_startproc
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152              	.LVL15:
+ 153 0000 08B5     		push	{r3, lr}
+ 154              		.cfi_def_cfa_offset 8
+ 155              		.cfi_offset 3, -8
+ 156              		.cfi_offset 14, -4
+ 157 0002 0146     		mov	r1, r0
+  40:ZumoLibrary/Beep.c ****     Beep (qua/2-10, pitch);
+ 158              		.loc 1 40 0
+ 159 0004 054B     		ldr	r3, .L13
+ 160 0006 1868     		ldr	r0, [r3]
+ 161              	.LVL16:
+ 162 0008 00EBD070 		add	r0, r0, r0, lsr #31
+ 163 000c 4010     		asrs	r0, r0, #1
+ 164 000e 0A38     		subs	r0, r0, #10
+ 165 0010 FFF7FEFF 		bl	Beep
+ 166              	.LVL17:
+  41:ZumoLibrary/Beep.c ****     CyDelay(10);
+ 167              		.loc 1 41 0
+ 168 0014 0A20     		movs	r0, #10
+ 169 0016 FFF7FEFF 		bl	CyDelay
+ 170              	.LVL18:
+ 171 001a 08BD     		pop	{r3, pc}
+ 172              	.L14:
+ 173              		.align	2
+ 174              	.L13:
+ 175 001c 00000000 		.word	.LANCHOR0
+ 176              		.cfi_endproc
+ 177              	.LFE66:
+ 178              		.size	Beep_half, .-Beep_half
+ 179              		.section	.text.Beep_third,"ax",%progbits
+ 180              		.align	2
+ 181              		.global	Beep_third
+ 182              		.thumb
+ 183              		.thumb_func
+ 184              		.type	Beep_third, %function
+ 185              	Beep_third:
+ 186              	.LFB67:
+  42:ZumoLibrary/Beep.c **** }
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 5
+
+
+  43:ZumoLibrary/Beep.c **** 
+  44:ZumoLibrary/Beep.c **** void Beep_third(uint8 pitch) {
+ 187              		.loc 1 44 0
+ 188              		.cfi_startproc
+ 189              		@ args = 0, pretend = 0, frame = 0
+ 190              		@ frame_needed = 0, uses_anonymous_args = 0
+ 191              	.LVL19:
+ 192 0000 08B5     		push	{r3, lr}
+ 193              		.cfi_def_cfa_offset 8
+ 194              		.cfi_offset 3, -8
+ 195              		.cfi_offset 14, -4
+ 196 0002 0146     		mov	r1, r0
+  45:ZumoLibrary/Beep.c ****     Beep (qua*2/3-10, pitch);
+ 197              		.loc 1 45 0
+ 198 0004 074B     		ldr	r3, .L17
+ 199 0006 1868     		ldr	r0, [r3]
+ 200              	.LVL20:
+ 201 0008 4000     		lsls	r0, r0, #1
+ 202 000a 074B     		ldr	r3, .L17+4
+ 203 000c 83FB0023 		smull	r2, r3, r3, r0
+ 204 0010 A3EBE070 		sub	r0, r3, r0, asr #31
+ 205 0014 0A38     		subs	r0, r0, #10
+ 206 0016 FFF7FEFF 		bl	Beep
+ 207              	.LVL21:
+  46:ZumoLibrary/Beep.c ****     CyDelay(10);
+ 208              		.loc 1 46 0
+ 209 001a 0A20     		movs	r0, #10
+ 210 001c FFF7FEFF 		bl	CyDelay
+ 211              	.LVL22:
+ 212 0020 08BD     		pop	{r3, pc}
+ 213              	.L18:
+ 214 0022 00BF     		.align	2
+ 215              	.L17:
+ 216 0024 00000000 		.word	.LANCHOR0
+ 217 0028 56555555 		.word	1431655766
+ 218              		.cfi_endproc
+ 219              	.LFE67:
+ 220              		.size	Beep_third, .-Beep_third
+ 221              		.section	.text.Beep_whole,"ax",%progbits
+ 222              		.align	2
+ 223              		.global	Beep_whole
+ 224              		.thumb
+ 225              		.thumb_func
+ 226              		.type	Beep_whole, %function
+ 227              	Beep_whole:
+ 228              	.LFB68:
+  47:ZumoLibrary/Beep.c **** }
+  48:ZumoLibrary/Beep.c **** 
+  49:ZumoLibrary/Beep.c **** void Beep_whole(uint8 pitch) {
+ 229              		.loc 1 49 0
+ 230              		.cfi_startproc
+ 231              		@ args = 0, pretend = 0, frame = 0
+ 232              		@ frame_needed = 0, uses_anonymous_args = 0
+ 233              	.LVL23:
+ 234 0000 08B5     		push	{r3, lr}
+ 235              		.cfi_def_cfa_offset 8
+ 236              		.cfi_offset 3, -8
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 6
+
+
+ 237              		.cfi_offset 14, -4
+ 238 0002 0146     		mov	r1, r0
+  50:ZumoLibrary/Beep.c ****     Beep (qua*4-10, pitch);
+ 239              		.loc 1 50 0
+ 240 0004 044B     		ldr	r3, .L21
+ 241 0006 1868     		ldr	r0, [r3]
+ 242              	.LVL24:
+ 243 0008 8000     		lsls	r0, r0, #2
+ 244 000a 0A38     		subs	r0, r0, #10
+ 245 000c FFF7FEFF 		bl	Beep
+ 246              	.LVL25:
+  51:ZumoLibrary/Beep.c ****     CyDelay(10);
+ 247              		.loc 1 51 0
+ 248 0010 0A20     		movs	r0, #10
+ 249 0012 FFF7FEFF 		bl	CyDelay
+ 250              	.LVL26:
+ 251 0016 08BD     		pop	{r3, pc}
+ 252              	.L22:
+ 253              		.align	2
+ 254              	.L21:
+ 255 0018 00000000 		.word	.LANCHOR0
+ 256              		.cfi_endproc
+ 257              	.LFE68:
+ 258              		.size	Beep_whole, .-Beep_whole
+ 259              		.section	.text.Beep_a,"ax",%progbits
+ 260              		.align	2
+ 261              		.global	Beep_a
+ 262              		.thumb
+ 263              		.thumb_func
+ 264              		.type	Beep_a, %function
+ 265              	Beep_a:
+ 266              	.LFB69:
+  52:ZumoLibrary/Beep.c **** }
+  53:ZumoLibrary/Beep.c **** 
+  54:ZumoLibrary/Beep.c **** void Beep_a(uint8 pitch) {
+ 267              		.loc 1 54 0
+ 268              		.cfi_startproc
+ 269              		@ args = 0, pretend = 0, frame = 0
+ 270              		@ frame_needed = 0, uses_anonymous_args = 0
+ 271              	.LVL27:
+ 272 0000 08B5     		push	{r3, lr}
+ 273              		.cfi_def_cfa_offset 8
+ 274              		.cfi_offset 3, -8
+ 275              		.cfi_offset 14, -4
+ 276 0002 0146     		mov	r1, r0
+  55:ZumoLibrary/Beep.c ****     Beep (qua*4/3-10, pitch);
+ 277              		.loc 1 55 0
+ 278 0004 074B     		ldr	r3, .L25
+ 279 0006 1868     		ldr	r0, [r3]
+ 280              	.LVL28:
+ 281 0008 8000     		lsls	r0, r0, #2
+ 282 000a 074B     		ldr	r3, .L25+4
+ 283 000c 83FB0023 		smull	r2, r3, r3, r0
+ 284 0010 A3EBE070 		sub	r0, r3, r0, asr #31
+ 285 0014 0A38     		subs	r0, r0, #10
+ 286 0016 FFF7FEFF 		bl	Beep
+ 287              	.LVL29:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 7
+
+
+  56:ZumoLibrary/Beep.c ****     CyDelay(10);
+ 288              		.loc 1 56 0
+ 289 001a 0A20     		movs	r0, #10
+ 290 001c FFF7FEFF 		bl	CyDelay
+ 291              	.LVL30:
+ 292 0020 08BD     		pop	{r3, pc}
+ 293              	.L26:
+ 294 0022 00BF     		.align	2
+ 295              	.L25:
+ 296 0024 00000000 		.word	.LANCHOR0
+ 297 0028 56555555 		.word	1431655766
+ 298              		.cfi_endproc
+ 299              	.LFE69:
+ 300              		.size	Beep_a, .-Beep_a
+ 301              		.section	.text.Beep_fourth,"ax",%progbits
+ 302              		.align	2
+ 303              		.global	Beep_fourth
+ 304              		.thumb
+ 305              		.thumb_func
+ 306              		.type	Beep_fourth, %function
+ 307              	Beep_fourth:
+ 308              	.LFB70:
+  57:ZumoLibrary/Beep.c **** }
+  58:ZumoLibrary/Beep.c **** 
+  59:ZumoLibrary/Beep.c **** void Beep_fourth(uint8 pitch) {
+ 309              		.loc 1 59 0
+ 310              		.cfi_startproc
+ 311              		@ args = 0, pretend = 0, frame = 0
+ 312              		@ frame_needed = 0, uses_anonymous_args = 0
+ 313              	.LVL31:
+ 314 0000 08B5     		push	{r3, lr}
+ 315              		.cfi_def_cfa_offset 8
+ 316              		.cfi_offset 3, -8
+ 317              		.cfi_offset 14, -4
+ 318 0002 0146     		mov	r1, r0
+  60:ZumoLibrary/Beep.c ****     Beep (qua/4-10, pitch);
+ 319              		.loc 1 60 0
+ 320 0004 064B     		ldr	r3, .L30
+ 321 0006 1868     		ldr	r0, [r3]
+ 322              	.LVL32:
+ 323 0008 0028     		cmp	r0, #0
+ 324 000a 00DA     		bge	.L28
+ 325 000c 0330     		adds	r0, r0, #3
+ 326              	.L28:
+ 327 000e 8010     		asrs	r0, r0, #2
+ 328 0010 0A38     		subs	r0, r0, #10
+ 329 0012 FFF7FEFF 		bl	Beep
+ 330              	.LVL33:
+  61:ZumoLibrary/Beep.c ****     CyDelay(10);
+ 331              		.loc 1 61 0
+ 332 0016 0A20     		movs	r0, #10
+ 333 0018 FFF7FEFF 		bl	CyDelay
+ 334              	.LVL34:
+ 335 001c 08BD     		pop	{r3, pc}
+ 336              	.L31:
+ 337 001e 00BF     		.align	2
+ 338              	.L30:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 8
+
+
+ 339 0020 00000000 		.word	.LANCHOR0
+ 340              		.cfi_endproc
+ 341              	.LFE70:
+ 342              		.size	Beep_fourth, .-Beep_fourth
+ 343              		.section	.text.Mario_Victory,"ax",%progbits
+ 344              		.align	2
+ 345              		.global	Mario_Victory
+ 346              		.thumb
+ 347              		.thumb_func
+ 348              		.type	Mario_Victory, %function
+ 349              	Mario_Victory:
+ 350              	.LFB71:
+  62:ZumoLibrary/Beep.c **** }
+  63:ZumoLibrary/Beep.c **** 
+  64:ZumoLibrary/Beep.c **** void Mario_Victory() {
+ 351              		.loc 1 64 0
+ 352              		.cfi_startproc
+ 353              		@ args = 0, pretend = 0, frame = 0
+ 354              		@ frame_needed = 0, uses_anonymous_args = 0
+ 355 0000 10B5     		push	{r4, lr}
+ 356              		.cfi_def_cfa_offset 8
+ 357              		.cfi_offset 4, -8
+ 358              		.cfi_offset 14, -4
+  65:ZumoLibrary/Beep.c ****     qua = 200;
+ 359              		.loc 1 65 0
+ 360 0002 2A4C     		ldr	r4, .L34
+ 361 0004 C823     		movs	r3, #200
+ 362 0006 2360     		str	r3, [r4]
+  66:ZumoLibrary/Beep.c ****     Beep_third(a[4]); Beep_third(b[0]); Beep_third(b[2]); Beep_third(b[4]); Beep_third(c[0]); Beep_
+ 363              		.loc 1 66 0
+ 364 0008 207A     		ldrb	r0, [r4, #8]	@ zero_extendqisi2
+ 365 000a FFF7FEFF 		bl	Beep_third
+ 366              	.LVL35:
+ 367 000e 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 368 0010 FFF7FEFF 		bl	Beep_third
+ 369              	.LVL36:
+ 370 0014 A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 371 0016 FFF7FEFF 		bl	Beep_third
+ 372              	.LVL37:
+ 373 001a 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 374 001c FFF7FEFF 		bl	Beep_third
+ 375              	.LVL38:
+ 376 0020 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 377 0022 FFF7FEFF 		bl	Beep_third
+ 378              	.LVL39:
+ 379 0026 A07D     		ldrb	r0, [r4, #22]	@ zero_extendqisi2
+ 380 0028 FFF7FEFF 		bl	Beep_third
+ 381              	.LVL40:
+ 382 002c 207E     		ldrb	r0, [r4, #24]	@ zero_extendqisi2
+ 383 002e FFF7FEFF 		bl	Beep_white
+ 384              	.LVL41:
+ 385 0032 A07D     		ldrb	r0, [r4, #22]	@ zero_extendqisi2
+ 386 0034 FFF7FEFF 		bl	Beep_white
+ 387              	.LVL42:
+  67:ZumoLibrary/Beep.c ****     Beep_third(237); Beep_third(b[0]); Beep_third(158); Beep_third(118); Beep_third(c[0]); Beep_thi
+ 388              		.loc 1 67 0
+ 389 0038 ED20     		movs	r0, #237
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 9
+
+
+ 390 003a FFF7FEFF 		bl	Beep_third
+ 391              	.LVL43:
+ 392 003e 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 393 0040 FFF7FEFF 		bl	Beep_third
+ 394              	.LVL44:
+ 395 0044 9E20     		movs	r0, #158
+ 396 0046 FFF7FEFF 		bl	Beep_third
+ 397              	.LVL45:
+ 398 004a 7620     		movs	r0, #118
+ 399 004c FFF7FEFF 		bl	Beep_third
+ 400              	.LVL46:
+ 401 0050 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 402 0052 FFF7FEFF 		bl	Beep_third
+ 403              	.LVL47:
+ 404 0056 4E20     		movs	r0, #78
+ 405 0058 FFF7FEFF 		bl	Beep_third
+ 406              	.LVL48:
+ 407 005c 3B20     		movs	r0, #59
+ 408 005e FFF7FEFF 		bl	Beep_white
+ 409              	.LVL49:
+ 410 0062 4E20     		movs	r0, #78
+ 411 0064 FFF7FEFF 		bl	Beep_white
+ 412              	.LVL50:
+  68:ZumoLibrary/Beep.c ****     Beep_third(211); Beep_third(b[1]); Beep_third(b[3]); Beep_third(105); Beep_third(c[1]); Beep_th
+ 413              		.loc 1 68 0
+ 414 0068 D320     		movs	r0, #211
+ 415 006a FFF7FEFF 		bl	Beep_third
+ 416              	.LVL51:
+ 417 006e 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 418 0070 FFF7FEFF 		bl	Beep_third
+ 419              	.LVL52:
+ 420 0074 E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 421 0076 FFF7FEFF 		bl	Beep_third
+ 422              	.LVL53:
+ 423 007a 6920     		movs	r0, #105
+ 424 007c FFF7FEFF 		bl	Beep_third
+ 425              	.LVL54:
+ 426 0080 607D     		ldrb	r0, [r4, #21]	@ zero_extendqisi2
+ 427 0082 FFF7FEFF 		bl	Beep_third
+ 428              	.LVL55:
+ 429 0086 E07D     		ldrb	r0, [r4, #23]	@ zero_extendqisi2
+ 430 0088 FFF7FEFF 		bl	Beep_third
+ 431              	.LVL56:
+ 432 008c 3420     		movs	r0, #52
+ 433 008e FFF7FEFF 		bl	Beep_white
+ 434              	.LVL57:
+ 435 0092 3420     		movs	r0, #52
+ 436 0094 FFF7FEFF 		bl	Beep_third
+ 437              	.LVL58:
+ 438 0098 3420     		movs	r0, #52
+ 439 009a FFF7FEFF 		bl	Beep_third
+ 440              	.LVL59:
+ 441 009e 3420     		movs	r0, #52
+ 442 00a0 FFF7FEFF 		bl	Beep_third
+ 443              	.LVL60:
+ 444 00a4 2E20     		movs	r0, #46
+ 445 00a6 FFF7FEFF 		bl	Beep_whole
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 10
+
+
+ 446              	.LVL61:
+ 447 00aa 10BD     		pop	{r4, pc}
+ 448              	.L35:
+ 449              		.align	2
+ 450              	.L34:
+ 451 00ac 00000000 		.word	.LANCHOR0
+ 452              		.cfi_endproc
+ 453              	.LFE71:
+ 454              		.size	Mario_Victory, .-Mario_Victory
+ 455              		.section	.text.Mario_Death,"ax",%progbits
+ 456              		.align	2
+ 457              		.global	Mario_Death
+ 458              		.thumb
+ 459              		.thumb_func
+ 460              		.type	Mario_Death, %function
+ 461              	Mario_Death:
+ 462              	.LFB72:
+  69:ZumoLibrary/Beep.c **** }
+  70:ZumoLibrary/Beep.c **** 
+  71:ZumoLibrary/Beep.c **** void Mario_Death() {
+ 463              		.loc 1 71 0
+ 464              		.cfi_startproc
+ 465              		@ args = 0, pretend = 0, frame = 0
+ 466              		@ frame_needed = 0, uses_anonymous_args = 0
+ 467 0000 10B5     		push	{r4, lr}
+ 468              		.cfi_def_cfa_offset 8
+ 469              		.cfi_offset 4, -8
+ 470              		.cfi_offset 14, -4
+  72:ZumoLibrary/Beep.c ****     qua = 150;
+ 471              		.loc 1 72 0
+ 472 0002 144C     		ldr	r4, .L38
+ 473 0004 9623     		movs	r3, #150
+ 474 0006 2360     		str	r3, [r4]
+  73:ZumoLibrary/Beep.c ****     Beep_black(b[6]); Beep_black(c[3]); CyDelay(250); Beep_black(c[3]);
+ 475              		.loc 1 73 0
+ 476 0008 A07C     		ldrb	r0, [r4, #18]	@ zero_extendqisi2
+ 477 000a FFF7FEFF 		bl	Beep_black
+ 478              	.LVL62:
+ 479 000e E07D     		ldrb	r0, [r4, #23]	@ zero_extendqisi2
+ 480 0010 FFF7FEFF 		bl	Beep_black
+ 481              	.LVL63:
+ 482 0014 FA20     		movs	r0, #250
+ 483 0016 FFF7FEFF 		bl	CyDelay
+ 484              	.LVL64:
+ 485 001a E07D     		ldrb	r0, [r4, #23]	@ zero_extendqisi2
+ 486 001c FFF7FEFF 		bl	Beep_black
+ 487              	.LVL65:
+  74:ZumoLibrary/Beep.c ****     Beep_a(c[3]); Beep_a(c[2]); Beep_a(c[1]);
+ 488              		.loc 1 74 0
+ 489 0020 E07D     		ldrb	r0, [r4, #23]	@ zero_extendqisi2
+ 490 0022 FFF7FEFF 		bl	Beep_a
+ 491              	.LVL66:
+ 492 0026 A07D     		ldrb	r0, [r4, #22]	@ zero_extendqisi2
+ 493 0028 FFF7FEFF 		bl	Beep_a
+ 494              	.LVL67:
+ 495 002c 607D     		ldrb	r0, [r4, #21]	@ zero_extendqisi2
+ 496 002e FFF7FEFF 		bl	Beep_a
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 11
+
+
+ 497              	.LVL68:
+  75:ZumoLibrary/Beep.c ****     Beep_black(c[0]); Beep_black(b[2]); Beep_black(c[2]); Beep_black(b[2]);
+ 498              		.loc 1 75 0
+ 499 0032 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 500 0034 FFF7FEFF 		bl	Beep_black
+ 501              	.LVL69:
+ 502 0038 A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 503 003a FFF7FEFF 		bl	Beep_black
+ 504              	.LVL70:
+ 505 003e A07D     		ldrb	r0, [r4, #22]	@ zero_extendqisi2
+ 506 0040 FFF7FEFF 		bl	Beep_black
+ 507              	.LVL71:
+ 508 0044 A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 509 0046 FFF7FEFF 		bl	Beep_black
+ 510              	.LVL72:
+  76:ZumoLibrary/Beep.c ****     Beep_black(b[0]);
+ 511              		.loc 1 76 0
+ 512 004a 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 513 004c FFF7FEFF 		bl	Beep_black
+ 514              	.LVL73:
+ 515 0050 10BD     		pop	{r4, pc}
+ 516              	.L39:
+ 517 0052 00BF     		.align	2
+ 518              	.L38:
+ 519 0054 00000000 		.word	.LANCHOR0
+ 520              		.cfi_endproc
+ 521              	.LFE72:
+ 522              		.size	Mario_Death, .-Mario_Death
+ 523              		.global	__aeabi_i2d
+ 524              		.global	__aeabi_dmul
+ 525              		.global	__aeabi_dsub
+ 526              		.global	__aeabi_d2uiz
+ 527              		.section	.text.kissTheRain,"ax",%progbits
+ 528              		.align	2
+ 529              		.global	kissTheRain
+ 530              		.thumb
+ 531              		.thumb_func
+ 532              		.type	kissTheRain, %function
+ 533              	kissTheRain:
+ 534              	.LFB73:
+  77:ZumoLibrary/Beep.c **** }
+  78:ZumoLibrary/Beep.c **** 
+  79:ZumoLibrary/Beep.c **** void kissTheRain() {
+ 535              		.loc 1 79 0
+ 536              		.cfi_startproc
+ 537              		@ args = 0, pretend = 0, frame = 0
+ 538              		@ frame_needed = 0, uses_anonymous_args = 0
+ 539 0000 10B5     		push	{r4, lr}
+ 540              		.cfi_def_cfa_offset 8
+ 541              		.cfi_offset 4, -8
+ 542              		.cfi_offset 14, -4
+  80:ZumoLibrary/Beep.c ****     qua = 640;
+ 543              		.loc 1 80 0
+ 544 0002 6F4C     		ldr	r4, .L42
+ 545 0004 4FF42073 		mov	r3, #640
+ 546 0008 2360     		str	r3, [r4]
+  81:ZumoLibrary/Beep.c ****     Beep_fourth(a[4]); Beep_fourth(b[0]); Beep_fourth(b[1]);
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 12
+
+
+ 547              		.loc 1 81 0
+ 548 000a 207A     		ldrb	r0, [r4, #8]	@ zero_extendqisi2
+ 549 000c FFF7FEFF 		bl	Beep_fourth
+ 550              	.LVL74:
+ 551 0010 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 552 0012 FFF7FEFF 		bl	Beep_fourth
+ 553              	.LVL75:
+ 554 0016 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 555 0018 FFF7FEFF 		bl	Beep_fourth
+ 556              	.LVL76:
+  82:ZumoLibrary/Beep.c ****     Beep_half(b[1]); Beep_half(b[2]); Beep(qua*2.25-10, b[2]); CyDelay(10); Beep_fourth(b[0]); Beep
+ 557              		.loc 1 82 0
+ 558 001c 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 559 001e FFF7FEFF 		bl	Beep_half
+ 560              	.LVL77:
+ 561 0022 A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 562 0024 FFF7FEFF 		bl	Beep_half
+ 563              	.LVL78:
+ 564 0028 2068     		ldr	r0, [r4]
+ 565 002a FFF7FEFF 		bl	__aeabi_i2d
+ 566              	.LVL79:
+ 567 002e 0022     		movs	r2, #0
+ 568 0030 644B     		ldr	r3, .L42+4
+ 569 0032 FFF7FEFF 		bl	__aeabi_dmul
+ 570              	.LVL80:
+ 571 0036 0022     		movs	r2, #0
+ 572 0038 634B     		ldr	r3, .L42+8
+ 573 003a FFF7FEFF 		bl	__aeabi_dsub
+ 574              	.LVL81:
+ 575 003e FFF7FEFF 		bl	__aeabi_d2uiz
+ 576              	.LVL82:
+ 577 0042 A17B     		ldrb	r1, [r4, #14]	@ zero_extendqisi2
+ 578 0044 FFF7FEFF 		bl	Beep
+ 579              	.LVL83:
+ 580 0048 0A20     		movs	r0, #10
+ 581 004a FFF7FEFF 		bl	CyDelay
+ 582              	.LVL84:
+ 583 004e 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 584 0050 FFF7FEFF 		bl	Beep_fourth
+ 585              	.LVL85:
+ 586 0054 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 587 0056 FFF7FEFF 		bl	Beep_fourth
+ 588              	.LVL86:
+ 589 005a A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 590 005c FFF7FEFF 		bl	Beep_fourth
+ 591              	.LVL87:
+  83:ZumoLibrary/Beep.c ****     Beep_half(b[1]); Beep_half(b[4]); Beep(qua*2.25-10, b[4]); CyDelay(10); Beep_fourth(b[4]); Beep
+ 592              		.loc 1 83 0
+ 593 0060 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 594 0062 FFF7FEFF 		bl	Beep_half
+ 595              	.LVL88:
+ 596 0066 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 597 0068 FFF7FEFF 		bl	Beep_half
+ 598              	.LVL89:
+ 599 006c 2068     		ldr	r0, [r4]
+ 600 006e FFF7FEFF 		bl	__aeabi_i2d
+ 601              	.LVL90:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 13
+
+
+ 602 0072 0022     		movs	r2, #0
+ 603 0074 534B     		ldr	r3, .L42+4
+ 604 0076 FFF7FEFF 		bl	__aeabi_dmul
+ 605              	.LVL91:
+ 606 007a 0022     		movs	r2, #0
+ 607 007c 524B     		ldr	r3, .L42+8
+ 608 007e FFF7FEFF 		bl	__aeabi_dsub
+ 609              	.LVL92:
+ 610 0082 FFF7FEFF 		bl	__aeabi_d2uiz
+ 611              	.LVL93:
+ 612 0086 217C     		ldrb	r1, [r4, #16]	@ zero_extendqisi2
+ 613 0088 FFF7FEFF 		bl	Beep
+ 614              	.LVL94:
+ 615 008c 0A20     		movs	r0, #10
+ 616 008e FFF7FEFF 		bl	CyDelay
+ 617              	.LVL95:
+ 618 0092 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 619 0094 FFF7FEFF 		bl	Beep_fourth
+ 620              	.LVL96:
+ 621 0098 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 622 009a FFF7FEFF 		bl	Beep_fourth
+ 623              	.LVL97:
+ 624 009e A07C     		ldrb	r0, [r4, #18]	@ zero_extendqisi2
+ 625 00a0 FFF7FEFF 		bl	Beep_fourth
+ 626              	.LVL98:
+  84:ZumoLibrary/Beep.c ****     Beep_half(b[6]); Beep_half(c[0]); Beep(qua*1.5 -10, c[0]); CyDelay(10); Beep_half(c[1]); CyDela
+ 627              		.loc 1 84 0
+ 628 00a4 A07C     		ldrb	r0, [r4, #18]	@ zero_extendqisi2
+ 629 00a6 FFF7FEFF 		bl	Beep_half
+ 630              	.LVL99:
+ 631 00aa 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 632 00ac FFF7FEFF 		bl	Beep_half
+ 633              	.LVL100:
+ 634 00b0 2068     		ldr	r0, [r4]
+ 635 00b2 FFF7FEFF 		bl	__aeabi_i2d
+ 636              	.LVL101:
+ 637 00b6 0022     		movs	r2, #0
+ 638 00b8 444B     		ldr	r3, .L42+12
+ 639 00ba FFF7FEFF 		bl	__aeabi_dmul
+ 640              	.LVL102:
+ 641 00be 0022     		movs	r2, #0
+ 642 00c0 414B     		ldr	r3, .L42+8
+ 643 00c2 FFF7FEFF 		bl	__aeabi_dsub
+ 644              	.LVL103:
+ 645 00c6 FFF7FEFF 		bl	__aeabi_d2uiz
+ 646              	.LVL104:
+ 647 00ca 217D     		ldrb	r1, [r4, #20]	@ zero_extendqisi2
+ 648 00cc FFF7FEFF 		bl	Beep
+ 649              	.LVL105:
+ 650 00d0 0A20     		movs	r0, #10
+ 651 00d2 FFF7FEFF 		bl	CyDelay
+ 652              	.LVL106:
+ 653 00d6 607D     		ldrb	r0, [r4, #21]	@ zero_extendqisi2
+ 654 00d8 FFF7FEFF 		bl	Beep_half
+ 655              	.LVL107:
+ 656 00dc 2068     		ldr	r0, [r4]
+ 657 00de 00EBD070 		add	r0, r0, r0, lsr #31
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 14
+
+
+ 658 00e2 4010     		asrs	r0, r0, #1
+ 659 00e4 FFF7FEFF 		bl	CyDelay
+ 660              	.LVL108:
+ 661 00e8 A07D     		ldrb	r0, [r4, #22]	@ zero_extendqisi2
+ 662 00ea FFF7FEFF 		bl	Beep_half
+ 663              	.LVL109:
+ 664 00ee 607D     		ldrb	r0, [r4, #21]	@ zero_extendqisi2
+ 665 00f0 FFF7FEFF 		bl	Beep_half
+ 666              	.LVL110:
+ 667 00f4 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 668 00f6 FFF7FEFF 		bl	Beep_half
+ 669              	.LVL111:
+  85:ZumoLibrary/Beep.c ****     Beep_black(b[6]); Beep_black(a[6]); Beep_half(b[2]); Beep_half(c[0]); Beep_half(b[6]); Beep_hal
+ 670              		.loc 1 85 0
+ 671 00fa A07C     		ldrb	r0, [r4, #18]	@ zero_extendqisi2
+ 672 00fc FFF7FEFF 		bl	Beep_black
+ 673              	.LVL112:
+ 674 0100 A07A     		ldrb	r0, [r4, #10]	@ zero_extendqisi2
+ 675 0102 FFF7FEFF 		bl	Beep_black
+ 676              	.LVL113:
+ 677 0106 A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 678 0108 FFF7FEFF 		bl	Beep_half
+ 679              	.LVL114:
+ 680 010c 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 681 010e FFF7FEFF 		bl	Beep_half
+ 682              	.LVL115:
+ 683 0112 A07C     		ldrb	r0, [r4, #18]	@ zero_extendqisi2
+ 684 0114 FFF7FEFF 		bl	Beep_half
+ 685              	.LVL116:
+ 686 0118 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 687 011a FFF7FEFF 		bl	Beep_half
+ 688              	.LVL117:
+  86:ZumoLibrary/Beep.c ****     Beep_fourth(b[4]); Beep_fourth(b[5]); Beep(qua*2.5-10, b[5]); CyDelay(10); Beep_fourth(b[4]); B
+ 689              		.loc 1 86 0
+ 690 011e 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 691 0120 FFF7FEFF 		bl	Beep_fourth
+ 692              	.LVL118:
+ 693 0124 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 694 0126 FFF7FEFF 		bl	Beep_fourth
+ 695              	.LVL119:
+ 696 012a 2068     		ldr	r0, [r4]
+ 697 012c FFF7FEFF 		bl	__aeabi_i2d
+ 698              	.LVL120:
+ 699 0130 0022     		movs	r2, #0
+ 700 0132 274B     		ldr	r3, .L42+16
+ 701 0134 FFF7FEFF 		bl	__aeabi_dmul
+ 702              	.LVL121:
+ 703 0138 0022     		movs	r2, #0
+ 704 013a 234B     		ldr	r3, .L42+8
+ 705 013c FFF7FEFF 		bl	__aeabi_dsub
+ 706              	.LVL122:
+ 707 0140 FFF7FEFF 		bl	__aeabi_d2uiz
+ 708              	.LVL123:
+ 709 0144 617C     		ldrb	r1, [r4, #17]	@ zero_extendqisi2
+ 710 0146 FFF7FEFF 		bl	Beep
+ 711              	.LVL124:
+ 712 014a 0A20     		movs	r0, #10
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 15
+
+
+ 713 014c FFF7FEFF 		bl	CyDelay
+ 714              	.LVL125:
+ 715 0150 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 716 0152 FFF7FEFF 		bl	Beep_fourth
+ 717              	.LVL126:
+ 718 0156 E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 719 0158 FFF7FEFF 		bl	Beep_fourth
+ 720              	.LVL127:
+  87:ZumoLibrary/Beep.c ****     Beep_half(b[3]); Beep_half(b[4]); Beep_black(b[5]); Beep(qua*1.5-10, b[5]); CyDelay(10); Beep_f
+ 721              		.loc 1 87 0
+ 722 015c E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 723 015e FFF7FEFF 		bl	Beep_half
+ 724              	.LVL128:
+ 725 0162 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 726 0164 FFF7FEFF 		bl	Beep_half
+ 727              	.LVL129:
+ 728 0168 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 729 016a FFF7FEFF 		bl	Beep_black
+ 730              	.LVL130:
+ 731 016e 2068     		ldr	r0, [r4]
+ 732 0170 FFF7FEFF 		bl	__aeabi_i2d
+ 733              	.LVL131:
+ 734 0174 0022     		movs	r2, #0
+ 735 0176 154B     		ldr	r3, .L42+12
+ 736 0178 FFF7FEFF 		bl	__aeabi_dmul
+ 737              	.LVL132:
+ 738 017c 0022     		movs	r2, #0
+ 739 017e 124B     		ldr	r3, .L42+8
+ 740 0180 FFF7FEFF 		bl	__aeabi_dsub
+ 741              	.LVL133:
+ 742 0184 FFF7FEFF 		bl	__aeabi_d2uiz
+ 743              	.LVL134:
+ 744 0188 617C     		ldrb	r1, [r4, #17]	@ zero_extendqisi2
+ 745 018a FFF7FEFF 		bl	Beep
+ 746              	.LVL135:
+ 747 018e 0A20     		movs	r0, #10
+ 748 0190 FFF7FEFF 		bl	CyDelay
+ 749              	.LVL136:
+ 750 0194 207B     		ldrb	r0, [r4, #12]	@ zero_extendqisi2
+ 751 0196 FFF7FEFF 		bl	Beep_fourth
+ 752              	.LVL137:
+ 753 019a 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 754 019c FFF7FEFF 		bl	Beep_fourth
+ 755              	.LVL138:
+  88:ZumoLibrary/Beep.c ****     Beep_half(b[2]); Beep_half(b[3]); Beep_white(b[3]); Beep_half(b[4]); Beep_half(b[3]);
+ 756              		.loc 1 88 0
+ 757 01a0 A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 758 01a2 FFF7FEFF 		bl	Beep_half
+ 759              	.LVL139:
+ 760 01a6 E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 761 01a8 FFF7FEFF 		bl	Beep_half
+ 762              	.LVL140:
+ 763 01ac E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 764 01ae FFF7FEFF 		bl	Beep_white
+ 765              	.LVL141:
+ 766 01b2 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 767 01b4 FFF7FEFF 		bl	Beep_half
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 16
+
+
+ 768              	.LVL142:
+ 769 01b8 E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 770 01ba FFF7FEFF 		bl	Beep_half
+ 771              	.LVL143:
+ 772 01be 10BD     		pop	{r4, pc}
+ 773              	.L43:
+ 774              		.align	2
+ 775              	.L42:
+ 776 01c0 00000000 		.word	.LANCHOR0
+ 777 01c4 00000240 		.word	1073872896
+ 778 01c8 00002440 		.word	1076101120
+ 779 01cc 0000F83F 		.word	1073217536
+ 780 01d0 00000440 		.word	1074003968
+ 781              		.cfi_endproc
+ 782              	.LFE73:
+ 783              		.size	kissTheRain, .-kissTheRain
+ 784              		.section	.text.saxguys,"ax",%progbits
+ 785              		.align	2
+ 786              		.global	saxguys
+ 787              		.thumb
+ 788              		.thumb_func
+ 789              		.type	saxguys, %function
+ 790              	saxguys:
+ 791              	.LFB74:
+  89:ZumoLibrary/Beep.c **** }
+  90:ZumoLibrary/Beep.c **** 
+  91:ZumoLibrary/Beep.c **** void saxguys() {
+ 792              		.loc 1 91 0
+ 793              		.cfi_startproc
+ 794              		@ Volatile: function does not return.
+ 795              		@ args = 0, pretend = 0, frame = 0
+ 796              		@ frame_needed = 0, uses_anonymous_args = 0
+ 797 0000 08B5     		push	{r3, lr}
+ 798              		.cfi_def_cfa_offset 8
+ 799              		.cfi_offset 3, -8
+ 800              		.cfi_offset 14, -4
+  92:ZumoLibrary/Beep.c ****     qua = 420;
+ 801              		.loc 1 92 0
+ 802 0002 4FF4D272 		mov	r2, #420
+ 803 0006 364B     		ldr	r3, .L47
+ 804 0008 1A60     		str	r2, [r3]
+ 805              	.L45:
+  93:ZumoLibrary/Beep.c ****     for(;;) {
+  94:ZumoLibrary/Beep.c ****     Beep_black(b[5]);CyDelay(qua);Beep_half(b[5]);Beep_fourth(b[5]);Beep_fourth(b[5]); Beep_fourth(
+ 806              		.loc 1 94 0 discriminator 1
+ 807 000a 354C     		ldr	r4, .L47
+ 808 000c 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 809 000e FFF7FEFF 		bl	Beep_black
+ 810              	.LVL144:
+ 811 0012 2068     		ldr	r0, [r4]
+ 812 0014 FFF7FEFF 		bl	CyDelay
+ 813              	.LVL145:
+ 814 0018 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 815 001a FFF7FEFF 		bl	Beep_half
+ 816              	.LVL146:
+ 817 001e 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 818 0020 FFF7FEFF 		bl	Beep_fourth
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 17
+
+
+ 819              	.LVL147:
+ 820 0024 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 821 0026 FFF7FEFF 		bl	Beep_fourth
+ 822              	.LVL148:
+ 823 002a 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 824 002c FFF7FEFF 		bl	Beep_fourth
+ 825              	.LVL149:
+ 826 0030 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 827 0032 FFF7FEFF 		bl	Beep_fourth
+ 828              	.LVL150:
+ 829 0036 2068     		ldr	r0, [r4]
+ 830 0038 00EBD070 		add	r0, r0, r0, lsr #31
+ 831 003c 4010     		asrs	r0, r0, #1
+ 832 003e FFF7FEFF 		bl	CyDelay
+ 833              	.LVL151:
+  95:ZumoLibrary/Beep.c ****     Beep_black(b[5]);CyDelay(qua);Beep_half(b[5]);Beep_fourth(b[5]);Beep_fourth(b[5]); Beep_fourth(
+ 834              		.loc 1 95 0 discriminator 1
+ 835 0042 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 836 0044 FFF7FEFF 		bl	Beep_black
+ 837              	.LVL152:
+ 838 0048 2068     		ldr	r0, [r4]
+ 839 004a FFF7FEFF 		bl	CyDelay
+ 840              	.LVL153:
+ 841 004e 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 842 0050 FFF7FEFF 		bl	Beep_half
+ 843              	.LVL154:
+ 844 0054 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 845 0056 FFF7FEFF 		bl	Beep_fourth
+ 846              	.LVL155:
+ 847 005a 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 848 005c FFF7FEFF 		bl	Beep_fourth
+ 849              	.LVL156:
+ 850 0060 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 851 0062 FFF7FEFF 		bl	Beep_fourth
+ 852              	.LVL157:
+ 853 0066 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 854 0068 FFF7FEFF 		bl	Beep_fourth
+ 855              	.LVL158:
+ 856 006c 2068     		ldr	r0, [r4]
+ 857 006e 00EBD070 		add	r0, r0, r0, lsr #31
+ 858 0072 4010     		asrs	r0, r0, #1
+ 859 0074 FFF7FEFF 		bl	CyDelay
+ 860              	.LVL159:
+  96:ZumoLibrary/Beep.c ****     Beep_black(b[5]);CyDelay(qua/2);Beep_black(c[0]); Beep_half(b[5]); CyDelay(qua/2); Beep_half(b[
+ 861              		.loc 1 96 0 discriminator 1
+ 862 0078 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ 863 007a FFF7FEFF 		bl	Beep_black
+ 864              	.LVL160:
+ 865 007e 2068     		ldr	r0, [r4]
+ 866 0080 00EBD070 		add	r0, r0, r0, lsr #31
+ 867 0084 4010     		asrs	r0, r0, #1
+ 868 0086 FFF7FEFF 		bl	CyDelay
+ 869              	.LVL161:
+ 870 008a 207D     		ldrb	r0, [r4, #20]	@ zero_extendqisi2
+ 871 008c FFF7FEFF 		bl	Beep_black
+ 872              	.LVL162:
+ 873 0090 607C     		ldrb	r0, [r4, #17]	@ zero_extendqisi2
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 18
+
+
+ 874 0092 FFF7FEFF 		bl	Beep_half
+ 875              	.LVL163:
+ 876 0096 2068     		ldr	r0, [r4]
+ 877 0098 00EBD070 		add	r0, r0, r0, lsr #31
+ 878 009c 4010     		asrs	r0, r0, #1
+ 879 009e FFF7FEFF 		bl	CyDelay
+ 880              	.LVL164:
+ 881 00a2 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 882 00a4 FFF7FEFF 		bl	Beep_half
+ 883              	.LVL165:
+  97:ZumoLibrary/Beep.c ****     Beep_half(b[4]);Beep_half(b[3]); CyDelay(qua/2); Beep_half(b[1]); Beep_half(b[1]); Beep_half(b[
+ 884              		.loc 1 97 0 discriminator 1
+ 885 00a8 207C     		ldrb	r0, [r4, #16]	@ zero_extendqisi2
+ 886 00aa FFF7FEFF 		bl	Beep_half
+ 887              	.LVL166:
+ 888 00ae E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 889 00b0 FFF7FEFF 		bl	Beep_half
+ 890              	.LVL167:
+ 891 00b4 2068     		ldr	r0, [r4]
+ 892 00b6 00EBD070 		add	r0, r0, r0, lsr #31
+ 893 00ba 4010     		asrs	r0, r0, #1
+ 894 00bc FFF7FEFF 		bl	CyDelay
+ 895              	.LVL168:
+ 896 00c0 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 897 00c2 FFF7FEFF 		bl	Beep_half
+ 898              	.LVL169:
+ 899 00c6 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 900 00c8 FFF7FEFF 		bl	Beep_half
+ 901              	.LVL170:
+ 902 00cc A07B     		ldrb	r0, [r4, #14]	@ zero_extendqisi2
+ 903 00ce FFF7FEFF 		bl	Beep_half
+ 904              	.LVL171:
+ 905 00d2 E07B     		ldrb	r0, [r4, #15]	@ zero_extendqisi2
+ 906 00d4 FFF7FEFF 		bl	Beep_half
+ 907              	.LVL172:
+ 908 00d8 607B     		ldrb	r0, [r4, #13]	@ zero_extendqisi2
+ 909 00da FFF7FEFF 		bl	Beep_half
+ 910              	.LVL173:
+ 911 00de 94E7     		b	.L45
+ 912              	.L48:
+ 913              		.align	2
+ 914              	.L47:
+ 915 00e0 00000000 		.word	.LANCHOR0
+ 916              		.cfi_endproc
+ 917              	.LFE74:
+ 918              		.size	saxguys, .-saxguys
+ 919              		.global	c
+ 920              		.global	b
+ 921              		.global	a
+ 922              		.global	qua
+ 923              		.data
+ 924              		.align	2
+ 925              		.set	.LANCHOR0,. + 0
+ 926              		.type	qua, %object
+ 927              		.size	qua, 4
+ 928              	qua:
+ 929 0000 96000000 		.word	150
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 19
+
+
+ 930              		.type	a, %object
+ 931              		.size	a, 7
+ 932              	a:
+ 933 0004 00       		.byte	0
+ 934 0005 00       		.byte	0
+ 935 0006 00       		.byte	0
+ 936 0007 00       		.byte	0
+ 937 0008 FB       		.byte	-5
+ 938 0009 E0       		.byte	-32
+ 939 000a C7       		.byte	-57
+ 940 000b 00       		.space	1
+ 941              		.type	b, %object
+ 942              		.size	b, 7
+ 943              	b:
+ 944 000c BC       		.byte	-68
+ 945 000d A7       		.byte	-89
+ 946 000e 95       		.byte	-107
+ 947 000f 8D       		.byte	-115
+ 948 0010 7D       		.byte	125
+ 949 0011 6F       		.byte	111
+ 950 0012 63       		.byte	99
+ 951 0013 00       		.space	1
+ 952              		.type	c, %object
+ 953              		.size	c, 7
+ 954              	c:
+ 955 0014 5D       		.byte	93
+ 956 0015 53       		.byte	83
+ 957 0016 4A       		.byte	74
+ 958 0017 46       		.byte	70
+ 959 0018 3E       		.byte	62
+ 960 0019 37       		.byte	55
+ 961 001a 31       		.byte	49
+ 962 001b 00       		.text
+ 963              	.Letext0:
+ 964              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 965              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 966              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 967              		.file 5 "Generated_Source\\PSoC5/Buzzer_PWM.h"
+ 968              		.file 6 "Generated_Source\\PSoC5/CyLib.h"
+ 969              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 970              		.section	.debug_info,"",%progbits
+ 971              	.Ldebug_info0:
+ 972 0000 DB080000 		.4byte	0x8db
+ 973 0004 0400     		.2byte	0x4
+ 974 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 975 000a 04       		.byte	0x4
+ 976 000b 01       		.uleb128 0x1
+ 977 000c C0000000 		.4byte	.LASF37
+ 978 0010 01       		.byte	0x1
+ 979 0011 87000000 		.4byte	.LASF38
+ 980 0015 B0010000 		.4byte	.LASF39
+ 981 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 982 001d 00000000 		.4byte	0
+ 983 0021 00000000 		.4byte	.Ldebug_line0
+ 984 0025 02       		.uleb128 0x2
+ 985 0026 01       		.byte	0x1
+ 986 0027 06       		.byte	0x6
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 20
+
+
+ 987 0028 49020000 		.4byte	.LASF0
+ 988 002c 02       		.uleb128 0x2
+ 989 002d 01       		.byte	0x1
+ 990 002e 08       		.byte	0x8
+ 991 002f 5E000000 		.4byte	.LASF1
+ 992 0033 02       		.uleb128 0x2
+ 993 0034 02       		.byte	0x2
+ 994 0035 05       		.byte	0x5
+ 995 0036 08020000 		.4byte	.LASF2
+ 996 003a 02       		.uleb128 0x2
+ 997 003b 02       		.byte	0x2
+ 998 003c 07       		.byte	0x7
+ 999 003d 74000000 		.4byte	.LASF3
+ 1000 0041 03       		.uleb128 0x3
+ 1001 0042 0B000000 		.4byte	.LASF9
+ 1002 0046 02       		.byte	0x2
+ 1003 0047 3F       		.byte	0x3f
+ 1004 0048 4C000000 		.4byte	0x4c
+ 1005 004c 02       		.uleb128 0x2
+ 1006 004d 04       		.byte	0x4
+ 1007 004e 05       		.byte	0x5
+ 1008 004f 28020000 		.4byte	.LASF4
+ 1009 0053 02       		.uleb128 0x2
+ 1010 0054 04       		.byte	0x4
+ 1011 0055 07       		.byte	0x7
+ 1012 0056 A7000000 		.4byte	.LASF5
+ 1013 005a 02       		.uleb128 0x2
+ 1014 005b 08       		.byte	0x8
+ 1015 005c 05       		.byte	0x5
+ 1016 005d A2010000 		.4byte	.LASF6
+ 1017 0061 02       		.uleb128 0x2
+ 1018 0062 08       		.byte	0x8
+ 1019 0063 07       		.byte	0x7
+ 1020 0064 47000000 		.4byte	.LASF7
+ 1021 0068 04       		.uleb128 0x4
+ 1022 0069 04       		.byte	0x4
+ 1023 006a 05       		.byte	0x5
+ 1024 006b 696E7400 		.ascii	"int\000"
+ 1025 006f 02       		.uleb128 0x2
+ 1026 0070 04       		.byte	0x4
+ 1027 0071 07       		.byte	0x7
+ 1028 0072 4E010000 		.4byte	.LASF8
+ 1029 0076 03       		.uleb128 0x3
+ 1030 0077 91010000 		.4byte	.LASF10
+ 1031 007b 03       		.byte	0x3
+ 1032 007c 2C       		.byte	0x2c
+ 1033 007d 41000000 		.4byte	0x41
+ 1034 0081 05       		.uleb128 0x5
+ 1035 0082 1D020000 		.4byte	.LASF11
+ 1036 0086 04       		.byte	0x4
+ 1037 0087 9201     		.2byte	0x192
+ 1038 0089 2C000000 		.4byte	0x2c
+ 1039 008d 05       		.uleb128 0x5
+ 1040 008e B9000000 		.4byte	.LASF12
+ 1041 0092 04       		.byte	0x4
+ 1042 0093 9401     		.2byte	0x194
+ 1043 0095 53000000 		.4byte	0x53
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 21
+
+
+ 1044 0099 02       		.uleb128 0x2
+ 1045 009a 04       		.byte	0x4
+ 1046 009b 04       		.byte	0x4
+ 1047 009c 41000000 		.4byte	.LASF13
+ 1048 00a0 02       		.uleb128 0x2
+ 1049 00a1 08       		.byte	0x8
+ 1050 00a2 04       		.byte	0x4
+ 1051 00a3 23000000 		.4byte	.LASF14
+ 1052 00a7 02       		.uleb128 0x2
+ 1053 00a8 01       		.byte	0x1
+ 1054 00a9 08       		.byte	0x8
+ 1055 00aa DF010000 		.4byte	.LASF15
+ 1056 00ae 02       		.uleb128 0x2
+ 1057 00af 04       		.byte	0x4
+ 1058 00b0 07       		.byte	0x7
+ 1059 00b1 99010000 		.4byte	.LASF16
+ 1060 00b5 06       		.uleb128 0x6
+ 1061 00b6 23020000 		.4byte	.LASF19
+ 1062 00ba 01       		.byte	0x1
+ 1063 00bb 13       		.byte	0x13
+ 1064 00bc 00000000 		.4byte	.LFB63
+ 1065 00c0 24000000 		.4byte	.LFE63-.LFB63
+ 1066 00c4 01       		.uleb128 0x1
+ 1067 00c5 9C       		.byte	0x9c
+ 1068 00c6 44010000 		.4byte	0x144
+ 1069 00ca 07       		.uleb128 0x7
+ 1070 00cb 61020000 		.4byte	.LASF17
+ 1071 00cf 01       		.byte	0x1
+ 1072 00d0 13       		.byte	0x13
+ 1073 00d1 8D000000 		.4byte	0x8d
+ 1074 00d5 00000000 		.4byte	.LLST0
+ 1075 00d9 07       		.uleb128 0x7
+ 1076 00da F0010000 		.4byte	.LASF18
+ 1077 00de 01       		.byte	0x1
+ 1078 00df 13       		.byte	0x13
+ 1079 00e0 81000000 		.4byte	0x81
+ 1080 00e4 1E000000 		.4byte	.LLST1
+ 1081 00e8 08       		.uleb128 0x8
+ 1082 00e9 636D7000 		.ascii	"cmp\000"
+ 1083 00ed 01       		.byte	0x1
+ 1084 00ee 15       		.byte	0x15
+ 1085 00ef 81000000 		.4byte	0x81
+ 1086 00f3 01       		.uleb128 0x1
+ 1087 00f4 56       		.byte	0x56
+ 1088 00f5 09       		.uleb128 0x9
+ 1089 00f6 0C000000 		.4byte	.LVL2
+ 1090 00fa 9D080000 		.4byte	0x89d
+ 1091 00fe 0A       		.uleb128 0xa
+ 1092 00ff 12000000 		.4byte	.LVL3
+ 1093 0103 A4080000 		.4byte	0x8a4
+ 1094 0107 12010000 		.4byte	0x112
+ 1095 010b 0B       		.uleb128 0xb
+ 1096 010c 01       		.uleb128 0x1
+ 1097 010d 50       		.byte	0x50
+ 1098 010e 02       		.uleb128 0x2
+ 1099 010f 76       		.byte	0x76
+ 1100 0110 00       		.sleb128 0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 22
+
+
+ 1101 0111 00       		.byte	0
+ 1102 0112 0A       		.uleb128 0xa
+ 1103 0113 18000000 		.4byte	.LVL4
+ 1104 0117 B5080000 		.4byte	0x8b5
+ 1105 011b 26010000 		.4byte	0x126
+ 1106 011f 0B       		.uleb128 0xb
+ 1107 0120 01       		.uleb128 0x1
+ 1108 0121 50       		.byte	0x50
+ 1109 0122 02       		.uleb128 0x2
+ 1110 0123 74       		.byte	0x74
+ 1111 0124 00       		.sleb128 0
+ 1112 0125 00       		.byte	0
+ 1113 0126 0A       		.uleb128 0xa
+ 1114 0127 1E000000 		.4byte	.LVL5
+ 1115 012b C6080000 		.4byte	0x8c6
+ 1116 012f 3A010000 		.4byte	0x13a
+ 1117 0133 0B       		.uleb128 0xb
+ 1118 0134 01       		.uleb128 0x1
+ 1119 0135 50       		.byte	0x50
+ 1120 0136 02       		.uleb128 0x2
+ 1121 0137 75       		.byte	0x75
+ 1122 0138 00       		.sleb128 0
+ 1123 0139 00       		.byte	0
+ 1124 013a 09       		.uleb128 0x9
+ 1125 013b 22000000 		.4byte	.LVL6
+ 1126 013f D7080000 		.4byte	0x8d7
+ 1127 0143 00       		.byte	0
+ 1128 0144 06       		.uleb128 0x6
+ 1129 0145 12020000 		.4byte	.LASF20
+ 1130 0149 01       		.byte	0x1
+ 1131 014a 1D       		.byte	0x1d
+ 1132 014b 00000000 		.4byte	.LFB64
+ 1133 014f 1C000000 		.4byte	.LFE64-.LFB64
+ 1134 0153 01       		.uleb128 0x1
+ 1135 0154 9C       		.byte	0x9c
+ 1136 0155 81010000 		.4byte	0x181
+ 1137 0159 07       		.uleb128 0x7
+ 1138 015a F0010000 		.4byte	.LASF18
+ 1139 015e 01       		.byte	0x1
+ 1140 015f 1D       		.byte	0x1d
+ 1141 0160 81000000 		.4byte	0x81
+ 1142 0164 3F000000 		.4byte	.LLST2
+ 1143 0168 09       		.uleb128 0x9
+ 1144 0169 0E000000 		.4byte	.LVL9
+ 1145 016d B5000000 		.4byte	0xb5
+ 1146 0171 0C       		.uleb128 0xc
+ 1147 0172 14000000 		.4byte	.LVL10
+ 1148 0176 C6080000 		.4byte	0x8c6
+ 1149 017a 0B       		.uleb128 0xb
+ 1150 017b 01       		.uleb128 0x1
+ 1151 017c 50       		.byte	0x50
+ 1152 017d 01       		.uleb128 0x1
+ 1153 017e 3A       		.byte	0x3a
+ 1154 017f 00       		.byte	0
+ 1155 0180 00       		.byte	0
+ 1156 0181 06       		.uleb128 0x6
+ 1157 0182 F6010000 		.4byte	.LASF21
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 23
+
+
+ 1158 0186 01       		.byte	0x1
+ 1159 0187 22       		.byte	0x22
+ 1160 0188 00000000 		.4byte	.LFB65
+ 1161 018c 1C000000 		.4byte	.LFE65-.LFB65
+ 1162 0190 01       		.uleb128 0x1
+ 1163 0191 9C       		.byte	0x9c
+ 1164 0192 BE010000 		.4byte	0x1be
+ 1165 0196 07       		.uleb128 0x7
+ 1166 0197 F0010000 		.4byte	.LASF18
+ 1167 019b 01       		.byte	0x1
+ 1168 019c 22       		.byte	0x22
+ 1169 019d 81000000 		.4byte	0x81
+ 1170 01a1 60000000 		.4byte	.LLST3
+ 1171 01a5 09       		.uleb128 0x9
+ 1172 01a6 10000000 		.4byte	.LVL13
+ 1173 01aa B5000000 		.4byte	0xb5
+ 1174 01ae 0C       		.uleb128 0xc
+ 1175 01af 16000000 		.4byte	.LVL14
+ 1176 01b3 C6080000 		.4byte	0x8c6
+ 1177 01b7 0B       		.uleb128 0xb
+ 1178 01b8 01       		.uleb128 0x1
+ 1179 01b9 50       		.byte	0x50
+ 1180 01ba 01       		.uleb128 0x1
+ 1181 01bb 3A       		.byte	0x3a
+ 1182 01bc 00       		.byte	0
+ 1183 01bd 00       		.byte	0
+ 1184 01be 06       		.uleb128 0x6
+ 1185 01bf 5B010000 		.4byte	.LASF22
+ 1186 01c3 01       		.byte	0x1
+ 1187 01c4 27       		.byte	0x27
+ 1188 01c5 00000000 		.4byte	.LFB66
+ 1189 01c9 20000000 		.4byte	.LFE66-.LFB66
+ 1190 01cd 01       		.uleb128 0x1
+ 1191 01ce 9C       		.byte	0x9c
+ 1192 01cf FB010000 		.4byte	0x1fb
+ 1193 01d3 07       		.uleb128 0x7
+ 1194 01d4 F0010000 		.4byte	.LASF18
+ 1195 01d8 01       		.byte	0x1
+ 1196 01d9 27       		.byte	0x27
+ 1197 01da 81000000 		.4byte	0x81
+ 1198 01de 81000000 		.4byte	.LLST4
+ 1199 01e2 09       		.uleb128 0x9
+ 1200 01e3 14000000 		.4byte	.LVL17
+ 1201 01e7 B5000000 		.4byte	0xb5
+ 1202 01eb 0C       		.uleb128 0xc
+ 1203 01ec 1A000000 		.4byte	.LVL18
+ 1204 01f0 C6080000 		.4byte	0x8c6
+ 1205 01f4 0B       		.uleb128 0xb
+ 1206 01f5 01       		.uleb128 0x1
+ 1207 01f6 50       		.byte	0x50
+ 1208 01f7 01       		.uleb128 0x1
+ 1209 01f8 3A       		.byte	0x3a
+ 1210 01f9 00       		.byte	0
+ 1211 01fa 00       		.byte	0
+ 1212 01fb 06       		.uleb128 0x6
+ 1213 01fc 00000000 		.4byte	.LASF23
+ 1214 0200 01       		.byte	0x1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 24
+
+
+ 1215 0201 2C       		.byte	0x2c
+ 1216 0202 00000000 		.4byte	.LFB67
+ 1217 0206 2C000000 		.4byte	.LFE67-.LFB67
+ 1218 020a 01       		.uleb128 0x1
+ 1219 020b 9C       		.byte	0x9c
+ 1220 020c 38020000 		.4byte	0x238
+ 1221 0210 07       		.uleb128 0x7
+ 1222 0211 F0010000 		.4byte	.LASF18
+ 1223 0215 01       		.byte	0x1
+ 1224 0216 2C       		.byte	0x2c
+ 1225 0217 81000000 		.4byte	0x81
+ 1226 021b A2000000 		.4byte	.LLST5
+ 1227 021f 09       		.uleb128 0x9
+ 1228 0220 1A000000 		.4byte	.LVL21
+ 1229 0224 B5000000 		.4byte	0xb5
+ 1230 0228 0C       		.uleb128 0xc
+ 1231 0229 20000000 		.4byte	.LVL22
+ 1232 022d C6080000 		.4byte	0x8c6
+ 1233 0231 0B       		.uleb128 0xb
+ 1234 0232 01       		.uleb128 0x1
+ 1235 0233 50       		.byte	0x50
+ 1236 0234 01       		.uleb128 0x1
+ 1237 0235 3A       		.byte	0x3a
+ 1238 0236 00       		.byte	0
+ 1239 0237 00       		.byte	0
+ 1240 0238 06       		.uleb128 0x6
+ 1241 0239 75010000 		.4byte	.LASF24
+ 1242 023d 01       		.byte	0x1
+ 1243 023e 31       		.byte	0x31
+ 1244 023f 00000000 		.4byte	.LFB68
+ 1245 0243 1C000000 		.4byte	.LFE68-.LFB68
+ 1246 0247 01       		.uleb128 0x1
+ 1247 0248 9C       		.byte	0x9c
+ 1248 0249 75020000 		.4byte	0x275
+ 1249 024d 07       		.uleb128 0x7
+ 1250 024e F0010000 		.4byte	.LASF18
+ 1251 0252 01       		.byte	0x1
+ 1252 0253 31       		.byte	0x31
+ 1253 0254 81000000 		.4byte	0x81
+ 1254 0258 C3000000 		.4byte	.LLST6
+ 1255 025c 09       		.uleb128 0x9
+ 1256 025d 10000000 		.4byte	.LVL25
+ 1257 0261 B5000000 		.4byte	0xb5
+ 1258 0265 0C       		.uleb128 0xc
+ 1259 0266 16000000 		.4byte	.LVL26
+ 1260 026a C6080000 		.4byte	0x8c6
+ 1261 026e 0B       		.uleb128 0xb
+ 1262 026f 01       		.uleb128 0x1
+ 1263 0270 50       		.byte	0x50
+ 1264 0271 01       		.uleb128 0x1
+ 1265 0272 3A       		.byte	0x3a
+ 1266 0273 00       		.byte	0
+ 1267 0274 00       		.byte	0
+ 1268 0275 06       		.uleb128 0x6
+ 1269 0276 01020000 		.4byte	.LASF25
+ 1270 027a 01       		.byte	0x1
+ 1271 027b 36       		.byte	0x36
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 25
+
+
+ 1272 027c 00000000 		.4byte	.LFB69
+ 1273 0280 2C000000 		.4byte	.LFE69-.LFB69
+ 1274 0284 01       		.uleb128 0x1
+ 1275 0285 9C       		.byte	0x9c
+ 1276 0286 B2020000 		.4byte	0x2b2
+ 1277 028a 07       		.uleb128 0x7
+ 1278 028b F0010000 		.4byte	.LASF18
+ 1279 028f 01       		.byte	0x1
+ 1280 0290 36       		.byte	0x36
+ 1281 0291 81000000 		.4byte	0x81
+ 1282 0295 E4000000 		.4byte	.LLST7
+ 1283 0299 09       		.uleb128 0x9
+ 1284 029a 1A000000 		.4byte	.LVL29
+ 1285 029e B5000000 		.4byte	0xb5
+ 1286 02a2 0C       		.uleb128 0xc
+ 1287 02a3 20000000 		.4byte	.LVL30
+ 1288 02a7 C6080000 		.4byte	0x8c6
+ 1289 02ab 0B       		.uleb128 0xb
+ 1290 02ac 01       		.uleb128 0x1
+ 1291 02ad 50       		.byte	0x50
+ 1292 02ae 01       		.uleb128 0x1
+ 1293 02af 3A       		.byte	0x3a
+ 1294 02b0 00       		.byte	0
+ 1295 02b1 00       		.byte	0
+ 1296 02b2 06       		.uleb128 0x6
+ 1297 02b3 55020000 		.4byte	.LASF26
+ 1298 02b7 01       		.byte	0x1
+ 1299 02b8 3B       		.byte	0x3b
+ 1300 02b9 00000000 		.4byte	.LFB70
+ 1301 02bd 24000000 		.4byte	.LFE70-.LFB70
+ 1302 02c1 01       		.uleb128 0x1
+ 1303 02c2 9C       		.byte	0x9c
+ 1304 02c3 EF020000 		.4byte	0x2ef
+ 1305 02c7 07       		.uleb128 0x7
+ 1306 02c8 F0010000 		.4byte	.LASF18
+ 1307 02cc 01       		.byte	0x1
+ 1308 02cd 3B       		.byte	0x3b
+ 1309 02ce 81000000 		.4byte	0x81
+ 1310 02d2 05010000 		.4byte	.LLST8
+ 1311 02d6 09       		.uleb128 0x9
+ 1312 02d7 16000000 		.4byte	.LVL33
+ 1313 02db B5000000 		.4byte	0xb5
+ 1314 02df 0C       		.uleb128 0xc
+ 1315 02e0 1C000000 		.4byte	.LVL34
+ 1316 02e4 C6080000 		.4byte	0x8c6
+ 1317 02e8 0B       		.uleb128 0xb
+ 1318 02e9 01       		.uleb128 0x1
+ 1319 02ea 50       		.byte	0x50
+ 1320 02eb 01       		.uleb128 0x1
+ 1321 02ec 3A       		.byte	0x3a
+ 1322 02ed 00       		.byte	0
+ 1323 02ee 00       		.byte	0
+ 1324 02ef 0D       		.uleb128 0xd
+ 1325 02f0 15000000 		.4byte	.LASF27
+ 1326 02f4 01       		.byte	0x1
+ 1327 02f5 40       		.byte	0x40
+ 1328 02f6 00000000 		.4byte	.LFB71
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 26
+
+
+ 1329 02fa B0000000 		.4byte	.LFE71-.LFB71
+ 1330 02fe 01       		.uleb128 0x1
+ 1331 02ff 9C       		.byte	0x9c
+ 1332 0300 83040000 		.4byte	0x483
+ 1333 0304 09       		.uleb128 0x9
+ 1334 0305 0E000000 		.4byte	.LVL35
+ 1335 0309 FB010000 		.4byte	0x1fb
+ 1336 030d 09       		.uleb128 0x9
+ 1337 030e 14000000 		.4byte	.LVL36
+ 1338 0312 FB010000 		.4byte	0x1fb
+ 1339 0316 09       		.uleb128 0x9
+ 1340 0317 1A000000 		.4byte	.LVL37
+ 1341 031b FB010000 		.4byte	0x1fb
+ 1342 031f 09       		.uleb128 0x9
+ 1343 0320 20000000 		.4byte	.LVL38
+ 1344 0324 FB010000 		.4byte	0x1fb
+ 1345 0328 09       		.uleb128 0x9
+ 1346 0329 26000000 		.4byte	.LVL39
+ 1347 032d FB010000 		.4byte	0x1fb
+ 1348 0331 09       		.uleb128 0x9
+ 1349 0332 2C000000 		.4byte	.LVL40
+ 1350 0336 FB010000 		.4byte	0x1fb
+ 1351 033a 09       		.uleb128 0x9
+ 1352 033b 32000000 		.4byte	.LVL41
+ 1353 033f 81010000 		.4byte	0x181
+ 1354 0343 09       		.uleb128 0x9
+ 1355 0344 38000000 		.4byte	.LVL42
+ 1356 0348 81010000 		.4byte	0x181
+ 1357 034c 0A       		.uleb128 0xa
+ 1358 034d 3E000000 		.4byte	.LVL43
+ 1359 0351 FB010000 		.4byte	0x1fb
+ 1360 0355 60030000 		.4byte	0x360
+ 1361 0359 0B       		.uleb128 0xb
+ 1362 035a 01       		.uleb128 0x1
+ 1363 035b 50       		.byte	0x50
+ 1364 035c 02       		.uleb128 0x2
+ 1365 035d 09       		.byte	0x9
+ 1366 035e ED       		.byte	0xed
+ 1367 035f 00       		.byte	0
+ 1368 0360 09       		.uleb128 0x9
+ 1369 0361 44000000 		.4byte	.LVL44
+ 1370 0365 FB010000 		.4byte	0x1fb
+ 1371 0369 0A       		.uleb128 0xa
+ 1372 036a 4A000000 		.4byte	.LVL45
+ 1373 036e FB010000 		.4byte	0x1fb
+ 1374 0372 7D030000 		.4byte	0x37d
+ 1375 0376 0B       		.uleb128 0xb
+ 1376 0377 01       		.uleb128 0x1
+ 1377 0378 50       		.byte	0x50
+ 1378 0379 02       		.uleb128 0x2
+ 1379 037a 09       		.byte	0x9
+ 1380 037b 9E       		.byte	0x9e
+ 1381 037c 00       		.byte	0
+ 1382 037d 0A       		.uleb128 0xa
+ 1383 037e 50000000 		.4byte	.LVL46
+ 1384 0382 FB010000 		.4byte	0x1fb
+ 1385 0386 91030000 		.4byte	0x391
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 27
+
+
+ 1386 038a 0B       		.uleb128 0xb
+ 1387 038b 01       		.uleb128 0x1
+ 1388 038c 50       		.byte	0x50
+ 1389 038d 02       		.uleb128 0x2
+ 1390 038e 08       		.byte	0x8
+ 1391 038f 76       		.byte	0x76
+ 1392 0390 00       		.byte	0
+ 1393 0391 09       		.uleb128 0x9
+ 1394 0392 56000000 		.4byte	.LVL47
+ 1395 0396 FB010000 		.4byte	0x1fb
+ 1396 039a 0A       		.uleb128 0xa
+ 1397 039b 5C000000 		.4byte	.LVL48
+ 1398 039f FB010000 		.4byte	0x1fb
+ 1399 03a3 AE030000 		.4byte	0x3ae
+ 1400 03a7 0B       		.uleb128 0xb
+ 1401 03a8 01       		.uleb128 0x1
+ 1402 03a9 50       		.byte	0x50
+ 1403 03aa 02       		.uleb128 0x2
+ 1404 03ab 08       		.byte	0x8
+ 1405 03ac 4E       		.byte	0x4e
+ 1406 03ad 00       		.byte	0
+ 1407 03ae 0A       		.uleb128 0xa
+ 1408 03af 62000000 		.4byte	.LVL49
+ 1409 03b3 81010000 		.4byte	0x181
+ 1410 03b7 C2030000 		.4byte	0x3c2
+ 1411 03bb 0B       		.uleb128 0xb
+ 1412 03bc 01       		.uleb128 0x1
+ 1413 03bd 50       		.byte	0x50
+ 1414 03be 02       		.uleb128 0x2
+ 1415 03bf 08       		.byte	0x8
+ 1416 03c0 3B       		.byte	0x3b
+ 1417 03c1 00       		.byte	0
+ 1418 03c2 0A       		.uleb128 0xa
+ 1419 03c3 68000000 		.4byte	.LVL50
+ 1420 03c7 81010000 		.4byte	0x181
+ 1421 03cb D6030000 		.4byte	0x3d6
+ 1422 03cf 0B       		.uleb128 0xb
+ 1423 03d0 01       		.uleb128 0x1
+ 1424 03d1 50       		.byte	0x50
+ 1425 03d2 02       		.uleb128 0x2
+ 1426 03d3 08       		.byte	0x8
+ 1427 03d4 4E       		.byte	0x4e
+ 1428 03d5 00       		.byte	0
+ 1429 03d6 0A       		.uleb128 0xa
+ 1430 03d7 6E000000 		.4byte	.LVL51
+ 1431 03db FB010000 		.4byte	0x1fb
+ 1432 03df EA030000 		.4byte	0x3ea
+ 1433 03e3 0B       		.uleb128 0xb
+ 1434 03e4 01       		.uleb128 0x1
+ 1435 03e5 50       		.byte	0x50
+ 1436 03e6 02       		.uleb128 0x2
+ 1437 03e7 09       		.byte	0x9
+ 1438 03e8 D3       		.byte	0xd3
+ 1439 03e9 00       		.byte	0
+ 1440 03ea 09       		.uleb128 0x9
+ 1441 03eb 74000000 		.4byte	.LVL52
+ 1442 03ef FB010000 		.4byte	0x1fb
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 28
+
+
+ 1443 03f3 09       		.uleb128 0x9
+ 1444 03f4 7A000000 		.4byte	.LVL53
+ 1445 03f8 FB010000 		.4byte	0x1fb
+ 1446 03fc 0A       		.uleb128 0xa
+ 1447 03fd 80000000 		.4byte	.LVL54
+ 1448 0401 FB010000 		.4byte	0x1fb
+ 1449 0405 10040000 		.4byte	0x410
+ 1450 0409 0B       		.uleb128 0xb
+ 1451 040a 01       		.uleb128 0x1
+ 1452 040b 50       		.byte	0x50
+ 1453 040c 02       		.uleb128 0x2
+ 1454 040d 08       		.byte	0x8
+ 1455 040e 69       		.byte	0x69
+ 1456 040f 00       		.byte	0
+ 1457 0410 09       		.uleb128 0x9
+ 1458 0411 86000000 		.4byte	.LVL55
+ 1459 0415 FB010000 		.4byte	0x1fb
+ 1460 0419 09       		.uleb128 0x9
+ 1461 041a 8C000000 		.4byte	.LVL56
+ 1462 041e FB010000 		.4byte	0x1fb
+ 1463 0422 0A       		.uleb128 0xa
+ 1464 0423 92000000 		.4byte	.LVL57
+ 1465 0427 81010000 		.4byte	0x181
+ 1466 042b 36040000 		.4byte	0x436
+ 1467 042f 0B       		.uleb128 0xb
+ 1468 0430 01       		.uleb128 0x1
+ 1469 0431 50       		.byte	0x50
+ 1470 0432 02       		.uleb128 0x2
+ 1471 0433 08       		.byte	0x8
+ 1472 0434 34       		.byte	0x34
+ 1473 0435 00       		.byte	0
+ 1474 0436 0A       		.uleb128 0xa
+ 1475 0437 98000000 		.4byte	.LVL58
+ 1476 043b FB010000 		.4byte	0x1fb
+ 1477 043f 4A040000 		.4byte	0x44a
+ 1478 0443 0B       		.uleb128 0xb
+ 1479 0444 01       		.uleb128 0x1
+ 1480 0445 50       		.byte	0x50
+ 1481 0446 02       		.uleb128 0x2
+ 1482 0447 08       		.byte	0x8
+ 1483 0448 34       		.byte	0x34
+ 1484 0449 00       		.byte	0
+ 1485 044a 0A       		.uleb128 0xa
+ 1486 044b 9E000000 		.4byte	.LVL59
+ 1487 044f FB010000 		.4byte	0x1fb
+ 1488 0453 5E040000 		.4byte	0x45e
+ 1489 0457 0B       		.uleb128 0xb
+ 1490 0458 01       		.uleb128 0x1
+ 1491 0459 50       		.byte	0x50
+ 1492 045a 02       		.uleb128 0x2
+ 1493 045b 08       		.byte	0x8
+ 1494 045c 34       		.byte	0x34
+ 1495 045d 00       		.byte	0
+ 1496 045e 0A       		.uleb128 0xa
+ 1497 045f A4000000 		.4byte	.LVL60
+ 1498 0463 FB010000 		.4byte	0x1fb
+ 1499 0467 72040000 		.4byte	0x472
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 29
+
+
+ 1500 046b 0B       		.uleb128 0xb
+ 1501 046c 01       		.uleb128 0x1
+ 1502 046d 50       		.byte	0x50
+ 1503 046e 02       		.uleb128 0x2
+ 1504 046f 08       		.byte	0x8
+ 1505 0470 34       		.byte	0x34
+ 1506 0471 00       		.byte	0
+ 1507 0472 0C       		.uleb128 0xc
+ 1508 0473 AA000000 		.4byte	.LVL61
+ 1509 0477 38020000 		.4byte	0x238
+ 1510 047b 0B       		.uleb128 0xb
+ 1511 047c 01       		.uleb128 0x1
+ 1512 047d 50       		.byte	0x50
+ 1513 047e 02       		.uleb128 0x2
+ 1514 047f 08       		.byte	0x8
+ 1515 0480 2E       		.byte	0x2e
+ 1516 0481 00       		.byte	0
+ 1517 0482 00       		.byte	0
+ 1518 0483 0D       		.uleb128 0xd
+ 1519 0484 70020000 		.4byte	.LASF28
+ 1520 0488 01       		.byte	0x1
+ 1521 0489 47       		.byte	0x47
+ 1522 048a 00000000 		.4byte	.LFB72
+ 1523 048e 58000000 		.4byte	.LFE72-.LFB72
+ 1524 0492 01       		.uleb128 0x1
+ 1525 0493 9C       		.byte	0x9c
+ 1526 0494 10050000 		.4byte	0x510
+ 1527 0498 09       		.uleb128 0x9
+ 1528 0499 0E000000 		.4byte	.LVL62
+ 1529 049d 44010000 		.4byte	0x144
+ 1530 04a1 09       		.uleb128 0x9
+ 1531 04a2 14000000 		.4byte	.LVL63
+ 1532 04a6 44010000 		.4byte	0x144
+ 1533 04aa 0A       		.uleb128 0xa
+ 1534 04ab 1A000000 		.4byte	.LVL64
+ 1535 04af C6080000 		.4byte	0x8c6
+ 1536 04b3 BE040000 		.4byte	0x4be
+ 1537 04b7 0B       		.uleb128 0xb
+ 1538 04b8 01       		.uleb128 0x1
+ 1539 04b9 50       		.byte	0x50
+ 1540 04ba 02       		.uleb128 0x2
+ 1541 04bb 08       		.byte	0x8
+ 1542 04bc FA       		.byte	0xfa
+ 1543 04bd 00       		.byte	0
+ 1544 04be 09       		.uleb128 0x9
+ 1545 04bf 20000000 		.4byte	.LVL65
+ 1546 04c3 44010000 		.4byte	0x144
+ 1547 04c7 09       		.uleb128 0x9
+ 1548 04c8 26000000 		.4byte	.LVL66
+ 1549 04cc 75020000 		.4byte	0x275
+ 1550 04d0 09       		.uleb128 0x9
+ 1551 04d1 2C000000 		.4byte	.LVL67
+ 1552 04d5 75020000 		.4byte	0x275
+ 1553 04d9 09       		.uleb128 0x9
+ 1554 04da 32000000 		.4byte	.LVL68
+ 1555 04de 75020000 		.4byte	0x275
+ 1556 04e2 09       		.uleb128 0x9
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 30
+
+
+ 1557 04e3 38000000 		.4byte	.LVL69
+ 1558 04e7 44010000 		.4byte	0x144
+ 1559 04eb 09       		.uleb128 0x9
+ 1560 04ec 3E000000 		.4byte	.LVL70
+ 1561 04f0 44010000 		.4byte	0x144
+ 1562 04f4 09       		.uleb128 0x9
+ 1563 04f5 44000000 		.4byte	.LVL71
+ 1564 04f9 44010000 		.4byte	0x144
+ 1565 04fd 09       		.uleb128 0x9
+ 1566 04fe 4A000000 		.4byte	.LVL72
+ 1567 0502 44010000 		.4byte	0x144
+ 1568 0506 09       		.uleb128 0x9
+ 1569 0507 50000000 		.4byte	.LVL73
+ 1570 050b 44010000 		.4byte	0x144
+ 1571 050f 00       		.byte	0
+ 1572 0510 0E       		.uleb128 0xe
+ 1573 0511 E4010000 		.4byte	.LASF29
+ 1574 0515 01       		.byte	0x1
+ 1575 0516 4F       		.byte	0x4f
+ 1576 0517 00000000 		.4byte	.LFB73
+ 1577 051b D4010000 		.4byte	.LFE73-.LFB73
+ 1578 051f 01       		.uleb128 0x1
+ 1579 0520 9C       		.byte	0x9c
+ 1580 0521 1A070000 		.4byte	0x71a
+ 1581 0525 09       		.uleb128 0x9
+ 1582 0526 10000000 		.4byte	.LVL74
+ 1583 052a B2020000 		.4byte	0x2b2
+ 1584 052e 09       		.uleb128 0x9
+ 1585 052f 16000000 		.4byte	.LVL75
+ 1586 0533 B2020000 		.4byte	0x2b2
+ 1587 0537 09       		.uleb128 0x9
+ 1588 0538 1C000000 		.4byte	.LVL76
+ 1589 053c B2020000 		.4byte	0x2b2
+ 1590 0540 09       		.uleb128 0x9
+ 1591 0541 22000000 		.4byte	.LVL77
+ 1592 0545 BE010000 		.4byte	0x1be
+ 1593 0549 09       		.uleb128 0x9
+ 1594 054a 28000000 		.4byte	.LVL78
+ 1595 054e BE010000 		.4byte	0x1be
+ 1596 0552 09       		.uleb128 0x9
+ 1597 0553 48000000 		.4byte	.LVL83
+ 1598 0557 B5000000 		.4byte	0xb5
+ 1599 055b 0A       		.uleb128 0xa
+ 1600 055c 4E000000 		.4byte	.LVL84
+ 1601 0560 C6080000 		.4byte	0x8c6
+ 1602 0564 6E050000 		.4byte	0x56e
+ 1603 0568 0B       		.uleb128 0xb
+ 1604 0569 01       		.uleb128 0x1
+ 1605 056a 50       		.byte	0x50
+ 1606 056b 01       		.uleb128 0x1
+ 1607 056c 3A       		.byte	0x3a
+ 1608 056d 00       		.byte	0
+ 1609 056e 09       		.uleb128 0x9
+ 1610 056f 54000000 		.4byte	.LVL85
+ 1611 0573 B2020000 		.4byte	0x2b2
+ 1612 0577 09       		.uleb128 0x9
+ 1613 0578 5A000000 		.4byte	.LVL86
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 31
+
+
+ 1614 057c B2020000 		.4byte	0x2b2
+ 1615 0580 09       		.uleb128 0x9
+ 1616 0581 60000000 		.4byte	.LVL87
+ 1617 0585 B2020000 		.4byte	0x2b2
+ 1618 0589 09       		.uleb128 0x9
+ 1619 058a 66000000 		.4byte	.LVL88
+ 1620 058e BE010000 		.4byte	0x1be
+ 1621 0592 09       		.uleb128 0x9
+ 1622 0593 6C000000 		.4byte	.LVL89
+ 1623 0597 BE010000 		.4byte	0x1be
+ 1624 059b 09       		.uleb128 0x9
+ 1625 059c 8C000000 		.4byte	.LVL94
+ 1626 05a0 B5000000 		.4byte	0xb5
+ 1627 05a4 0A       		.uleb128 0xa
+ 1628 05a5 92000000 		.4byte	.LVL95
+ 1629 05a9 C6080000 		.4byte	0x8c6
+ 1630 05ad B7050000 		.4byte	0x5b7
+ 1631 05b1 0B       		.uleb128 0xb
+ 1632 05b2 01       		.uleb128 0x1
+ 1633 05b3 50       		.byte	0x50
+ 1634 05b4 01       		.uleb128 0x1
+ 1635 05b5 3A       		.byte	0x3a
+ 1636 05b6 00       		.byte	0
+ 1637 05b7 09       		.uleb128 0x9
+ 1638 05b8 98000000 		.4byte	.LVL96
+ 1639 05bc B2020000 		.4byte	0x2b2
+ 1640 05c0 09       		.uleb128 0x9
+ 1641 05c1 9E000000 		.4byte	.LVL97
+ 1642 05c5 B2020000 		.4byte	0x2b2
+ 1643 05c9 09       		.uleb128 0x9
+ 1644 05ca A4000000 		.4byte	.LVL98
+ 1645 05ce B2020000 		.4byte	0x2b2
+ 1646 05d2 09       		.uleb128 0x9
+ 1647 05d3 AA000000 		.4byte	.LVL99
+ 1648 05d7 BE010000 		.4byte	0x1be
+ 1649 05db 09       		.uleb128 0x9
+ 1650 05dc B0000000 		.4byte	.LVL100
+ 1651 05e0 BE010000 		.4byte	0x1be
+ 1652 05e4 09       		.uleb128 0x9
+ 1653 05e5 D0000000 		.4byte	.LVL105
+ 1654 05e9 B5000000 		.4byte	0xb5
+ 1655 05ed 0A       		.uleb128 0xa
+ 1656 05ee D6000000 		.4byte	.LVL106
+ 1657 05f2 C6080000 		.4byte	0x8c6
+ 1658 05f6 00060000 		.4byte	0x600
+ 1659 05fa 0B       		.uleb128 0xb
+ 1660 05fb 01       		.uleb128 0x1
+ 1661 05fc 50       		.byte	0x50
+ 1662 05fd 01       		.uleb128 0x1
+ 1663 05fe 3A       		.byte	0x3a
+ 1664 05ff 00       		.byte	0
+ 1665 0600 09       		.uleb128 0x9
+ 1666 0601 DC000000 		.4byte	.LVL107
+ 1667 0605 BE010000 		.4byte	0x1be
+ 1668 0609 09       		.uleb128 0x9
+ 1669 060a E8000000 		.4byte	.LVL108
+ 1670 060e C6080000 		.4byte	0x8c6
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 32
+
+
+ 1671 0612 09       		.uleb128 0x9
+ 1672 0613 EE000000 		.4byte	.LVL109
+ 1673 0617 BE010000 		.4byte	0x1be
+ 1674 061b 09       		.uleb128 0x9
+ 1675 061c F4000000 		.4byte	.LVL110
+ 1676 0620 BE010000 		.4byte	0x1be
+ 1677 0624 09       		.uleb128 0x9
+ 1678 0625 FA000000 		.4byte	.LVL111
+ 1679 0629 BE010000 		.4byte	0x1be
+ 1680 062d 09       		.uleb128 0x9
+ 1681 062e 00010000 		.4byte	.LVL112
+ 1682 0632 44010000 		.4byte	0x144
+ 1683 0636 09       		.uleb128 0x9
+ 1684 0637 06010000 		.4byte	.LVL113
+ 1685 063b 44010000 		.4byte	0x144
+ 1686 063f 09       		.uleb128 0x9
+ 1687 0640 0C010000 		.4byte	.LVL114
+ 1688 0644 BE010000 		.4byte	0x1be
+ 1689 0648 09       		.uleb128 0x9
+ 1690 0649 12010000 		.4byte	.LVL115
+ 1691 064d BE010000 		.4byte	0x1be
+ 1692 0651 09       		.uleb128 0x9
+ 1693 0652 18010000 		.4byte	.LVL116
+ 1694 0656 BE010000 		.4byte	0x1be
+ 1695 065a 09       		.uleb128 0x9
+ 1696 065b 1E010000 		.4byte	.LVL117
+ 1697 065f BE010000 		.4byte	0x1be
+ 1698 0663 09       		.uleb128 0x9
+ 1699 0664 24010000 		.4byte	.LVL118
+ 1700 0668 B2020000 		.4byte	0x2b2
+ 1701 066c 09       		.uleb128 0x9
+ 1702 066d 2A010000 		.4byte	.LVL119
+ 1703 0671 B2020000 		.4byte	0x2b2
+ 1704 0675 09       		.uleb128 0x9
+ 1705 0676 4A010000 		.4byte	.LVL124
+ 1706 067a B5000000 		.4byte	0xb5
+ 1707 067e 0A       		.uleb128 0xa
+ 1708 067f 50010000 		.4byte	.LVL125
+ 1709 0683 C6080000 		.4byte	0x8c6
+ 1710 0687 91060000 		.4byte	0x691
+ 1711 068b 0B       		.uleb128 0xb
+ 1712 068c 01       		.uleb128 0x1
+ 1713 068d 50       		.byte	0x50
+ 1714 068e 01       		.uleb128 0x1
+ 1715 068f 3A       		.byte	0x3a
+ 1716 0690 00       		.byte	0
+ 1717 0691 09       		.uleb128 0x9
+ 1718 0692 56010000 		.4byte	.LVL126
+ 1719 0696 B2020000 		.4byte	0x2b2
+ 1720 069a 09       		.uleb128 0x9
+ 1721 069b 5C010000 		.4byte	.LVL127
+ 1722 069f B2020000 		.4byte	0x2b2
+ 1723 06a3 09       		.uleb128 0x9
+ 1724 06a4 62010000 		.4byte	.LVL128
+ 1725 06a8 BE010000 		.4byte	0x1be
+ 1726 06ac 09       		.uleb128 0x9
+ 1727 06ad 68010000 		.4byte	.LVL129
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 33
+
+
+ 1728 06b1 BE010000 		.4byte	0x1be
+ 1729 06b5 09       		.uleb128 0x9
+ 1730 06b6 6E010000 		.4byte	.LVL130
+ 1731 06ba 44010000 		.4byte	0x144
+ 1732 06be 09       		.uleb128 0x9
+ 1733 06bf 8E010000 		.4byte	.LVL135
+ 1734 06c3 B5000000 		.4byte	0xb5
+ 1735 06c7 0A       		.uleb128 0xa
+ 1736 06c8 94010000 		.4byte	.LVL136
+ 1737 06cc C6080000 		.4byte	0x8c6
+ 1738 06d0 DA060000 		.4byte	0x6da
+ 1739 06d4 0B       		.uleb128 0xb
+ 1740 06d5 01       		.uleb128 0x1
+ 1741 06d6 50       		.byte	0x50
+ 1742 06d7 01       		.uleb128 0x1
+ 1743 06d8 3A       		.byte	0x3a
+ 1744 06d9 00       		.byte	0
+ 1745 06da 09       		.uleb128 0x9
+ 1746 06db 9A010000 		.4byte	.LVL137
+ 1747 06df B2020000 		.4byte	0x2b2
+ 1748 06e3 09       		.uleb128 0x9
+ 1749 06e4 A0010000 		.4byte	.LVL138
+ 1750 06e8 B2020000 		.4byte	0x2b2
+ 1751 06ec 09       		.uleb128 0x9
+ 1752 06ed A6010000 		.4byte	.LVL139
+ 1753 06f1 BE010000 		.4byte	0x1be
+ 1754 06f5 09       		.uleb128 0x9
+ 1755 06f6 AC010000 		.4byte	.LVL140
+ 1756 06fa BE010000 		.4byte	0x1be
+ 1757 06fe 09       		.uleb128 0x9
+ 1758 06ff B2010000 		.4byte	.LVL141
+ 1759 0703 81010000 		.4byte	0x181
+ 1760 0707 09       		.uleb128 0x9
+ 1761 0708 B8010000 		.4byte	.LVL142
+ 1762 070c BE010000 		.4byte	0x1be
+ 1763 0710 09       		.uleb128 0x9
+ 1764 0711 BE010000 		.4byte	.LVL143
+ 1765 0715 BE010000 		.4byte	0x1be
+ 1766 0719 00       		.byte	0
+ 1767 071a 0D       		.uleb128 0xd
+ 1768 071b 6C000000 		.4byte	.LASF30
+ 1769 071f 01       		.byte	0x1
+ 1770 0720 5B       		.byte	0x5b
+ 1771 0721 00000000 		.4byte	.LFB74
+ 1772 0725 E4000000 		.4byte	.LFE74-.LFB74
+ 1773 0729 01       		.uleb128 0x1
+ 1774 072a 9C       		.byte	0x9c
+ 1775 072b 3E080000 		.4byte	0x83e
+ 1776 072f 09       		.uleb128 0x9
+ 1777 0730 12000000 		.4byte	.LVL144
+ 1778 0734 44010000 		.4byte	0x144
+ 1779 0738 09       		.uleb128 0x9
+ 1780 0739 18000000 		.4byte	.LVL145
+ 1781 073d C6080000 		.4byte	0x8c6
+ 1782 0741 09       		.uleb128 0x9
+ 1783 0742 1E000000 		.4byte	.LVL146
+ 1784 0746 BE010000 		.4byte	0x1be
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 34
+
+
+ 1785 074a 09       		.uleb128 0x9
+ 1786 074b 24000000 		.4byte	.LVL147
+ 1787 074f B2020000 		.4byte	0x2b2
+ 1788 0753 09       		.uleb128 0x9
+ 1789 0754 2A000000 		.4byte	.LVL148
+ 1790 0758 B2020000 		.4byte	0x2b2
+ 1791 075c 09       		.uleb128 0x9
+ 1792 075d 30000000 		.4byte	.LVL149
+ 1793 0761 B2020000 		.4byte	0x2b2
+ 1794 0765 09       		.uleb128 0x9
+ 1795 0766 36000000 		.4byte	.LVL150
+ 1796 076a B2020000 		.4byte	0x2b2
+ 1797 076e 09       		.uleb128 0x9
+ 1798 076f 42000000 		.4byte	.LVL151
+ 1799 0773 C6080000 		.4byte	0x8c6
+ 1800 0777 09       		.uleb128 0x9
+ 1801 0778 48000000 		.4byte	.LVL152
+ 1802 077c 44010000 		.4byte	0x144
+ 1803 0780 09       		.uleb128 0x9
+ 1804 0781 4E000000 		.4byte	.LVL153
+ 1805 0785 C6080000 		.4byte	0x8c6
+ 1806 0789 09       		.uleb128 0x9
+ 1807 078a 54000000 		.4byte	.LVL154
+ 1808 078e BE010000 		.4byte	0x1be
+ 1809 0792 09       		.uleb128 0x9
+ 1810 0793 5A000000 		.4byte	.LVL155
+ 1811 0797 B2020000 		.4byte	0x2b2
+ 1812 079b 09       		.uleb128 0x9
+ 1813 079c 60000000 		.4byte	.LVL156
+ 1814 07a0 B2020000 		.4byte	0x2b2
+ 1815 07a4 09       		.uleb128 0x9
+ 1816 07a5 66000000 		.4byte	.LVL157
+ 1817 07a9 B2020000 		.4byte	0x2b2
+ 1818 07ad 09       		.uleb128 0x9
+ 1819 07ae 6C000000 		.4byte	.LVL158
+ 1820 07b2 B2020000 		.4byte	0x2b2
+ 1821 07b6 09       		.uleb128 0x9
+ 1822 07b7 78000000 		.4byte	.LVL159
+ 1823 07bb C6080000 		.4byte	0x8c6
+ 1824 07bf 09       		.uleb128 0x9
+ 1825 07c0 7E000000 		.4byte	.LVL160
+ 1826 07c4 44010000 		.4byte	0x144
+ 1827 07c8 09       		.uleb128 0x9
+ 1828 07c9 8A000000 		.4byte	.LVL161
+ 1829 07cd C6080000 		.4byte	0x8c6
+ 1830 07d1 09       		.uleb128 0x9
+ 1831 07d2 90000000 		.4byte	.LVL162
+ 1832 07d6 44010000 		.4byte	0x144
+ 1833 07da 09       		.uleb128 0x9
+ 1834 07db 96000000 		.4byte	.LVL163
+ 1835 07df BE010000 		.4byte	0x1be
+ 1836 07e3 09       		.uleb128 0x9
+ 1837 07e4 A2000000 		.4byte	.LVL164
+ 1838 07e8 C6080000 		.4byte	0x8c6
+ 1839 07ec 09       		.uleb128 0x9
+ 1840 07ed A8000000 		.4byte	.LVL165
+ 1841 07f1 BE010000 		.4byte	0x1be
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 35
+
+
+ 1842 07f5 09       		.uleb128 0x9
+ 1843 07f6 AE000000 		.4byte	.LVL166
+ 1844 07fa BE010000 		.4byte	0x1be
+ 1845 07fe 09       		.uleb128 0x9
+ 1846 07ff B4000000 		.4byte	.LVL167
+ 1847 0803 BE010000 		.4byte	0x1be
+ 1848 0807 09       		.uleb128 0x9
+ 1849 0808 C0000000 		.4byte	.LVL168
+ 1850 080c C6080000 		.4byte	0x8c6
+ 1851 0810 09       		.uleb128 0x9
+ 1852 0811 C6000000 		.4byte	.LVL169
+ 1853 0815 BE010000 		.4byte	0x1be
+ 1854 0819 09       		.uleb128 0x9
+ 1855 081a CC000000 		.4byte	.LVL170
+ 1856 081e BE010000 		.4byte	0x1be
+ 1857 0822 09       		.uleb128 0x9
+ 1858 0823 D2000000 		.4byte	.LVL171
+ 1859 0827 BE010000 		.4byte	0x1be
+ 1860 082b 09       		.uleb128 0x9
+ 1861 082c D8000000 		.4byte	.LVL172
+ 1862 0830 BE010000 		.4byte	0x1be
+ 1863 0834 09       		.uleb128 0x9
+ 1864 0835 DE000000 		.4byte	.LVL173
+ 1865 0839 BE010000 		.4byte	0x1be
+ 1866 083d 00       		.byte	0
+ 1867 083e 0F       		.uleb128 0xf
+ 1868 083f 9A000000 		.4byte	.LASF31
+ 1869 0843 07       		.byte	0x7
+ 1870 0844 9606     		.2byte	0x696
+ 1871 0846 4A080000 		.4byte	0x84a
+ 1872 084a 10       		.uleb128 0x10
+ 1873 084b 76000000 		.4byte	0x76
+ 1874 084f 11       		.uleb128 0x11
+ 1875 0850 71756100 		.ascii	"qua\000"
+ 1876 0854 01       		.byte	0x1
+ 1877 0855 0E       		.byte	0xe
+ 1878 0856 68000000 		.4byte	0x68
+ 1879 085a 05       		.uleb128 0x5
+ 1880 085b 03       		.byte	0x3
+ 1881 085c 00000000 		.4byte	qua
+ 1882 0860 12       		.uleb128 0x12
+ 1883 0861 81000000 		.4byte	0x81
+ 1884 0865 70080000 		.4byte	0x870
+ 1885 0869 13       		.uleb128 0x13
+ 1886 086a AE000000 		.4byte	0xae
+ 1887 086e 06       		.byte	0x6
+ 1888 086f 00       		.byte	0
+ 1889 0870 11       		.uleb128 0x11
+ 1890 0871 6100     		.ascii	"a\000"
+ 1891 0873 01       		.byte	0x1
+ 1892 0874 0F       		.byte	0xf
+ 1893 0875 60080000 		.4byte	0x860
+ 1894 0879 05       		.uleb128 0x5
+ 1895 087a 03       		.byte	0x3
+ 1896 087b 00000000 		.4byte	a
+ 1897 087f 11       		.uleb128 0x11
+ 1898 0880 6200     		.ascii	"b\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 36
+
+
+ 1899 0882 01       		.byte	0x1
+ 1900 0883 10       		.byte	0x10
+ 1901 0884 60080000 		.4byte	0x860
+ 1902 0888 05       		.uleb128 0x5
+ 1903 0889 03       		.byte	0x3
+ 1904 088a 00000000 		.4byte	b
+ 1905 088e 11       		.uleb128 0x11
+ 1906 088f 6300     		.ascii	"c\000"
+ 1907 0891 01       		.byte	0x1
+ 1908 0892 11       		.byte	0x11
+ 1909 0893 60080000 		.4byte	0x860
+ 1910 0897 05       		.uleb128 0x5
+ 1911 0898 03       		.byte	0x3
+ 1912 0899 00000000 		.4byte	c
+ 1913 089d 14       		.uleb128 0x14
+ 1914 089e 80010000 		.4byte	.LASF35
+ 1915 08a2 05       		.byte	0x5
+ 1916 08a3 92       		.byte	0x92
+ 1917 08a4 15       		.uleb128 0x15
+ 1918 08a5 31020000 		.4byte	.LASF32
+ 1919 08a9 05       		.byte	0x5
+ 1920 08aa C3       		.byte	0xc3
+ 1921 08ab B5080000 		.4byte	0x8b5
+ 1922 08af 16       		.uleb128 0x16
+ 1923 08b0 81000000 		.4byte	0x81
+ 1924 08b4 00       		.byte	0
+ 1925 08b5 15       		.uleb128 0x15
+ 1926 08b6 2A000000 		.4byte	.LASF33
+ 1927 08ba 05       		.byte	0x5
+ 1928 08bb BE       		.byte	0xbe
+ 1929 08bc C6080000 		.4byte	0x8c6
+ 1930 08c0 16       		.uleb128 0x16
+ 1931 08c1 81000000 		.4byte	0x81
+ 1932 08c5 00       		.byte	0
+ 1933 08c6 15       		.uleb128 0x15
+ 1934 08c7 68020000 		.4byte	.LASF34
+ 1935 08cb 06       		.byte	0x6
+ 1936 08cc 76       		.byte	0x76
+ 1937 08cd D7080000 		.4byte	0x8d7
+ 1938 08d1 16       		.uleb128 0x16
+ 1939 08d2 8D000000 		.4byte	0x8d
+ 1940 08d6 00       		.byte	0
+ 1941 08d7 14       		.uleb128 0x14
+ 1942 08d8 65010000 		.4byte	.LASF36
+ 1943 08dc 05       		.byte	0x5
+ 1944 08dd 93       		.byte	0x93
+ 1945 08de 00       		.byte	0
+ 1946              		.section	.debug_abbrev,"",%progbits
+ 1947              	.Ldebug_abbrev0:
+ 1948 0000 01       		.uleb128 0x1
+ 1949 0001 11       		.uleb128 0x11
+ 1950 0002 01       		.byte	0x1
+ 1951 0003 25       		.uleb128 0x25
+ 1952 0004 0E       		.uleb128 0xe
+ 1953 0005 13       		.uleb128 0x13
+ 1954 0006 0B       		.uleb128 0xb
+ 1955 0007 03       		.uleb128 0x3
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 37
+
+
+ 1956 0008 0E       		.uleb128 0xe
+ 1957 0009 1B       		.uleb128 0x1b
+ 1958 000a 0E       		.uleb128 0xe
+ 1959 000b 55       		.uleb128 0x55
+ 1960 000c 17       		.uleb128 0x17
+ 1961 000d 11       		.uleb128 0x11
+ 1962 000e 01       		.uleb128 0x1
+ 1963 000f 10       		.uleb128 0x10
+ 1964 0010 17       		.uleb128 0x17
+ 1965 0011 00       		.byte	0
+ 1966 0012 00       		.byte	0
+ 1967 0013 02       		.uleb128 0x2
+ 1968 0014 24       		.uleb128 0x24
+ 1969 0015 00       		.byte	0
+ 1970 0016 0B       		.uleb128 0xb
+ 1971 0017 0B       		.uleb128 0xb
+ 1972 0018 3E       		.uleb128 0x3e
+ 1973 0019 0B       		.uleb128 0xb
+ 1974 001a 03       		.uleb128 0x3
+ 1975 001b 0E       		.uleb128 0xe
+ 1976 001c 00       		.byte	0
+ 1977 001d 00       		.byte	0
+ 1978 001e 03       		.uleb128 0x3
+ 1979 001f 16       		.uleb128 0x16
+ 1980 0020 00       		.byte	0
+ 1981 0021 03       		.uleb128 0x3
+ 1982 0022 0E       		.uleb128 0xe
+ 1983 0023 3A       		.uleb128 0x3a
+ 1984 0024 0B       		.uleb128 0xb
+ 1985 0025 3B       		.uleb128 0x3b
+ 1986 0026 0B       		.uleb128 0xb
+ 1987 0027 49       		.uleb128 0x49
+ 1988 0028 13       		.uleb128 0x13
+ 1989 0029 00       		.byte	0
+ 1990 002a 00       		.byte	0
+ 1991 002b 04       		.uleb128 0x4
+ 1992 002c 24       		.uleb128 0x24
+ 1993 002d 00       		.byte	0
+ 1994 002e 0B       		.uleb128 0xb
+ 1995 002f 0B       		.uleb128 0xb
+ 1996 0030 3E       		.uleb128 0x3e
+ 1997 0031 0B       		.uleb128 0xb
+ 1998 0032 03       		.uleb128 0x3
+ 1999 0033 08       		.uleb128 0x8
+ 2000 0034 00       		.byte	0
+ 2001 0035 00       		.byte	0
+ 2002 0036 05       		.uleb128 0x5
+ 2003 0037 16       		.uleb128 0x16
+ 2004 0038 00       		.byte	0
+ 2005 0039 03       		.uleb128 0x3
+ 2006 003a 0E       		.uleb128 0xe
+ 2007 003b 3A       		.uleb128 0x3a
+ 2008 003c 0B       		.uleb128 0xb
+ 2009 003d 3B       		.uleb128 0x3b
+ 2010 003e 05       		.uleb128 0x5
+ 2011 003f 49       		.uleb128 0x49
+ 2012 0040 13       		.uleb128 0x13
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 38
+
+
+ 2013 0041 00       		.byte	0
+ 2014 0042 00       		.byte	0
+ 2015 0043 06       		.uleb128 0x6
+ 2016 0044 2E       		.uleb128 0x2e
+ 2017 0045 01       		.byte	0x1
+ 2018 0046 3F       		.uleb128 0x3f
+ 2019 0047 19       		.uleb128 0x19
+ 2020 0048 03       		.uleb128 0x3
+ 2021 0049 0E       		.uleb128 0xe
+ 2022 004a 3A       		.uleb128 0x3a
+ 2023 004b 0B       		.uleb128 0xb
+ 2024 004c 3B       		.uleb128 0x3b
+ 2025 004d 0B       		.uleb128 0xb
+ 2026 004e 27       		.uleb128 0x27
+ 2027 004f 19       		.uleb128 0x19
+ 2028 0050 11       		.uleb128 0x11
+ 2029 0051 01       		.uleb128 0x1
+ 2030 0052 12       		.uleb128 0x12
+ 2031 0053 06       		.uleb128 0x6
+ 2032 0054 40       		.uleb128 0x40
+ 2033 0055 18       		.uleb128 0x18
+ 2034 0056 9742     		.uleb128 0x2117
+ 2035 0058 19       		.uleb128 0x19
+ 2036 0059 01       		.uleb128 0x1
+ 2037 005a 13       		.uleb128 0x13
+ 2038 005b 00       		.byte	0
+ 2039 005c 00       		.byte	0
+ 2040 005d 07       		.uleb128 0x7
+ 2041 005e 05       		.uleb128 0x5
+ 2042 005f 00       		.byte	0
+ 2043 0060 03       		.uleb128 0x3
+ 2044 0061 0E       		.uleb128 0xe
+ 2045 0062 3A       		.uleb128 0x3a
+ 2046 0063 0B       		.uleb128 0xb
+ 2047 0064 3B       		.uleb128 0x3b
+ 2048 0065 0B       		.uleb128 0xb
+ 2049 0066 49       		.uleb128 0x49
+ 2050 0067 13       		.uleb128 0x13
+ 2051 0068 02       		.uleb128 0x2
+ 2052 0069 17       		.uleb128 0x17
+ 2053 006a 00       		.byte	0
+ 2054 006b 00       		.byte	0
+ 2055 006c 08       		.uleb128 0x8
+ 2056 006d 34       		.uleb128 0x34
+ 2057 006e 00       		.byte	0
+ 2058 006f 03       		.uleb128 0x3
+ 2059 0070 08       		.uleb128 0x8
+ 2060 0071 3A       		.uleb128 0x3a
+ 2061 0072 0B       		.uleb128 0xb
+ 2062 0073 3B       		.uleb128 0x3b
+ 2063 0074 0B       		.uleb128 0xb
+ 2064 0075 49       		.uleb128 0x49
+ 2065 0076 13       		.uleb128 0x13
+ 2066 0077 02       		.uleb128 0x2
+ 2067 0078 18       		.uleb128 0x18
+ 2068 0079 00       		.byte	0
+ 2069 007a 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 39
+
+
+ 2070 007b 09       		.uleb128 0x9
+ 2071 007c 898201   		.uleb128 0x4109
+ 2072 007f 00       		.byte	0
+ 2073 0080 11       		.uleb128 0x11
+ 2074 0081 01       		.uleb128 0x1
+ 2075 0082 31       		.uleb128 0x31
+ 2076 0083 13       		.uleb128 0x13
+ 2077 0084 00       		.byte	0
+ 2078 0085 00       		.byte	0
+ 2079 0086 0A       		.uleb128 0xa
+ 2080 0087 898201   		.uleb128 0x4109
+ 2081 008a 01       		.byte	0x1
+ 2082 008b 11       		.uleb128 0x11
+ 2083 008c 01       		.uleb128 0x1
+ 2084 008d 31       		.uleb128 0x31
+ 2085 008e 13       		.uleb128 0x13
+ 2086 008f 01       		.uleb128 0x1
+ 2087 0090 13       		.uleb128 0x13
+ 2088 0091 00       		.byte	0
+ 2089 0092 00       		.byte	0
+ 2090 0093 0B       		.uleb128 0xb
+ 2091 0094 8A8201   		.uleb128 0x410a
+ 2092 0097 00       		.byte	0
+ 2093 0098 02       		.uleb128 0x2
+ 2094 0099 18       		.uleb128 0x18
+ 2095 009a 9142     		.uleb128 0x2111
+ 2096 009c 18       		.uleb128 0x18
+ 2097 009d 00       		.byte	0
+ 2098 009e 00       		.byte	0
+ 2099 009f 0C       		.uleb128 0xc
+ 2100 00a0 898201   		.uleb128 0x4109
+ 2101 00a3 01       		.byte	0x1
+ 2102 00a4 11       		.uleb128 0x11
+ 2103 00a5 01       		.uleb128 0x1
+ 2104 00a6 31       		.uleb128 0x31
+ 2105 00a7 13       		.uleb128 0x13
+ 2106 00a8 00       		.byte	0
+ 2107 00a9 00       		.byte	0
+ 2108 00aa 0D       		.uleb128 0xd
+ 2109 00ab 2E       		.uleb128 0x2e
+ 2110 00ac 01       		.byte	0x1
+ 2111 00ad 3F       		.uleb128 0x3f
+ 2112 00ae 19       		.uleb128 0x19
+ 2113 00af 03       		.uleb128 0x3
+ 2114 00b0 0E       		.uleb128 0xe
+ 2115 00b1 3A       		.uleb128 0x3a
+ 2116 00b2 0B       		.uleb128 0xb
+ 2117 00b3 3B       		.uleb128 0x3b
+ 2118 00b4 0B       		.uleb128 0xb
+ 2119 00b5 11       		.uleb128 0x11
+ 2120 00b6 01       		.uleb128 0x1
+ 2121 00b7 12       		.uleb128 0x12
+ 2122 00b8 06       		.uleb128 0x6
+ 2123 00b9 40       		.uleb128 0x40
+ 2124 00ba 18       		.uleb128 0x18
+ 2125 00bb 9742     		.uleb128 0x2117
+ 2126 00bd 19       		.uleb128 0x19
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 40
+
+
+ 2127 00be 01       		.uleb128 0x1
+ 2128 00bf 13       		.uleb128 0x13
+ 2129 00c0 00       		.byte	0
+ 2130 00c1 00       		.byte	0
+ 2131 00c2 0E       		.uleb128 0xe
+ 2132 00c3 2E       		.uleb128 0x2e
+ 2133 00c4 01       		.byte	0x1
+ 2134 00c5 3F       		.uleb128 0x3f
+ 2135 00c6 19       		.uleb128 0x19
+ 2136 00c7 03       		.uleb128 0x3
+ 2137 00c8 0E       		.uleb128 0xe
+ 2138 00c9 3A       		.uleb128 0x3a
+ 2139 00ca 0B       		.uleb128 0xb
+ 2140 00cb 3B       		.uleb128 0x3b
+ 2141 00cc 0B       		.uleb128 0xb
+ 2142 00cd 11       		.uleb128 0x11
+ 2143 00ce 01       		.uleb128 0x1
+ 2144 00cf 12       		.uleb128 0x12
+ 2145 00d0 06       		.uleb128 0x6
+ 2146 00d1 40       		.uleb128 0x40
+ 2147 00d2 18       		.uleb128 0x18
+ 2148 00d3 9642     		.uleb128 0x2116
+ 2149 00d5 19       		.uleb128 0x19
+ 2150 00d6 01       		.uleb128 0x1
+ 2151 00d7 13       		.uleb128 0x13
+ 2152 00d8 00       		.byte	0
+ 2153 00d9 00       		.byte	0
+ 2154 00da 0F       		.uleb128 0xf
+ 2155 00db 34       		.uleb128 0x34
+ 2156 00dc 00       		.byte	0
+ 2157 00dd 03       		.uleb128 0x3
+ 2158 00de 0E       		.uleb128 0xe
+ 2159 00df 3A       		.uleb128 0x3a
+ 2160 00e0 0B       		.uleb128 0xb
+ 2161 00e1 3B       		.uleb128 0x3b
+ 2162 00e2 05       		.uleb128 0x5
+ 2163 00e3 49       		.uleb128 0x49
+ 2164 00e4 13       		.uleb128 0x13
+ 2165 00e5 3F       		.uleb128 0x3f
+ 2166 00e6 19       		.uleb128 0x19
+ 2167 00e7 3C       		.uleb128 0x3c
+ 2168 00e8 19       		.uleb128 0x19
+ 2169 00e9 00       		.byte	0
+ 2170 00ea 00       		.byte	0
+ 2171 00eb 10       		.uleb128 0x10
+ 2172 00ec 35       		.uleb128 0x35
+ 2173 00ed 00       		.byte	0
+ 2174 00ee 49       		.uleb128 0x49
+ 2175 00ef 13       		.uleb128 0x13
+ 2176 00f0 00       		.byte	0
+ 2177 00f1 00       		.byte	0
+ 2178 00f2 11       		.uleb128 0x11
+ 2179 00f3 34       		.uleb128 0x34
+ 2180 00f4 00       		.byte	0
+ 2181 00f5 03       		.uleb128 0x3
+ 2182 00f6 08       		.uleb128 0x8
+ 2183 00f7 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 41
+
+
+ 2184 00f8 0B       		.uleb128 0xb
+ 2185 00f9 3B       		.uleb128 0x3b
+ 2186 00fa 0B       		.uleb128 0xb
+ 2187 00fb 49       		.uleb128 0x49
+ 2188 00fc 13       		.uleb128 0x13
+ 2189 00fd 3F       		.uleb128 0x3f
+ 2190 00fe 19       		.uleb128 0x19
+ 2191 00ff 02       		.uleb128 0x2
+ 2192 0100 18       		.uleb128 0x18
+ 2193 0101 00       		.byte	0
+ 2194 0102 00       		.byte	0
+ 2195 0103 12       		.uleb128 0x12
+ 2196 0104 01       		.uleb128 0x1
+ 2197 0105 01       		.byte	0x1
+ 2198 0106 49       		.uleb128 0x49
+ 2199 0107 13       		.uleb128 0x13
+ 2200 0108 01       		.uleb128 0x1
+ 2201 0109 13       		.uleb128 0x13
+ 2202 010a 00       		.byte	0
+ 2203 010b 00       		.byte	0
+ 2204 010c 13       		.uleb128 0x13
+ 2205 010d 21       		.uleb128 0x21
+ 2206 010e 00       		.byte	0
+ 2207 010f 49       		.uleb128 0x49
+ 2208 0110 13       		.uleb128 0x13
+ 2209 0111 2F       		.uleb128 0x2f
+ 2210 0112 0B       		.uleb128 0xb
+ 2211 0113 00       		.byte	0
+ 2212 0114 00       		.byte	0
+ 2213 0115 14       		.uleb128 0x14
+ 2214 0116 2E       		.uleb128 0x2e
+ 2215 0117 00       		.byte	0
+ 2216 0118 3F       		.uleb128 0x3f
+ 2217 0119 19       		.uleb128 0x19
+ 2218 011a 03       		.uleb128 0x3
+ 2219 011b 0E       		.uleb128 0xe
+ 2220 011c 3A       		.uleb128 0x3a
+ 2221 011d 0B       		.uleb128 0xb
+ 2222 011e 3B       		.uleb128 0x3b
+ 2223 011f 0B       		.uleb128 0xb
+ 2224 0120 27       		.uleb128 0x27
+ 2225 0121 19       		.uleb128 0x19
+ 2226 0122 3C       		.uleb128 0x3c
+ 2227 0123 19       		.uleb128 0x19
+ 2228 0124 00       		.byte	0
+ 2229 0125 00       		.byte	0
+ 2230 0126 15       		.uleb128 0x15
+ 2231 0127 2E       		.uleb128 0x2e
+ 2232 0128 01       		.byte	0x1
+ 2233 0129 3F       		.uleb128 0x3f
+ 2234 012a 19       		.uleb128 0x19
+ 2235 012b 03       		.uleb128 0x3
+ 2236 012c 0E       		.uleb128 0xe
+ 2237 012d 3A       		.uleb128 0x3a
+ 2238 012e 0B       		.uleb128 0xb
+ 2239 012f 3B       		.uleb128 0x3b
+ 2240 0130 0B       		.uleb128 0xb
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 42
+
+
+ 2241 0131 27       		.uleb128 0x27
+ 2242 0132 19       		.uleb128 0x19
+ 2243 0133 3C       		.uleb128 0x3c
+ 2244 0134 19       		.uleb128 0x19
+ 2245 0135 01       		.uleb128 0x1
+ 2246 0136 13       		.uleb128 0x13
+ 2247 0137 00       		.byte	0
+ 2248 0138 00       		.byte	0
+ 2249 0139 16       		.uleb128 0x16
+ 2250 013a 05       		.uleb128 0x5
+ 2251 013b 00       		.byte	0
+ 2252 013c 49       		.uleb128 0x49
+ 2253 013d 13       		.uleb128 0x13
+ 2254 013e 00       		.byte	0
+ 2255 013f 00       		.byte	0
+ 2256 0140 00       		.byte	0
+ 2257              		.section	.debug_loc,"",%progbits
+ 2258              	.Ldebug_loc0:
+ 2259              	.LLST0:
+ 2260 0000 00000000 		.4byte	.LVL0
+ 2261 0004 0B000000 		.4byte	.LVL2-1
+ 2262 0008 0100     		.2byte	0x1
+ 2263 000a 50       		.byte	0x50
+ 2264 000b 0B000000 		.4byte	.LVL2-1
+ 2265 000f 24000000 		.4byte	.LFE63
+ 2266 0013 0100     		.2byte	0x1
+ 2267 0015 55       		.byte	0x55
+ 2268 0016 00000000 		.4byte	0
+ 2269 001a 00000000 		.4byte	0
+ 2270              	.LLST1:
+ 2271 001e 00000000 		.4byte	.LVL0
+ 2272 0022 0B000000 		.4byte	.LVL2-1
+ 2273 0026 0100     		.2byte	0x1
+ 2274 0028 51       		.byte	0x51
+ 2275 0029 0B000000 		.4byte	.LVL2-1
+ 2276 002d 24000000 		.4byte	.LFE63
+ 2277 0031 0400     		.2byte	0x4
+ 2278 0033 F3       		.byte	0xf3
+ 2279 0034 01       		.uleb128 0x1
+ 2280 0035 51       		.byte	0x51
+ 2281 0036 9F       		.byte	0x9f
+ 2282 0037 00000000 		.4byte	0
+ 2283 003b 00000000 		.4byte	0
+ 2284              	.LLST2:
+ 2285 003f 00000000 		.4byte	.LVL7
+ 2286 0043 08000000 		.4byte	.LVL8
+ 2287 0047 0100     		.2byte	0x1
+ 2288 0049 50       		.byte	0x50
+ 2289 004a 08000000 		.4byte	.LVL8
+ 2290 004e 1C000000 		.4byte	.LFE64
+ 2291 0052 0400     		.2byte	0x4
+ 2292 0054 F3       		.byte	0xf3
+ 2293 0055 01       		.uleb128 0x1
+ 2294 0056 50       		.byte	0x50
+ 2295 0057 9F       		.byte	0x9f
+ 2296 0058 00000000 		.4byte	0
+ 2297 005c 00000000 		.4byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 43
+
+
+ 2298              	.LLST3:
+ 2299 0060 00000000 		.4byte	.LVL11
+ 2300 0064 08000000 		.4byte	.LVL12
+ 2301 0068 0100     		.2byte	0x1
+ 2302 006a 50       		.byte	0x50
+ 2303 006b 08000000 		.4byte	.LVL12
+ 2304 006f 1C000000 		.4byte	.LFE65
+ 2305 0073 0400     		.2byte	0x4
+ 2306 0075 F3       		.byte	0xf3
+ 2307 0076 01       		.uleb128 0x1
+ 2308 0077 50       		.byte	0x50
+ 2309 0078 9F       		.byte	0x9f
+ 2310 0079 00000000 		.4byte	0
+ 2311 007d 00000000 		.4byte	0
+ 2312              	.LLST4:
+ 2313 0081 00000000 		.4byte	.LVL15
+ 2314 0085 08000000 		.4byte	.LVL16
+ 2315 0089 0100     		.2byte	0x1
+ 2316 008b 50       		.byte	0x50
+ 2317 008c 08000000 		.4byte	.LVL16
+ 2318 0090 20000000 		.4byte	.LFE66
+ 2319 0094 0400     		.2byte	0x4
+ 2320 0096 F3       		.byte	0xf3
+ 2321 0097 01       		.uleb128 0x1
+ 2322 0098 50       		.byte	0x50
+ 2323 0099 9F       		.byte	0x9f
+ 2324 009a 00000000 		.4byte	0
+ 2325 009e 00000000 		.4byte	0
+ 2326              	.LLST5:
+ 2327 00a2 00000000 		.4byte	.LVL19
+ 2328 00a6 08000000 		.4byte	.LVL20
+ 2329 00aa 0100     		.2byte	0x1
+ 2330 00ac 50       		.byte	0x50
+ 2331 00ad 08000000 		.4byte	.LVL20
+ 2332 00b1 2C000000 		.4byte	.LFE67
+ 2333 00b5 0400     		.2byte	0x4
+ 2334 00b7 F3       		.byte	0xf3
+ 2335 00b8 01       		.uleb128 0x1
+ 2336 00b9 50       		.byte	0x50
+ 2337 00ba 9F       		.byte	0x9f
+ 2338 00bb 00000000 		.4byte	0
+ 2339 00bf 00000000 		.4byte	0
+ 2340              	.LLST6:
+ 2341 00c3 00000000 		.4byte	.LVL23
+ 2342 00c7 08000000 		.4byte	.LVL24
+ 2343 00cb 0100     		.2byte	0x1
+ 2344 00cd 50       		.byte	0x50
+ 2345 00ce 08000000 		.4byte	.LVL24
+ 2346 00d2 1C000000 		.4byte	.LFE68
+ 2347 00d6 0400     		.2byte	0x4
+ 2348 00d8 F3       		.byte	0xf3
+ 2349 00d9 01       		.uleb128 0x1
+ 2350 00da 50       		.byte	0x50
+ 2351 00db 9F       		.byte	0x9f
+ 2352 00dc 00000000 		.4byte	0
+ 2353 00e0 00000000 		.4byte	0
+ 2354              	.LLST7:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 44
+
+
+ 2355 00e4 00000000 		.4byte	.LVL27
+ 2356 00e8 08000000 		.4byte	.LVL28
+ 2357 00ec 0100     		.2byte	0x1
+ 2358 00ee 50       		.byte	0x50
+ 2359 00ef 08000000 		.4byte	.LVL28
+ 2360 00f3 2C000000 		.4byte	.LFE69
+ 2361 00f7 0400     		.2byte	0x4
+ 2362 00f9 F3       		.byte	0xf3
+ 2363 00fa 01       		.uleb128 0x1
+ 2364 00fb 50       		.byte	0x50
+ 2365 00fc 9F       		.byte	0x9f
+ 2366 00fd 00000000 		.4byte	0
+ 2367 0101 00000000 		.4byte	0
+ 2368              	.LLST8:
+ 2369 0105 00000000 		.4byte	.LVL31
+ 2370 0109 08000000 		.4byte	.LVL32
+ 2371 010d 0100     		.2byte	0x1
+ 2372 010f 50       		.byte	0x50
+ 2373 0110 08000000 		.4byte	.LVL32
+ 2374 0114 24000000 		.4byte	.LFE70
+ 2375 0118 0400     		.2byte	0x4
+ 2376 011a F3       		.byte	0xf3
+ 2377 011b 01       		.uleb128 0x1
+ 2378 011c 50       		.byte	0x50
+ 2379 011d 9F       		.byte	0x9f
+ 2380 011e 00000000 		.4byte	0
+ 2381 0122 00000000 		.4byte	0
+ 2382              		.section	.debug_aranges,"",%progbits
+ 2383 0000 74000000 		.4byte	0x74
+ 2384 0004 0200     		.2byte	0x2
+ 2385 0006 00000000 		.4byte	.Ldebug_info0
+ 2386 000a 04       		.byte	0x4
+ 2387 000b 00       		.byte	0
+ 2388 000c 0000     		.2byte	0
+ 2389 000e 0000     		.2byte	0
+ 2390 0010 00000000 		.4byte	.LFB63
+ 2391 0014 24000000 		.4byte	.LFE63-.LFB63
+ 2392 0018 00000000 		.4byte	.LFB64
+ 2393 001c 1C000000 		.4byte	.LFE64-.LFB64
+ 2394 0020 00000000 		.4byte	.LFB65
+ 2395 0024 1C000000 		.4byte	.LFE65-.LFB65
+ 2396 0028 00000000 		.4byte	.LFB66
+ 2397 002c 20000000 		.4byte	.LFE66-.LFB66
+ 2398 0030 00000000 		.4byte	.LFB67
+ 2399 0034 2C000000 		.4byte	.LFE67-.LFB67
+ 2400 0038 00000000 		.4byte	.LFB68
+ 2401 003c 1C000000 		.4byte	.LFE68-.LFB68
+ 2402 0040 00000000 		.4byte	.LFB69
+ 2403 0044 2C000000 		.4byte	.LFE69-.LFB69
+ 2404 0048 00000000 		.4byte	.LFB70
+ 2405 004c 24000000 		.4byte	.LFE70-.LFB70
+ 2406 0050 00000000 		.4byte	.LFB71
+ 2407 0054 B0000000 		.4byte	.LFE71-.LFB71
+ 2408 0058 00000000 		.4byte	.LFB72
+ 2409 005c 58000000 		.4byte	.LFE72-.LFB72
+ 2410 0060 00000000 		.4byte	.LFB73
+ 2411 0064 D4010000 		.4byte	.LFE73-.LFB73
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 45
+
+
+ 2412 0068 00000000 		.4byte	.LFB74
+ 2413 006c E4000000 		.4byte	.LFE74-.LFB74
+ 2414 0070 00000000 		.4byte	0
+ 2415 0074 00000000 		.4byte	0
+ 2416              		.section	.debug_ranges,"",%progbits
+ 2417              	.Ldebug_ranges0:
+ 2418 0000 00000000 		.4byte	.LFB63
+ 2419 0004 24000000 		.4byte	.LFE63
+ 2420 0008 00000000 		.4byte	.LFB64
+ 2421 000c 1C000000 		.4byte	.LFE64
+ 2422 0010 00000000 		.4byte	.LFB65
+ 2423 0014 1C000000 		.4byte	.LFE65
+ 2424 0018 00000000 		.4byte	.LFB66
+ 2425 001c 20000000 		.4byte	.LFE66
+ 2426 0020 00000000 		.4byte	.LFB67
+ 2427 0024 2C000000 		.4byte	.LFE67
+ 2428 0028 00000000 		.4byte	.LFB68
+ 2429 002c 1C000000 		.4byte	.LFE68
+ 2430 0030 00000000 		.4byte	.LFB69
+ 2431 0034 2C000000 		.4byte	.LFE69
+ 2432 0038 00000000 		.4byte	.LFB70
+ 2433 003c 24000000 		.4byte	.LFE70
+ 2434 0040 00000000 		.4byte	.LFB71
+ 2435 0044 B0000000 		.4byte	.LFE71
+ 2436 0048 00000000 		.4byte	.LFB72
+ 2437 004c 58000000 		.4byte	.LFE72
+ 2438 0050 00000000 		.4byte	.LFB73
+ 2439 0054 D4010000 		.4byte	.LFE73
+ 2440 0058 00000000 		.4byte	.LFB74
+ 2441 005c E4000000 		.4byte	.LFE74
+ 2442 0060 00000000 		.4byte	0
+ 2443 0064 00000000 		.4byte	0
+ 2444              		.section	.debug_line,"",%progbits
+ 2445              	.Ldebug_line0:
+ 2446 0000 75020000 		.section	.debug_str,"MS",%progbits,1
+ 2446      02006E01 
+ 2446      00000201 
+ 2446      FB0E0D00 
+ 2446      01010101 
+ 2447              	.LASF23:
+ 2448 0000 42656570 		.ascii	"Beep_third\000"
+ 2448      5F746869 
+ 2448      726400
+ 2449              	.LASF9:
+ 2450 000b 5F5F696E 		.ascii	"__int32_t\000"
+ 2450      7433325F 
+ 2450      7400
+ 2451              	.LASF27:
+ 2452 0015 4D617269 		.ascii	"Mario_Victory\000"
+ 2452      6F5F5669 
+ 2452      63746F72 
+ 2452      7900
+ 2453              	.LASF14:
+ 2454 0023 646F7562 		.ascii	"double\000"
+ 2454      6C6500
+ 2455              	.LASF33:
+ 2456 002a 42757A7A 		.ascii	"Buzzer_PWM_WritePeriod\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 46
+
+
+ 2456      65725F50 
+ 2456      574D5F57 
+ 2456      72697465 
+ 2456      50657269 
+ 2457              	.LASF13:
+ 2458 0041 666C6F61 		.ascii	"float\000"
+ 2458      7400
+ 2459              	.LASF7:
+ 2460 0047 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2460      206C6F6E 
+ 2460      6720756E 
+ 2460      7369676E 
+ 2460      65642069 
+ 2461              	.LASF1:
+ 2462 005e 756E7369 		.ascii	"unsigned char\000"
+ 2462      676E6564 
+ 2462      20636861 
+ 2462      7200
+ 2463              	.LASF30:
+ 2464 006c 73617867 		.ascii	"saxguys\000"
+ 2464      75797300 
+ 2465              	.LASF3:
+ 2466 0074 73686F72 		.ascii	"short unsigned int\000"
+ 2466      7420756E 
+ 2466      7369676E 
+ 2466      65642069 
+ 2466      6E7400
+ 2467              	.LASF38:
+ 2468 0087 5A756D6F 		.ascii	"ZumoLibrary\\Beep.c\000"
+ 2468      4C696272 
+ 2468      6172795C 
+ 2468      42656570 
+ 2468      2E6300
+ 2469              	.LASF31:
+ 2470 009a 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2470      52784275 
+ 2470      66666572 
+ 2470      00
+ 2471              	.LASF5:
+ 2472 00a7 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2472      20756E73 
+ 2472      69676E65 
+ 2472      6420696E 
+ 2472      7400
+ 2473              	.LASF12:
+ 2474 00b9 75696E74 		.ascii	"uint32\000"
+ 2474      333200
+ 2475              	.LASF37:
+ 2476 00c0 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2476      4320342E 
+ 2476      392E3320 
+ 2476      32303135 
+ 2476      30333033 
+ 2477 00f3 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2477      20726576 
+ 2477      6973696F 
+ 2477      6E203232 
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 47
+
+
+ 2477      31323230 
+ 2478 0126 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2478      66756E63 
+ 2478      74696F6E 
+ 2478      2D736563 
+ 2478      74696F6E 
+ 2479              	.LASF8:
+ 2480 014e 756E7369 		.ascii	"unsigned int\000"
+ 2480      676E6564 
+ 2480      20696E74 
+ 2480      00
+ 2481              	.LASF22:
+ 2482 015b 42656570 		.ascii	"Beep_half\000"
+ 2482      5F68616C 
+ 2482      6600
+ 2483              	.LASF36:
+ 2484 0165 42757A7A 		.ascii	"Buzzer_PWM_Stop\000"
+ 2484      65725F50 
+ 2484      574D5F53 
+ 2484      746F7000 
+ 2485              	.LASF24:
+ 2486 0175 42656570 		.ascii	"Beep_whole\000"
+ 2486      5F77686F 
+ 2486      6C6500
+ 2487              	.LASF35:
+ 2488 0180 42757A7A 		.ascii	"Buzzer_PWM_Start\000"
+ 2488      65725F50 
+ 2488      574D5F53 
+ 2488      74617274 
+ 2488      00
+ 2489              	.LASF10:
+ 2490 0191 696E7433 		.ascii	"int32_t\000"
+ 2490      325F7400 
+ 2491              	.LASF16:
+ 2492 0199 73697A65 		.ascii	"sizetype\000"
+ 2492      74797065 
+ 2492      00
+ 2493              	.LASF6:
+ 2494 01a2 6C6F6E67 		.ascii	"long long int\000"
+ 2494      206C6F6E 
+ 2494      6720696E 
+ 2494      7400
+ 2495              	.LASF39:
+ 2496 01b0 453A5C41 		.ascii	"E:\\Ardibot\\Zumo.release03\\Zumo01\\ZumoBot.cydsn\000"
+ 2496      72646962 
+ 2496      6F745C5A 
+ 2496      756D6F2E 
+ 2496      72656C65 
+ 2497              	.LASF15:
+ 2498 01df 63686172 		.ascii	"char\000"
+ 2498      00
+ 2499              	.LASF29:
+ 2500 01e4 6B697373 		.ascii	"kissTheRain\000"
+ 2500      54686552 
+ 2500      61696E00 
+ 2501              	.LASF18:
+ 2502 01f0 70697463 		.ascii	"pitch\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\cctub8xY.s 			page 48
+
+
+ 2502      6800
+ 2503              	.LASF21:
+ 2504 01f6 42656570 		.ascii	"Beep_white\000"
+ 2504      5F776869 
+ 2504      746500
+ 2505              	.LASF25:
+ 2506 0201 42656570 		.ascii	"Beep_a\000"
+ 2506      5F6100
+ 2507              	.LASF2:
+ 2508 0208 73686F72 		.ascii	"short int\000"
+ 2508      7420696E 
+ 2508      7400
+ 2509              	.LASF20:
+ 2510 0212 42656570 		.ascii	"Beep_black\000"
+ 2510      5F626C61 
+ 2510      636B00
+ 2511              	.LASF11:
+ 2512 021d 75696E74 		.ascii	"uint8\000"
+ 2512      3800
+ 2513              	.LASF19:
+ 2514 0223 42656570 		.ascii	"Beep\000"
+ 2514      00
+ 2515              	.LASF4:
+ 2516 0228 6C6F6E67 		.ascii	"long int\000"
+ 2516      20696E74 
+ 2516      00
+ 2517              	.LASF32:
+ 2518 0231 42757A7A 		.ascii	"Buzzer_PWM_WriteCompare\000"
+ 2518      65725F50 
+ 2518      574D5F57 
+ 2518      72697465 
+ 2518      436F6D70 
+ 2519              	.LASF0:
+ 2520 0249 7369676E 		.ascii	"signed char\000"
+ 2520      65642063 
+ 2520      68617200 
+ 2521              	.LASF26:
+ 2522 0255 42656570 		.ascii	"Beep_fourth\000"
+ 2522      5F666F75 
+ 2522      72746800 
+ 2523              	.LASF17:
+ 2524 0261 6C656E67 		.ascii	"length\000"
+ 2524      746800
+ 2525              	.LASF34:
+ 2526 0268 43794465 		.ascii	"CyDelay\000"
+ 2526      6C617900 
+ 2527              	.LASF28:
+ 2528 0270 4D617269 		.ascii	"Mario_Death\000"
+ 2528      6F5F4465 
+ 2528      61746800 
+ 2529              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

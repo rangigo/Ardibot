@@ -1,0 +1,1393 @@
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"IR.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.wait_going_up,"ax",%progbits
+  19              		.align	2
+  20              		.global	wait_going_up
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	wait_going_up, %function
+  24              	wait_going_up:
+  25              	.LFB63:
+  26              		.file 1 "ZumoLibrary\\IR.c"
+   1:ZumoLibrary/IR.c **** /**
+   2:ZumoLibrary/IR.c ****  * @file IR.c
+   3:ZumoLibrary/IR.c ****  * @brief Basic methods for operating IR receiver. For more details, please refer to IR.h file. 
+   4:ZumoLibrary/IR.c ****  * @details part number: TSOP-2236
+   5:ZumoLibrary/IR.c **** */
+   6:ZumoLibrary/IR.c **** #include "IR.h"
+   7:ZumoLibrary/IR.c **** 
+   8:ZumoLibrary/IR.c **** 
+   9:ZumoLibrary/IR.c **** /**
+  10:ZumoLibrary/IR.c **** * @brief Waiting until signal goes up
+  11:ZumoLibrary/IR.c **** * @details continue looping before IR_receiver value becomes 1
+  12:ZumoLibrary/IR.c **** */
+  13:ZumoLibrary/IR.c **** void wait_going_up()
+  14:ZumoLibrary/IR.c **** {
+  27              		.loc 1 14 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 3, -8
+  34              		.cfi_offset 14, -4
+  35              	.L2:
+  15:ZumoLibrary/IR.c ****     while(!IR_receiver_Read()==1);
+  36              		.loc 1 15 0 discriminator 1
+  37 0002 FFF7FEFF 		bl	IR_receiver_Read
+  38              	.LVL0:
+  39 0006 0028     		cmp	r0, #0
+  40 0008 FBD0     		beq	.L2
+  16:ZumoLibrary/IR.c **** }    
+  41              		.loc 1 16 0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 2
+
+
+  42 000a 08BD     		pop	{r3, pc}
+  43              		.cfi_endproc
+  44              	.LFE63:
+  45              		.size	wait_going_up, .-wait_going_up
+  46              		.section	.text.wait_going_down,"ax",%progbits
+  47              		.align	2
+  48              		.global	wait_going_down
+  49              		.thumb
+  50              		.thumb_func
+  51              		.type	wait_going_down, %function
+  52              	wait_going_down:
+  53              	.LFB64:
+  17:ZumoLibrary/IR.c **** 
+  18:ZumoLibrary/IR.c **** 
+  19:ZumoLibrary/IR.c **** /**
+  20:ZumoLibrary/IR.c **** * @brief Waiting until signal goes down
+  21:ZumoLibrary/IR.c **** * @details continue looping before IR_receiver value becomes 0
+  22:ZumoLibrary/IR.c **** */
+  23:ZumoLibrary/IR.c **** void wait_going_down()
+  24:ZumoLibrary/IR.c **** {
+  54              		.loc 1 24 0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58 0000 08B5     		push	{r3, lr}
+  59              		.cfi_def_cfa_offset 8
+  60              		.cfi_offset 3, -8
+  61              		.cfi_offset 14, -4
+  62              	.L5:
+  25:ZumoLibrary/IR.c ****     while(IR_receiver_Read()==1);
+  63              		.loc 1 25 0 discriminator 1
+  64 0002 FFF7FEFF 		bl	IR_receiver_Read
+  65              	.LVL1:
+  66 0006 0128     		cmp	r0, #1
+  67 0008 FBD0     		beq	.L5
+  26:ZumoLibrary/IR.c **** }
+  68              		.loc 1 26 0
+  69 000a 08BD     		pop	{r3, pc}
+  70              		.cfi_endproc
+  71              	.LFE64:
+  72              		.size	wait_going_down, .-wait_going_down
+  73              		.section	.text.count_downtime,"ax",%progbits
+  74              		.align	2
+  75              		.global	count_downtime
+  76              		.thumb
+  77              		.thumb_func
+  78              		.type	count_downtime, %function
+  79              	count_downtime:
+  80              	.LFB65:
+  27:ZumoLibrary/IR.c **** 
+  28:ZumoLibrary/IR.c **** 
+  29:ZumoLibrary/IR.c **** /**
+  30:ZumoLibrary/IR.c **** * @brief Counting to signal down
+  31:ZumoLibrary/IR.c **** * @details Measuring the time until IR_receiver value goes up
+  32:ZumoLibrary/IR.c **** * @return int
+  33:ZumoLibrary/IR.c **** *   - returns count time
+  34:ZumoLibrary/IR.c **** */
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 3
+
+
+  35:ZumoLibrary/IR.c **** int count_downtime()
+  36:ZumoLibrary/IR.c **** {
+  81              		.loc 1 36 0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 0, uses_anonymous_args = 0
+  85 0000 10B5     		push	{r4, lr}
+  86              		.cfi_def_cfa_offset 8
+  87              		.cfi_offset 4, -8
+  88              		.cfi_offset 14, -4
+  89              	.LVL2:
+  37:ZumoLibrary/IR.c ****     int cnt =0;
+  90              		.loc 1 37 0
+  91 0002 0024     		movs	r4, #0
+  38:ZumoLibrary/IR.c ****     while(!IR_receiver_Read()==1)
+  92              		.loc 1 38 0
+  93 0004 00E0     		b	.L8
+  94              	.LVL3:
+  95              	.L9:
+  39:ZumoLibrary/IR.c ****         cnt++;
+  96              		.loc 1 39 0
+  97 0006 0134     		adds	r4, r4, #1
+  98              	.LVL4:
+  99              	.L8:
+  38:ZumoLibrary/IR.c ****     while(!IR_receiver_Read()==1)
+ 100              		.loc 1 38 0
+ 101 0008 FFF7FEFF 		bl	IR_receiver_Read
+ 102              	.LVL5:
+ 103 000c 0028     		cmp	r0, #0
+ 104 000e FAD0     		beq	.L9
+  40:ZumoLibrary/IR.c ****     
+  41:ZumoLibrary/IR.c ****     return cnt;
+  42:ZumoLibrary/IR.c **** }
+ 105              		.loc 1 42 0
+ 106 0010 2046     		mov	r0, r4
+ 107 0012 10BD     		pop	{r4, pc}
+ 108              		.cfi_endproc
+ 109              	.LFE65:
+ 110              		.size	count_downtime, .-count_downtime
+ 111              		.section	.text.count_uptime,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	count_uptime
+ 114              		.thumb
+ 115              		.thumb_func
+ 116              		.type	count_uptime, %function
+ 117              	count_uptime:
+ 118              	.LFB66:
+  43:ZumoLibrary/IR.c **** 
+  44:ZumoLibrary/IR.c **** 
+  45:ZumoLibrary/IR.c **** /**
+  46:ZumoLibrary/IR.c **** * @brief    Counting to signal up 
+  47:ZumoLibrary/IR.c **** * @details  Measuring the time until IR_receiver value goes down
+  48:ZumoLibrary/IR.c **** * @return   int
+  49:ZumoLibrary/IR.c **** *   - returns count time
+  50:ZumoLibrary/IR.c **** */
+  51:ZumoLibrary/IR.c **** int count_uptime()
+  52:ZumoLibrary/IR.c **** {
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 4
+
+
+ 119              		.loc 1 52 0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123 0000 10B5     		push	{r4, lr}
+ 124              		.cfi_def_cfa_offset 8
+ 125              		.cfi_offset 4, -8
+ 126              		.cfi_offset 14, -4
+ 127              	.LVL6:
+  53:ZumoLibrary/IR.c ****     int cnt =0;
+ 128              		.loc 1 53 0
+ 129 0002 0024     		movs	r4, #0
+  54:ZumoLibrary/IR.c ****     while(IR_receiver_Read()==1)
+ 130              		.loc 1 54 0
+ 131 0004 00E0     		b	.L12
+ 132              	.LVL7:
+ 133              	.L13:
+  55:ZumoLibrary/IR.c ****         cnt++;
+ 134              		.loc 1 55 0
+ 135 0006 0134     		adds	r4, r4, #1
+ 136              	.LVL8:
+ 137              	.L12:
+  54:ZumoLibrary/IR.c ****     while(IR_receiver_Read()==1)
+ 138              		.loc 1 54 0
+ 139 0008 FFF7FEFF 		bl	IR_receiver_Read
+ 140              	.LVL9:
+ 141 000c 0128     		cmp	r0, #1
+ 142 000e FAD0     		beq	.L13
+  56:ZumoLibrary/IR.c ****     
+  57:ZumoLibrary/IR.c ****     return cnt;
+  58:ZumoLibrary/IR.c **** }
+ 143              		.loc 1 58 0
+ 144 0010 2046     		mov	r0, r4
+ 145 0012 10BD     		pop	{r4, pc}
+ 146              		.cfi_endproc
+ 147              	.LFE66:
+ 148              		.size	count_uptime, .-count_uptime
+ 149              		.section	.text.get_IR,"ax",%progbits
+ 150              		.align	2
+ 151              		.global	get_IR
+ 152              		.thumb
+ 153              		.thumb_func
+ 154              		.type	get_IR, %function
+ 155              	get_IR:
+ 156              	.LFB67:
+  59:ZumoLibrary/IR.c **** 
+  60:ZumoLibrary/IR.c **** 
+  61:ZumoLibrary/IR.c **** /**
+  62:ZumoLibrary/IR.c **** * @brief    Getting remote controller value
+  63:ZumoLibrary/IR.c **** * @details  Getting each of the value sent by remote controller
+  64:ZumoLibrary/IR.c **** * @return   int
+  65:ZumoLibrary/IR.c ****     - returns hex value
+  66:ZumoLibrary/IR.c **** */
+  67:ZumoLibrary/IR.c **** int get_IR()
+  68:ZumoLibrary/IR.c **** {
+ 157              		.loc 1 68 0
+ 158              		.cfi_startproc
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 5
+
+
+ 159              		@ args = 0, pretend = 0, frame = 40
+ 160              		@ frame_needed = 0, uses_anonymous_args = 0
+ 161 0000 30B5     		push	{r4, r5, lr}
+ 162              		.cfi_def_cfa_offset 12
+ 163              		.cfi_offset 4, -12
+ 164              		.cfi_offset 5, -8
+ 165              		.cfi_offset 14, -4
+ 166 0002 8BB0     		sub	sp, sp, #44
+ 167              		.cfi_def_cfa_offset 56
+  69:ZumoLibrary/IR.c ****     uint8 bit[33]={0};
+ 168              		.loc 1 69 0
+ 169 0004 0024     		movs	r4, #0
+ 170 0006 0194     		str	r4, [sp, #4]
+ 171 0008 0294     		str	r4, [sp, #8]
+ 172 000a 0394     		str	r4, [sp, #12]
+ 173 000c 0494     		str	r4, [sp, #16]
+ 174 000e 0594     		str	r4, [sp, #20]
+ 175 0010 0694     		str	r4, [sp, #24]
+ 176 0012 0794     		str	r4, [sp, #28]
+ 177 0014 0894     		str	r4, [sp, #32]
+ 178 0016 8DF82440 		strb	r4, [sp, #36]
+ 179              	.LVL10:
+  70:ZumoLibrary/IR.c ****     unsigned int val=0;
+  71:ZumoLibrary/IR.c ****     uint t1, t2, i;
+  72:ZumoLibrary/IR.c ****     
+  73:ZumoLibrary/IR.c ****     wait_going_down();
+ 180              		.loc 1 73 0
+ 181 001a FFF7FEFF 		bl	wait_going_down
+ 182              	.LVL11:
+  74:ZumoLibrary/IR.c ****     
+  75:ZumoLibrary/IR.c ****     for(i = 0; i < 33; i++)     // loop 33times ( 1bit - Start bit, 32bits - Databit)
+ 183              		.loc 1 75 0
+ 184 001e 12E0     		b	.L16
+ 185              	.LVL12:
+ 186              	.L19:
+  76:ZumoLibrary/IR.c ****     {
+  77:ZumoLibrary/IR.c ****         t1 = 0;
+  78:ZumoLibrary/IR.c ****         t2 = 0;
+  79:ZumoLibrary/IR.c ****         
+  80:ZumoLibrary/IR.c ****         t1 = count_downtime();
+ 187              		.loc 1 80 0
+ 188 0020 FFF7FEFF 		bl	count_downtime
+ 189              	.LVL13:
+ 190 0024 0546     		mov	r5, r0
+ 191              	.LVL14:
+  81:ZumoLibrary/IR.c ****         t2 = count_uptime();
+ 192              		.loc 1 81 0
+ 193 0026 FFF7FEFF 		bl	count_uptime
+ 194              	.LVL15:
+  82:ZumoLibrary/IR.c ****         
+  83:ZumoLibrary/IR.c ****         // If up time is longer than down time, value of the bit becomes 1
+  84:ZumoLibrary/IR.c ****         if(t2 > t1)
+ 195              		.loc 1 84 0
+ 196 002a A842     		cmp	r0, r5
+ 197 002c 05D9     		bls	.L17
+  85:ZumoLibrary/IR.c ****             bit[i]=1;
+ 198              		.loc 1 85 0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 6
+
+
+ 199 002e 0122     		movs	r2, #1
+ 200 0030 0AAB     		add	r3, sp, #40
+ 201 0032 2344     		add	r3, r3, r4
+ 202 0034 03F8242C 		strb	r2, [r3, #-36]
+ 203 0038 04E0     		b	.L18
+ 204              	.L17:
+  86:ZumoLibrary/IR.c ****         else
+  87:ZumoLibrary/IR.c ****             bit[i]=0; 
+ 205              		.loc 1 87 0
+ 206 003a 0022     		movs	r2, #0
+ 207 003c 0AAB     		add	r3, sp, #40
+ 208 003e 2344     		add	r3, r3, r4
+ 209 0040 03F8242C 		strb	r2, [r3, #-36]
+ 210              	.L18:
+  75:ZumoLibrary/IR.c ****     {
+ 211              		.loc 1 75 0 discriminator 2
+ 212 0044 0134     		adds	r4, r4, #1
+ 213              	.LVL16:
+ 214              	.L16:
+  75:ZumoLibrary/IR.c ****     {
+ 215              		.loc 1 75 0 is_stmt 0 discriminator 1
+ 216 0046 202C     		cmp	r4, #32
+ 217 0048 EAD9     		bls	.L19
+ 218 004a 0024     		movs	r4, #0
+ 219              	.LVL17:
+ 220 004c 07E0     		b	.L20
+ 221              	.LVL18:
+ 222              	.L21:
+  88:ZumoLibrary/IR.c ****     } 
+  89:ZumoLibrary/IR.c ****    
+  90:ZumoLibrary/IR.c ****      // If you want to see binary value
+  91:ZumoLibrary/IR.c ****     int cnt;
+  92:ZumoLibrary/IR.c ****     for(cnt=0; cnt<33; cnt++)
+  93:ZumoLibrary/IR.c ****         printf("%d ",bit[cnt]);
+ 223              		.loc 1 93 0 is_stmt 1 discriminator 3
+ 224 004e 0AAB     		add	r3, sp, #40
+ 225 0050 2344     		add	r3, r3, r4
+ 226 0052 0D48     		ldr	r0, .L25
+ 227 0054 13F8241C 		ldrb	r1, [r3, #-36]	@ zero_extendqisi2
+ 228 0058 FFF7FEFF 		bl	printf
+ 229              	.LVL19:
+  92:ZumoLibrary/IR.c ****         printf("%d ",bit[cnt]);
+ 230              		.loc 1 92 0 discriminator 3
+ 231 005c 0134     		adds	r4, r4, #1
+ 232              	.LVL20:
+ 233              	.L20:
+  92:ZumoLibrary/IR.c ****         printf("%d ",bit[cnt]);
+ 234              		.loc 1 92 0 is_stmt 0 discriminator 1
+ 235 005e 202C     		cmp	r4, #32
+ 236 0060 F5DD     		ble	.L21
+  94:ZumoLibrary/IR.c ****     printf("\r\n\n");
+ 237              		.loc 1 94 0 is_stmt 1
+ 238 0062 0A48     		ldr	r0, .L25+4
+ 239 0064 FFF7FEFF 		bl	puts
+ 240              	.LVL21:
+  95:ZumoLibrary/IR.c ****     //*/
+  96:ZumoLibrary/IR.c ****    
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 7
+
+
+  97:ZumoLibrary/IR.c ****     // compress bits to single int, ignore start bit
+  98:ZumoLibrary/IR.c **** 
+  99:ZumoLibrary/IR.c ****     for( i=0; i<32; i++)
+ 241              		.loc 1 99 0
+ 242 0068 0023     		movs	r3, #0
+  70:ZumoLibrary/IR.c ****     uint t1, t2, i;
+ 243              		.loc 1 70 0
+ 244 006a 1846     		mov	r0, r3
+ 245              		.loc 1 99 0
+ 246 006c 08E0     		b	.L22
+ 247              	.LVL22:
+ 248              	.L23:
+ 100:ZumoLibrary/IR.c ****         val |= bit[i+1] << i;
+ 249              		.loc 1 100 0 discriminator 3
+ 250 006e 591C     		adds	r1, r3, #1
+ 251 0070 0AAA     		add	r2, sp, #40
+ 252 0072 0A44     		add	r2, r2, r1
+ 253 0074 12F8242C 		ldrb	r2, [r2, #-36]	@ zero_extendqisi2
+ 254 0078 02FA03F3 		lsl	r3, r2, r3
+ 255              	.LVL23:
+ 256 007c 1843     		orrs	r0, r0, r3
+ 257              	.LVL24:
+  99:ZumoLibrary/IR.c ****         val |= bit[i+1] << i;
+ 258              		.loc 1 99 0 discriminator 3
+ 259 007e 0B46     		mov	r3, r1
+ 260              	.LVL25:
+ 261              	.L22:
+  99:ZumoLibrary/IR.c ****         val |= bit[i+1] << i;
+ 262              		.loc 1 99 0 is_stmt 0 discriminator 1
+ 263 0080 1F2B     		cmp	r3, #31
+ 264 0082 F4D9     		bls	.L23
+ 101:ZumoLibrary/IR.c ****     
+ 102:ZumoLibrary/IR.c ****     return val;
+ 103:ZumoLibrary/IR.c **** }...
+ 265              		.loc 1 103 0 is_stmt 1
+ 266 0084 0BB0     		add	sp, sp, #44
+ 267              		.cfi_def_cfa_offset 12
+ 268              		@ sp needed
+ 269 0086 30BD     		pop	{r4, r5, pc}
+ 270              	.LVL26:
+ 271              	.L26:
+ 272              		.align	2
+ 273              	.L25:
+ 274 0088 00000000 		.word	.LC0
+ 275 008c 04000000 		.word	.LC1
+ 276              		.cfi_endproc
+ 277              	.LFE67:
+ 278              		.size	get_IR, .-get_IR
+ 279              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 280              		.align	2
+ 281              	.LC0:
+ 282 0000 25642000 		.ascii	"%d \000"
+ 283              	.LC1:
+ 284 0004 0D0A00   		.ascii	"\015\012\000"
+ 285 0007 00       		.text
+ 286              	.Letext0:
+ 287              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 8
+
+
+ 288              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 289              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 290              		.file 5 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 291              		.file 6 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 292              		.file 7 "<built-in>"
+ 293              		.file 8 "Generated_Source\\PSoC5/core_cm3.h"
+ 294              		.file 9 "Generated_Source\\PSoC5/IR_receiver.h"
+ 295              		.section	.debug_info,"",%progbits
+ 296              	.Ldebug_info0:
+ 297 0000 81020000 		.4byte	0x281
+ 298 0004 0400     		.2byte	0x4
+ 299 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 300 000a 04       		.byte	0x4
+ 301 000b 01       		.uleb128 0x1
+ 302 000c BD000000 		.4byte	.LASF25
+ 303 0010 01       		.byte	0x1
+ 304 0011 A7000000 		.4byte	.LASF26
+ 305 0015 9A010000 		.4byte	.LASF27
+ 306 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 307 001d 00000000 		.4byte	0
+ 308 0021 00000000 		.4byte	.Ldebug_line0
+ 309 0025 02       		.uleb128 0x2
+ 310 0026 01       		.byte	0x1
+ 311 0027 06       		.byte	0x6
+ 312 0028 04020000 		.4byte	.LASF0
+ 313 002c 02       		.uleb128 0x2
+ 314 002d 01       		.byte	0x1
+ 315 002e 08       		.byte	0x8
+ 316 002f 42000000 		.4byte	.LASF1
+ 317 0033 02       		.uleb128 0x2
+ 318 0034 02       		.byte	0x2
+ 319 0035 05       		.byte	0x5
+ 320 0036 E6010000 		.4byte	.LASF2
+ 321 003a 02       		.uleb128 0x2
+ 322 003b 02       		.byte	0x2
+ 323 003c 07       		.byte	0x7
+ 324 003d 72000000 		.4byte	.LASF3
+ 325 0041 03       		.uleb128 0x3
+ 326 0042 0E000000 		.4byte	.LASF9
+ 327 0046 02       		.byte	0x2
+ 328 0047 3F       		.byte	0x3f
+ 329 0048 4C000000 		.4byte	0x4c
+ 330 004c 02       		.uleb128 0x2
+ 331 004d 04       		.byte	0x4
+ 332 004e 05       		.byte	0x5
+ 333 004f F6010000 		.4byte	.LASF4
+ 334 0053 02       		.uleb128 0x2
+ 335 0054 04       		.byte	0x4
+ 336 0055 07       		.byte	0x7
+ 337 0056 60000000 		.4byte	.LASF5
+ 338 005a 02       		.uleb128 0x2
+ 339 005b 08       		.byte	0x8
+ 340 005c 05       		.byte	0x5
+ 341 005d 00000000 		.4byte	.LASF6
+ 342 0061 02       		.uleb128 0x2
+ 343 0062 08       		.byte	0x8
+ 344 0063 07       		.byte	0x7
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 9
+
+
+ 345 0064 6E010000 		.4byte	.LASF7
+ 346 0068 04       		.uleb128 0x4
+ 347 0069 04       		.byte	0x4
+ 348 006a 05       		.byte	0x5
+ 349 006b 696E7400 		.ascii	"int\000"
+ 350 006f 02       		.uleb128 0x2
+ 351 0070 04       		.byte	0x4
+ 352 0071 07       		.byte	0x7
+ 353 0072 4B010000 		.4byte	.LASF8
+ 354 0076 03       		.uleb128 0x3
+ 355 0077 18000000 		.4byte	.LASF10
+ 356 007b 03       		.byte	0x3
+ 357 007c 2C       		.byte	0x2c
+ 358 007d 41000000 		.4byte	0x41
+ 359 0081 05       		.uleb128 0x5
+ 360 0082 F0010000 		.4byte	.LASF11
+ 361 0086 04       		.byte	0x4
+ 362 0087 9201     		.2byte	0x192
+ 363 0089 2C000000 		.4byte	0x2c
+ 364 008d 02       		.uleb128 0x2
+ 365 008e 04       		.byte	0x4
+ 366 008f 04       		.byte	0x4
+ 367 0090 20000000 		.4byte	.LASF12
+ 368 0094 02       		.uleb128 0x2
+ 369 0095 08       		.byte	0x8
+ 370 0096 04       		.byte	0x4
+ 371 0097 A0000000 		.4byte	.LASF13
+ 372 009b 02       		.uleb128 0x2
+ 373 009c 01       		.byte	0x1
+ 374 009d 08       		.byte	0x8
+ 375 009e C9010000 		.4byte	.LASF14
+ 376 00a2 02       		.uleb128 0x2
+ 377 00a3 04       		.byte	0x4
+ 378 00a4 07       		.byte	0x7
+ 379 00a5 91010000 		.4byte	.LASF15
+ 380 00a9 06       		.uleb128 0x6
+ 381 00aa 04       		.byte	0x4
+ 382 00ab AF000000 		.4byte	0xaf
+ 383 00af 07       		.uleb128 0x7
+ 384 00b0 9B000000 		.4byte	0x9b
+ 385 00b4 03       		.uleb128 0x3
+ 386 00b5 B8000000 		.4byte	.LASF16
+ 387 00b9 05       		.byte	0x5
+ 388 00ba 70       		.byte	0x70
+ 389 00bb 6F000000 		.4byte	0x6f
+ 390 00bf 02       		.uleb128 0x2
+ 391 00c0 08       		.byte	0x8
+ 392 00c1 04       		.byte	0x4
+ 393 00c2 85010000 		.4byte	.LASF17
+ 394 00c6 08       		.uleb128 0x8
+ 395 00c7 85000000 		.4byte	.LASF18
+ 396 00cb 01       		.byte	0x1
+ 397 00cc 0D       		.byte	0xd
+ 398 00cd 00000000 		.4byte	.LFB63
+ 399 00d1 0C000000 		.4byte	.LFE63-.LFB63
+ 400 00d5 01       		.uleb128 0x1
+ 401 00d6 9C       		.byte	0x9c
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 10
+
+
+ 402 00d7 E5000000 		.4byte	0xe5
+ 403 00db 09       		.uleb128 0x9
+ 404 00dc 06000000 		.4byte	.LVL0
+ 405 00e0 4E020000 		.4byte	0x24e
+ 406 00e4 00       		.byte	0
+ 407 00e5 08       		.uleb128 0x8
+ 408 00e6 50000000 		.4byte	.LASF19
+ 409 00ea 01       		.byte	0x1
+ 410 00eb 17       		.byte	0x17
+ 411 00ec 00000000 		.4byte	.LFB64
+ 412 00f0 0C000000 		.4byte	.LFE64-.LFB64
+ 413 00f4 01       		.uleb128 0x1
+ 414 00f5 9C       		.byte	0x9c
+ 415 00f6 04010000 		.4byte	0x104
+ 416 00fa 09       		.uleb128 0x9
+ 417 00fb 06000000 		.4byte	.LVL1
+ 418 00ff 4E020000 		.4byte	0x24e
+ 419 0103 00       		.byte	0
+ 420 0104 0A       		.uleb128 0xa
+ 421 0105 58010000 		.4byte	.LASF20
+ 422 0109 01       		.byte	0x1
+ 423 010a 23       		.byte	0x23
+ 424 010b 68000000 		.4byte	0x68
+ 425 010f 00000000 		.4byte	.LFB65
+ 426 0113 14000000 		.4byte	.LFE65-.LFB65
+ 427 0117 01       		.uleb128 0x1
+ 428 0118 9C       		.byte	0x9c
+ 429 0119 36010000 		.4byte	0x136
+ 430 011d 0B       		.uleb128 0xb
+ 431 011e 636E7400 		.ascii	"cnt\000"
+ 432 0122 01       		.byte	0x1
+ 433 0123 25       		.byte	0x25
+ 434 0124 68000000 		.4byte	0x68
+ 435 0128 00000000 		.4byte	.LLST0
+ 436 012c 09       		.uleb128 0x9
+ 437 012d 0C000000 		.4byte	.LVL5
+ 438 0131 4E020000 		.4byte	0x24e
+ 439 0135 00       		.byte	0
+ 440 0136 0A       		.uleb128 0xa
+ 441 0137 35000000 		.4byte	.LASF21
+ 442 013b 01       		.byte	0x1
+ 443 013c 33       		.byte	0x33
+ 444 013d 68000000 		.4byte	0x68
+ 445 0141 00000000 		.4byte	.LFB66
+ 446 0145 14000000 		.4byte	.LFE66-.LFB66
+ 447 0149 01       		.uleb128 0x1
+ 448 014a 9C       		.byte	0x9c
+ 449 014b 68010000 		.4byte	0x168
+ 450 014f 0B       		.uleb128 0xb
+ 451 0150 636E7400 		.ascii	"cnt\000"
+ 452 0154 01       		.byte	0x1
+ 453 0155 35       		.byte	0x35
+ 454 0156 68000000 		.4byte	0x68
+ 455 015a 1F000000 		.4byte	.LLST1
+ 456 015e 09       		.uleb128 0x9
+ 457 015f 0C000000 		.4byte	.LVL9
+ 458 0163 4E020000 		.4byte	0x24e
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 11
+
+
+ 459 0167 00       		.byte	0
+ 460 0168 0A       		.uleb128 0xa
+ 461 0169 67010000 		.4byte	.LASF22
+ 462 016d 01       		.byte	0x1
+ 463 016e 43       		.byte	0x43
+ 464 016f 68000000 		.4byte	0x68
+ 465 0173 00000000 		.4byte	.LFB67
+ 466 0177 90000000 		.4byte	.LFE67-.LFB67
+ 467 017b 01       		.uleb128 0x1
+ 468 017c 9C       		.byte	0x9c
+ 469 017d 2D020000 		.4byte	0x22d
+ 470 0181 0C       		.uleb128 0xc
+ 471 0182 62697400 		.ascii	"bit\000"
+ 472 0186 01       		.byte	0x1
+ 473 0187 45       		.byte	0x45
+ 474 0188 2D020000 		.4byte	0x22d
+ 475 018c 02       		.uleb128 0x2
+ 476 018d 91       		.byte	0x91
+ 477 018e 4C       		.sleb128 -52
+ 478 018f 0B       		.uleb128 0xb
+ 479 0190 76616C00 		.ascii	"val\000"
+ 480 0194 01       		.byte	0x1
+ 481 0195 46       		.byte	0x46
+ 482 0196 6F000000 		.4byte	0x6f
+ 483 019a 3E000000 		.4byte	.LLST2
+ 484 019e 0B       		.uleb128 0xb
+ 485 019f 743100   		.ascii	"t1\000"
+ 486 01a2 01       		.byte	0x1
+ 487 01a3 47       		.byte	0x47
+ 488 01a4 B4000000 		.4byte	0xb4
+ 489 01a8 5D000000 		.4byte	.LLST3
+ 490 01ac 0B       		.uleb128 0xb
+ 491 01ad 743200   		.ascii	"t2\000"
+ 492 01b0 01       		.byte	0x1
+ 493 01b1 47       		.byte	0x47
+ 494 01b2 B4000000 		.4byte	0xb4
+ 495 01b6 87000000 		.4byte	.LLST4
+ 496 01ba 0B       		.uleb128 0xb
+ 497 01bb 6900     		.ascii	"i\000"
+ 498 01bd 01       		.byte	0x1
+ 499 01be 47       		.byte	0x47
+ 500 01bf B4000000 		.4byte	0xb4
+ 501 01c3 A6000000 		.4byte	.LLST5
+ 502 01c7 0B       		.uleb128 0xb
+ 503 01c8 636E7400 		.ascii	"cnt\000"
+ 504 01cc 01       		.byte	0x1
+ 505 01cd 5B       		.byte	0x5b
+ 506 01ce 68000000 		.4byte	0x68
+ 507 01d2 FF000000 		.4byte	.LLST6
+ 508 01d6 09       		.uleb128 0x9
+ 509 01d7 1E000000 		.4byte	.LVL11
+ 510 01db E5000000 		.4byte	0xe5
+ 511 01df 09       		.uleb128 0x9
+ 512 01e0 24000000 		.4byte	.LVL13
+ 513 01e4 04010000 		.4byte	0x104
+ 514 01e8 09       		.uleb128 0x9
+ 515 01e9 2A000000 		.4byte	.LVL15
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 12
+
+
+ 516 01ed 36010000 		.4byte	0x136
+ 517 01f1 0D       		.uleb128 0xd
+ 518 01f2 5C000000 		.4byte	.LVL19
+ 519 01f6 59020000 		.4byte	0x259
+ 520 01fa 19020000 		.4byte	0x219
+ 521 01fe 0E       		.uleb128 0xe
+ 522 01ff 01       		.uleb128 0x1
+ 523 0200 51       		.byte	0x51
+ 524 0201 0D       		.uleb128 0xd
+ 525 0202 91       		.byte	0x91
+ 526 0203 00       		.sleb128 0
+ 527 0204 74       		.byte	0x74
+ 528 0205 00       		.sleb128 0
+ 529 0206 22       		.byte	0x22
+ 530 0207 08       		.byte	0x8
+ 531 0208 34       		.byte	0x34
+ 532 0209 1C       		.byte	0x1c
+ 533 020a 94       		.byte	0x94
+ 534 020b 01       		.byte	0x1
+ 535 020c 08       		.byte	0x8
+ 536 020d FF       		.byte	0xff
+ 537 020e 1A       		.byte	0x1a
+ 538 020f 0E       		.uleb128 0xe
+ 539 0210 01       		.uleb128 0x1
+ 540 0211 50       		.byte	0x50
+ 541 0212 05       		.uleb128 0x5
+ 542 0213 03       		.byte	0x3
+ 543 0214 00000000 		.4byte	.LC0
+ 544 0218 00       		.byte	0
+ 545 0219 0F       		.uleb128 0xf
+ 546 021a 68000000 		.4byte	.LVL21
+ 547 021e 6F020000 		.4byte	0x26f
+ 548 0222 0E       		.uleb128 0xe
+ 549 0223 01       		.uleb128 0x1
+ 550 0224 50       		.byte	0x50
+ 551 0225 05       		.uleb128 0x5
+ 552 0226 03       		.byte	0x3
+ 553 0227 04000000 		.4byte	.LC1
+ 554 022b 00       		.byte	0
+ 555 022c 00       		.byte	0
+ 556 022d 10       		.uleb128 0x10
+ 557 022e 81000000 		.4byte	0x81
+ 558 0232 3D020000 		.4byte	0x23d
+ 559 0236 11       		.uleb128 0x11
+ 560 0237 A2000000 		.4byte	0xa2
+ 561 023b 20       		.byte	0x20
+ 562 023c 00       		.byte	0
+ 563 023d 12       		.uleb128 0x12
+ 564 023e 93000000 		.4byte	.LASF28
+ 565 0242 08       		.byte	0x8
+ 566 0243 9606     		.2byte	0x696
+ 567 0245 49020000 		.4byte	0x249
+ 568 0249 13       		.uleb128 0x13
+ 569 024a 76000000 		.4byte	0x76
+ 570 024e 14       		.uleb128 0x14
+ 571 024f D5010000 		.4byte	.LASF29
+ 572 0253 09       		.byte	0x9
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 13
+
+
+ 573 0254 29       		.byte	0x29
+ 574 0255 81000000 		.4byte	0x81
+ 575 0259 15       		.uleb128 0x15
+ 576 025a CE010000 		.4byte	.LASF23
+ 577 025e 06       		.byte	0x6
+ 578 025f B2       		.byte	0xb2
+ 579 0260 68000000 		.4byte	0x68
+ 580 0264 6F020000 		.4byte	0x26f
+ 581 0268 16       		.uleb128 0x16
+ 582 0269 A9000000 		.4byte	0xa9
+ 583 026d 17       		.uleb128 0x17
+ 584 026e 00       		.byte	0
+ 585 026f 18       		.uleb128 0x18
+ 586 0270 26000000 		.4byte	.LASF24
+ 587 0274 07       		.byte	0x7
+ 588 0275 00       		.byte	0
+ 589 0276 FF010000 		.4byte	.LASF30
+ 590 027a 68000000 		.4byte	0x68
+ 591 027e 16       		.uleb128 0x16
+ 592 027f A9000000 		.4byte	0xa9
+ 593 0283 00       		.byte	0
+ 594 0284 00       		.byte	0
+ 595              		.section	.debug_abbrev,"",%progbits
+ 596              	.Ldebug_abbrev0:
+ 597 0000 01       		.uleb128 0x1
+ 598 0001 11       		.uleb128 0x11
+ 599 0002 01       		.byte	0x1
+ 600 0003 25       		.uleb128 0x25
+ 601 0004 0E       		.uleb128 0xe
+ 602 0005 13       		.uleb128 0x13
+ 603 0006 0B       		.uleb128 0xb
+ 604 0007 03       		.uleb128 0x3
+ 605 0008 0E       		.uleb128 0xe
+ 606 0009 1B       		.uleb128 0x1b
+ 607 000a 0E       		.uleb128 0xe
+ 608 000b 55       		.uleb128 0x55
+ 609 000c 17       		.uleb128 0x17
+ 610 000d 11       		.uleb128 0x11
+ 611 000e 01       		.uleb128 0x1
+ 612 000f 10       		.uleb128 0x10
+ 613 0010 17       		.uleb128 0x17
+ 614 0011 00       		.byte	0
+ 615 0012 00       		.byte	0
+ 616 0013 02       		.uleb128 0x2
+ 617 0014 24       		.uleb128 0x24
+ 618 0015 00       		.byte	0
+ 619 0016 0B       		.uleb128 0xb
+ 620 0017 0B       		.uleb128 0xb
+ 621 0018 3E       		.uleb128 0x3e
+ 622 0019 0B       		.uleb128 0xb
+ 623 001a 03       		.uleb128 0x3
+ 624 001b 0E       		.uleb128 0xe
+ 625 001c 00       		.byte	0
+ 626 001d 00       		.byte	0
+ 627 001e 03       		.uleb128 0x3
+ 628 001f 16       		.uleb128 0x16
+ 629 0020 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 14
+
+
+ 630 0021 03       		.uleb128 0x3
+ 631 0022 0E       		.uleb128 0xe
+ 632 0023 3A       		.uleb128 0x3a
+ 633 0024 0B       		.uleb128 0xb
+ 634 0025 3B       		.uleb128 0x3b
+ 635 0026 0B       		.uleb128 0xb
+ 636 0027 49       		.uleb128 0x49
+ 637 0028 13       		.uleb128 0x13
+ 638 0029 00       		.byte	0
+ 639 002a 00       		.byte	0
+ 640 002b 04       		.uleb128 0x4
+ 641 002c 24       		.uleb128 0x24
+ 642 002d 00       		.byte	0
+ 643 002e 0B       		.uleb128 0xb
+ 644 002f 0B       		.uleb128 0xb
+ 645 0030 3E       		.uleb128 0x3e
+ 646 0031 0B       		.uleb128 0xb
+ 647 0032 03       		.uleb128 0x3
+ 648 0033 08       		.uleb128 0x8
+ 649 0034 00       		.byte	0
+ 650 0035 00       		.byte	0
+ 651 0036 05       		.uleb128 0x5
+ 652 0037 16       		.uleb128 0x16
+ 653 0038 00       		.byte	0
+ 654 0039 03       		.uleb128 0x3
+ 655 003a 0E       		.uleb128 0xe
+ 656 003b 3A       		.uleb128 0x3a
+ 657 003c 0B       		.uleb128 0xb
+ 658 003d 3B       		.uleb128 0x3b
+ 659 003e 05       		.uleb128 0x5
+ 660 003f 49       		.uleb128 0x49
+ 661 0040 13       		.uleb128 0x13
+ 662 0041 00       		.byte	0
+ 663 0042 00       		.byte	0
+ 664 0043 06       		.uleb128 0x6
+ 665 0044 0F       		.uleb128 0xf
+ 666 0045 00       		.byte	0
+ 667 0046 0B       		.uleb128 0xb
+ 668 0047 0B       		.uleb128 0xb
+ 669 0048 49       		.uleb128 0x49
+ 670 0049 13       		.uleb128 0x13
+ 671 004a 00       		.byte	0
+ 672 004b 00       		.byte	0
+ 673 004c 07       		.uleb128 0x7
+ 674 004d 26       		.uleb128 0x26
+ 675 004e 00       		.byte	0
+ 676 004f 49       		.uleb128 0x49
+ 677 0050 13       		.uleb128 0x13
+ 678 0051 00       		.byte	0
+ 679 0052 00       		.byte	0
+ 680 0053 08       		.uleb128 0x8
+ 681 0054 2E       		.uleb128 0x2e
+ 682 0055 01       		.byte	0x1
+ 683 0056 3F       		.uleb128 0x3f
+ 684 0057 19       		.uleb128 0x19
+ 685 0058 03       		.uleb128 0x3
+ 686 0059 0E       		.uleb128 0xe
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 15
+
+
+ 687 005a 3A       		.uleb128 0x3a
+ 688 005b 0B       		.uleb128 0xb
+ 689 005c 3B       		.uleb128 0x3b
+ 690 005d 0B       		.uleb128 0xb
+ 691 005e 11       		.uleb128 0x11
+ 692 005f 01       		.uleb128 0x1
+ 693 0060 12       		.uleb128 0x12
+ 694 0061 06       		.uleb128 0x6
+ 695 0062 40       		.uleb128 0x40
+ 696 0063 18       		.uleb128 0x18
+ 697 0064 9742     		.uleb128 0x2117
+ 698 0066 19       		.uleb128 0x19
+ 699 0067 01       		.uleb128 0x1
+ 700 0068 13       		.uleb128 0x13
+ 701 0069 00       		.byte	0
+ 702 006a 00       		.byte	0
+ 703 006b 09       		.uleb128 0x9
+ 704 006c 898201   		.uleb128 0x4109
+ 705 006f 00       		.byte	0
+ 706 0070 11       		.uleb128 0x11
+ 707 0071 01       		.uleb128 0x1
+ 708 0072 31       		.uleb128 0x31
+ 709 0073 13       		.uleb128 0x13
+ 710 0074 00       		.byte	0
+ 711 0075 00       		.byte	0
+ 712 0076 0A       		.uleb128 0xa
+ 713 0077 2E       		.uleb128 0x2e
+ 714 0078 01       		.byte	0x1
+ 715 0079 3F       		.uleb128 0x3f
+ 716 007a 19       		.uleb128 0x19
+ 717 007b 03       		.uleb128 0x3
+ 718 007c 0E       		.uleb128 0xe
+ 719 007d 3A       		.uleb128 0x3a
+ 720 007e 0B       		.uleb128 0xb
+ 721 007f 3B       		.uleb128 0x3b
+ 722 0080 0B       		.uleb128 0xb
+ 723 0081 49       		.uleb128 0x49
+ 724 0082 13       		.uleb128 0x13
+ 725 0083 11       		.uleb128 0x11
+ 726 0084 01       		.uleb128 0x1
+ 727 0085 12       		.uleb128 0x12
+ 728 0086 06       		.uleb128 0x6
+ 729 0087 40       		.uleb128 0x40
+ 730 0088 18       		.uleb128 0x18
+ 731 0089 9742     		.uleb128 0x2117
+ 732 008b 19       		.uleb128 0x19
+ 733 008c 01       		.uleb128 0x1
+ 734 008d 13       		.uleb128 0x13
+ 735 008e 00       		.byte	0
+ 736 008f 00       		.byte	0
+ 737 0090 0B       		.uleb128 0xb
+ 738 0091 34       		.uleb128 0x34
+ 739 0092 00       		.byte	0
+ 740 0093 03       		.uleb128 0x3
+ 741 0094 08       		.uleb128 0x8
+ 742 0095 3A       		.uleb128 0x3a
+ 743 0096 0B       		.uleb128 0xb
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 16
+
+
+ 744 0097 3B       		.uleb128 0x3b
+ 745 0098 0B       		.uleb128 0xb
+ 746 0099 49       		.uleb128 0x49
+ 747 009a 13       		.uleb128 0x13
+ 748 009b 02       		.uleb128 0x2
+ 749 009c 17       		.uleb128 0x17
+ 750 009d 00       		.byte	0
+ 751 009e 00       		.byte	0
+ 752 009f 0C       		.uleb128 0xc
+ 753 00a0 34       		.uleb128 0x34
+ 754 00a1 00       		.byte	0
+ 755 00a2 03       		.uleb128 0x3
+ 756 00a3 08       		.uleb128 0x8
+ 757 00a4 3A       		.uleb128 0x3a
+ 758 00a5 0B       		.uleb128 0xb
+ 759 00a6 3B       		.uleb128 0x3b
+ 760 00a7 0B       		.uleb128 0xb
+ 761 00a8 49       		.uleb128 0x49
+ 762 00a9 13       		.uleb128 0x13
+ 763 00aa 02       		.uleb128 0x2
+ 764 00ab 18       		.uleb128 0x18
+ 765 00ac 00       		.byte	0
+ 766 00ad 00       		.byte	0
+ 767 00ae 0D       		.uleb128 0xd
+ 768 00af 898201   		.uleb128 0x4109
+ 769 00b2 01       		.byte	0x1
+ 770 00b3 11       		.uleb128 0x11
+ 771 00b4 01       		.uleb128 0x1
+ 772 00b5 31       		.uleb128 0x31
+ 773 00b6 13       		.uleb128 0x13
+ 774 00b7 01       		.uleb128 0x1
+ 775 00b8 13       		.uleb128 0x13
+ 776 00b9 00       		.byte	0
+ 777 00ba 00       		.byte	0
+ 778 00bb 0E       		.uleb128 0xe
+ 779 00bc 8A8201   		.uleb128 0x410a
+ 780 00bf 00       		.byte	0
+ 781 00c0 02       		.uleb128 0x2
+ 782 00c1 18       		.uleb128 0x18
+ 783 00c2 9142     		.uleb128 0x2111
+ 784 00c4 18       		.uleb128 0x18
+ 785 00c5 00       		.byte	0
+ 786 00c6 00       		.byte	0
+ 787 00c7 0F       		.uleb128 0xf
+ 788 00c8 898201   		.uleb128 0x4109
+ 789 00cb 01       		.byte	0x1
+ 790 00cc 11       		.uleb128 0x11
+ 791 00cd 01       		.uleb128 0x1
+ 792 00ce 31       		.uleb128 0x31
+ 793 00cf 13       		.uleb128 0x13
+ 794 00d0 00       		.byte	0
+ 795 00d1 00       		.byte	0
+ 796 00d2 10       		.uleb128 0x10
+ 797 00d3 01       		.uleb128 0x1
+ 798 00d4 01       		.byte	0x1
+ 799 00d5 49       		.uleb128 0x49
+ 800 00d6 13       		.uleb128 0x13
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 17
+
+
+ 801 00d7 01       		.uleb128 0x1
+ 802 00d8 13       		.uleb128 0x13
+ 803 00d9 00       		.byte	0
+ 804 00da 00       		.byte	0
+ 805 00db 11       		.uleb128 0x11
+ 806 00dc 21       		.uleb128 0x21
+ 807 00dd 00       		.byte	0
+ 808 00de 49       		.uleb128 0x49
+ 809 00df 13       		.uleb128 0x13
+ 810 00e0 2F       		.uleb128 0x2f
+ 811 00e1 0B       		.uleb128 0xb
+ 812 00e2 00       		.byte	0
+ 813 00e3 00       		.byte	0
+ 814 00e4 12       		.uleb128 0x12
+ 815 00e5 34       		.uleb128 0x34
+ 816 00e6 00       		.byte	0
+ 817 00e7 03       		.uleb128 0x3
+ 818 00e8 0E       		.uleb128 0xe
+ 819 00e9 3A       		.uleb128 0x3a
+ 820 00ea 0B       		.uleb128 0xb
+ 821 00eb 3B       		.uleb128 0x3b
+ 822 00ec 05       		.uleb128 0x5
+ 823 00ed 49       		.uleb128 0x49
+ 824 00ee 13       		.uleb128 0x13
+ 825 00ef 3F       		.uleb128 0x3f
+ 826 00f0 19       		.uleb128 0x19
+ 827 00f1 3C       		.uleb128 0x3c
+ 828 00f2 19       		.uleb128 0x19
+ 829 00f3 00       		.byte	0
+ 830 00f4 00       		.byte	0
+ 831 00f5 13       		.uleb128 0x13
+ 832 00f6 35       		.uleb128 0x35
+ 833 00f7 00       		.byte	0
+ 834 00f8 49       		.uleb128 0x49
+ 835 00f9 13       		.uleb128 0x13
+ 836 00fa 00       		.byte	0
+ 837 00fb 00       		.byte	0
+ 838 00fc 14       		.uleb128 0x14
+ 839 00fd 2E       		.uleb128 0x2e
+ 840 00fe 00       		.byte	0
+ 841 00ff 3F       		.uleb128 0x3f
+ 842 0100 19       		.uleb128 0x19
+ 843 0101 03       		.uleb128 0x3
+ 844 0102 0E       		.uleb128 0xe
+ 845 0103 3A       		.uleb128 0x3a
+ 846 0104 0B       		.uleb128 0xb
+ 847 0105 3B       		.uleb128 0x3b
+ 848 0106 0B       		.uleb128 0xb
+ 849 0107 27       		.uleb128 0x27
+ 850 0108 19       		.uleb128 0x19
+ 851 0109 49       		.uleb128 0x49
+ 852 010a 13       		.uleb128 0x13
+ 853 010b 3C       		.uleb128 0x3c
+ 854 010c 19       		.uleb128 0x19
+ 855 010d 00       		.byte	0
+ 856 010e 00       		.byte	0
+ 857 010f 15       		.uleb128 0x15
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 18
+
+
+ 858 0110 2E       		.uleb128 0x2e
+ 859 0111 01       		.byte	0x1
+ 860 0112 3F       		.uleb128 0x3f
+ 861 0113 19       		.uleb128 0x19
+ 862 0114 03       		.uleb128 0x3
+ 863 0115 0E       		.uleb128 0xe
+ 864 0116 3A       		.uleb128 0x3a
+ 865 0117 0B       		.uleb128 0xb
+ 866 0118 3B       		.uleb128 0x3b
+ 867 0119 0B       		.uleb128 0xb
+ 868 011a 27       		.uleb128 0x27
+ 869 011b 19       		.uleb128 0x19
+ 870 011c 49       		.uleb128 0x49
+ 871 011d 13       		.uleb128 0x13
+ 872 011e 3C       		.uleb128 0x3c
+ 873 011f 19       		.uleb128 0x19
+ 874 0120 01       		.uleb128 0x1
+ 875 0121 13       		.uleb128 0x13
+ 876 0122 00       		.byte	0
+ 877 0123 00       		.byte	0
+ 878 0124 16       		.uleb128 0x16
+ 879 0125 05       		.uleb128 0x5
+ 880 0126 00       		.byte	0
+ 881 0127 49       		.uleb128 0x49
+ 882 0128 13       		.uleb128 0x13
+ 883 0129 00       		.byte	0
+ 884 012a 00       		.byte	0
+ 885 012b 17       		.uleb128 0x17
+ 886 012c 18       		.uleb128 0x18
+ 887 012d 00       		.byte	0
+ 888 012e 00       		.byte	0
+ 889 012f 00       		.byte	0
+ 890 0130 18       		.uleb128 0x18
+ 891 0131 2E       		.uleb128 0x2e
+ 892 0132 01       		.byte	0x1
+ 893 0133 3F       		.uleb128 0x3f
+ 894 0134 19       		.uleb128 0x19
+ 895 0135 03       		.uleb128 0x3
+ 896 0136 0E       		.uleb128 0xe
+ 897 0137 3A       		.uleb128 0x3a
+ 898 0138 0B       		.uleb128 0xb
+ 899 0139 3B       		.uleb128 0x3b
+ 900 013a 0B       		.uleb128 0xb
+ 901 013b 6E       		.uleb128 0x6e
+ 902 013c 0E       		.uleb128 0xe
+ 903 013d 27       		.uleb128 0x27
+ 904 013e 19       		.uleb128 0x19
+ 905 013f 49       		.uleb128 0x49
+ 906 0140 13       		.uleb128 0x13
+ 907 0141 3C       		.uleb128 0x3c
+ 908 0142 19       		.uleb128 0x19
+ 909 0143 00       		.byte	0
+ 910 0144 00       		.byte	0
+ 911 0145 00       		.byte	0
+ 912              		.section	.debug_loc,"",%progbits
+ 913              	.Ldebug_loc0:
+ 914              	.LLST0:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 19
+
+
+ 915 0000 02000000 		.4byte	.LVL2
+ 916 0004 06000000 		.4byte	.LVL3
+ 917 0008 0200     		.2byte	0x2
+ 918 000a 30       		.byte	0x30
+ 919 000b 9F       		.byte	0x9f
+ 920 000c 06000000 		.4byte	.LVL3
+ 921 0010 14000000 		.4byte	.LFE65
+ 922 0014 0100     		.2byte	0x1
+ 923 0016 54       		.byte	0x54
+ 924 0017 00000000 		.4byte	0
+ 925 001b 00000000 		.4byte	0
+ 926              	.LLST1:
+ 927 001f 02000000 		.4byte	.LVL6
+ 928 0023 06000000 		.4byte	.LVL7
+ 929 0027 0200     		.2byte	0x2
+ 930 0029 30       		.byte	0x30
+ 931 002a 9F       		.byte	0x9f
+ 932 002b 06000000 		.4byte	.LVL7
+ 933 002f 14000000 		.4byte	.LFE66
+ 934 0033 0100     		.2byte	0x1
+ 935 0035 54       		.byte	0x54
+ 936 0036 00000000 		.4byte	0
+ 937 003a 00000000 		.4byte	0
+ 938              	.LLST2:
+ 939 003e 1A000000 		.4byte	.LVL10
+ 940 0042 6E000000 		.4byte	.LVL22
+ 941 0046 0200     		.2byte	0x2
+ 942 0048 30       		.byte	0x30
+ 943 0049 9F       		.byte	0x9f
+ 944 004a 6E000000 		.4byte	.LVL22
+ 945 004e 90000000 		.4byte	.LFE67
+ 946 0052 0100     		.2byte	0x1
+ 947 0054 50       		.byte	0x50
+ 948 0055 00000000 		.4byte	0
+ 949 0059 00000000 		.4byte	0
+ 950              	.LLST3:
+ 951 005d 20000000 		.4byte	.LVL12
+ 952 0061 26000000 		.4byte	.LVL14
+ 953 0065 0200     		.2byte	0x2
+ 954 0067 30       		.byte	0x30
+ 955 0068 9F       		.byte	0x9f
+ 956 0069 26000000 		.4byte	.LVL14
+ 957 006d 29000000 		.4byte	.LVL15-1
+ 958 0071 0100     		.2byte	0x1
+ 959 0073 50       		.byte	0x50
+ 960 0074 29000000 		.4byte	.LVL15-1
+ 961 0078 46000000 		.4byte	.LVL16
+ 962 007c 0100     		.2byte	0x1
+ 963 007e 55       		.byte	0x55
+ 964 007f 00000000 		.4byte	0
+ 965 0083 00000000 		.4byte	0
+ 966              	.LLST4:
+ 967 0087 20000000 		.4byte	.LVL12
+ 968 008b 2A000000 		.4byte	.LVL15
+ 969 008f 0200     		.2byte	0x2
+ 970 0091 30       		.byte	0x30
+ 971 0092 9F       		.byte	0x9f
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 20
+
+
+ 972 0093 2A000000 		.4byte	.LVL15
+ 973 0097 46000000 		.4byte	.LVL16
+ 974 009b 0100     		.2byte	0x1
+ 975 009d 50       		.byte	0x50
+ 976 009e 00000000 		.4byte	0
+ 977 00a2 00000000 		.4byte	0
+ 978              	.LLST5:
+ 979 00a6 1E000000 		.4byte	.LVL11
+ 980 00aa 20000000 		.4byte	.LVL12
+ 981 00ae 0200     		.2byte	0x2
+ 982 00b0 30       		.byte	0x30
+ 983 00b1 9F       		.byte	0x9f
+ 984 00b2 20000000 		.4byte	.LVL12
+ 985 00b6 4C000000 		.4byte	.LVL17
+ 986 00ba 0100     		.2byte	0x1
+ 987 00bc 54       		.byte	0x54
+ 988 00bd 68000000 		.4byte	.LVL21
+ 989 00c1 6E000000 		.4byte	.LVL22
+ 990 00c5 0200     		.2byte	0x2
+ 991 00c7 30       		.byte	0x30
+ 992 00c8 9F       		.byte	0x9f
+ 993 00c9 6E000000 		.4byte	.LVL22
+ 994 00cd 7C000000 		.4byte	.LVL23
+ 995 00d1 0100     		.2byte	0x1
+ 996 00d3 53       		.byte	0x53
+ 997 00d4 7C000000 		.4byte	.LVL23
+ 998 00d8 7E000000 		.4byte	.LVL24
+ 999 00dc 0300     		.2byte	0x3
+ 1000 00de 71       		.byte	0x71
+ 1001 00df 7F       		.sleb128 -1
+ 1002 00e0 9F       		.byte	0x9f
+ 1003 00e1 7E000000 		.4byte	.LVL24
+ 1004 00e5 80000000 		.4byte	.LVL25
+ 1005 00e9 0100     		.2byte	0x1
+ 1006 00eb 51       		.byte	0x51
+ 1007 00ec 80000000 		.4byte	.LVL25
+ 1008 00f0 90000000 		.4byte	.LFE67
+ 1009 00f4 0100     		.2byte	0x1
+ 1010 00f6 53       		.byte	0x53
+ 1011 00f7 00000000 		.4byte	0
+ 1012 00fb 00000000 		.4byte	0
+ 1013              	.LLST6:
+ 1014 00ff 4E000000 		.4byte	.LVL18
+ 1015 0103 88000000 		.4byte	.LVL26
+ 1016 0107 0100     		.2byte	0x1
+ 1017 0109 54       		.byte	0x54
+ 1018 010a 00000000 		.4byte	0
+ 1019 010e 00000000 		.4byte	0
+ 1020              		.section	.debug_aranges,"",%progbits
+ 1021 0000 3C000000 		.4byte	0x3c
+ 1022 0004 0200     		.2byte	0x2
+ 1023 0006 00000000 		.4byte	.Ldebug_info0
+ 1024 000a 04       		.byte	0x4
+ 1025 000b 00       		.byte	0
+ 1026 000c 0000     		.2byte	0
+ 1027 000e 0000     		.2byte	0
+ 1028 0010 00000000 		.4byte	.LFB63
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 21
+
+
+ 1029 0014 0C000000 		.4byte	.LFE63-.LFB63
+ 1030 0018 00000000 		.4byte	.LFB64
+ 1031 001c 0C000000 		.4byte	.LFE64-.LFB64
+ 1032 0020 00000000 		.4byte	.LFB65
+ 1033 0024 14000000 		.4byte	.LFE65-.LFB65
+ 1034 0028 00000000 		.4byte	.LFB66
+ 1035 002c 14000000 		.4byte	.LFE66-.LFB66
+ 1036 0030 00000000 		.4byte	.LFB67
+ 1037 0034 90000000 		.4byte	.LFE67-.LFB67
+ 1038 0038 00000000 		.4byte	0
+ 1039 003c 00000000 		.4byte	0
+ 1040              		.section	.debug_ranges,"",%progbits
+ 1041              	.Ldebug_ranges0:
+ 1042 0000 00000000 		.4byte	.LFB63
+ 1043 0004 0C000000 		.4byte	.LFE63
+ 1044 0008 00000000 		.4byte	.LFB64
+ 1045 000c 0C000000 		.4byte	.LFE64
+ 1046 0010 00000000 		.4byte	.LFB65
+ 1047 0014 14000000 		.4byte	.LFE65
+ 1048 0018 00000000 		.4byte	.LFB66
+ 1049 001c 14000000 		.4byte	.LFE66
+ 1050 0020 00000000 		.4byte	.LFB67
+ 1051 0024 90000000 		.4byte	.LFE67
+ 1052 0028 00000000 		.4byte	0
+ 1053 002c 00000000 		.4byte	0
+ 1054              		.section	.debug_line,"",%progbits
+ 1055              	.Ldebug_line0:
+ 1056 0000 9D020000 		.section	.debug_str,"MS",%progbits,1
+ 1056      0200F201 
+ 1056      00000201 
+ 1056      FB0E0D00 
+ 1056      01010101 
+ 1057              	.LASF6:
+ 1058 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1058      206C6F6E 
+ 1058      6720696E 
+ 1058      7400
+ 1059              	.LASF9:
+ 1060 000e 5F5F696E 		.ascii	"__int32_t\000"
+ 1060      7433325F 
+ 1060      7400
+ 1061              	.LASF10:
+ 1062 0018 696E7433 		.ascii	"int32_t\000"
+ 1062      325F7400 
+ 1063              	.LASF12:
+ 1064 0020 666C6F61 		.ascii	"float\000"
+ 1064      7400
+ 1065              	.LASF24:
+ 1066 0026 5F5F6275 		.ascii	"__builtin_puts\000"
+ 1066      696C7469 
+ 1066      6E5F7075 
+ 1066      747300
+ 1067              	.LASF21:
+ 1068 0035 636F756E 		.ascii	"count_uptime\000"
+ 1068      745F7570 
+ 1068      74696D65 
+ 1068      00
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 22
+
+
+ 1069              	.LASF1:
+ 1070 0042 756E7369 		.ascii	"unsigned char\000"
+ 1070      676E6564 
+ 1070      20636861 
+ 1070      7200
+ 1071              	.LASF19:
+ 1072 0050 77616974 		.ascii	"wait_going_down\000"
+ 1072      5F676F69 
+ 1072      6E675F64 
+ 1072      6F776E00 
+ 1073              	.LASF5:
+ 1074 0060 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1074      20756E73 
+ 1074      69676E65 
+ 1074      6420696E 
+ 1074      7400
+ 1075              	.LASF3:
+ 1076 0072 73686F72 		.ascii	"short unsigned int\000"
+ 1076      7420756E 
+ 1076      7369676E 
+ 1076      65642069 
+ 1076      6E7400
+ 1077              	.LASF18:
+ 1078 0085 77616974 		.ascii	"wait_going_up\000"
+ 1078      5F676F69 
+ 1078      6E675F75 
+ 1078      7000
+ 1079              	.LASF28:
+ 1080 0093 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1080      52784275 
+ 1080      66666572 
+ 1080      00
+ 1081              	.LASF13:
+ 1082 00a0 646F7562 		.ascii	"double\000"
+ 1082      6C6500
+ 1083              	.LASF26:
+ 1084 00a7 5A756D6F 		.ascii	"ZumoLibrary\\IR.c\000"
+ 1084      4C696272 
+ 1084      6172795C 
+ 1084      49522E63 
+ 1084      00
+ 1085              	.LASF16:
+ 1086 00b8 75696E74 		.ascii	"uint\000"
+ 1086      00
+ 1087              	.LASF25:
+ 1088 00bd 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1088      4320342E 
+ 1088      392E3320 
+ 1088      32303135 
+ 1088      30333033 
+ 1089 00f0 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1089      20726576 
+ 1089      6973696F 
+ 1089      6E203232 
+ 1089      31323230 
+ 1090 0123 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1090      66756E63 
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 23
+
+
+ 1090      74696F6E 
+ 1090      2D736563 
+ 1090      74696F6E 
+ 1091              	.LASF8:
+ 1092 014b 756E7369 		.ascii	"unsigned int\000"
+ 1092      676E6564 
+ 1092      20696E74 
+ 1092      00
+ 1093              	.LASF20:
+ 1094 0158 636F756E 		.ascii	"count_downtime\000"
+ 1094      745F646F 
+ 1094      776E7469 
+ 1094      6D6500
+ 1095              	.LASF22:
+ 1096 0167 6765745F 		.ascii	"get_IR\000"
+ 1096      495200
+ 1097              	.LASF7:
+ 1098 016e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1098      206C6F6E 
+ 1098      6720756E 
+ 1098      7369676E 
+ 1098      65642069 
+ 1099              	.LASF17:
+ 1100 0185 6C6F6E67 		.ascii	"long double\000"
+ 1100      20646F75 
+ 1100      626C6500 
+ 1101              	.LASF15:
+ 1102 0191 73697A65 		.ascii	"sizetype\000"
+ 1102      74797065 
+ 1102      00
+ 1103              	.LASF27:
+ 1104 019a 453A5C41 		.ascii	"E:\\Ardibot\\Zumo.release03\\Zumo01\\ZumoBot.cydsn\000"
+ 1104      72646962 
+ 1104      6F745C5A 
+ 1104      756D6F2E 
+ 1104      72656C65 
+ 1105              	.LASF14:
+ 1106 01c9 63686172 		.ascii	"char\000"
+ 1106      00
+ 1107              	.LASF23:
+ 1108 01ce 7072696E 		.ascii	"printf\000"
+ 1108      746600
+ 1109              	.LASF29:
+ 1110 01d5 49525F72 		.ascii	"IR_receiver_Read\000"
+ 1110      65636569 
+ 1110      7665725F 
+ 1110      52656164 
+ 1110      00
+ 1111              	.LASF2:
+ 1112 01e6 73686F72 		.ascii	"short int\000"
+ 1112      7420696E 
+ 1112      7400
+ 1113              	.LASF11:
+ 1114 01f0 75696E74 		.ascii	"uint8\000"
+ 1114      3800
+ 1115              	.LASF4:
+ 1116 01f6 6C6F6E67 		.ascii	"long int\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccxBllaB.s 			page 24
+
+
+ 1116      20696E74 
+ 1116      00
+ 1117              	.LASF30:
+ 1118 01ff 70757473 		.ascii	"puts\000"
+ 1118      00
+ 1119              	.LASF0:
+ 1120 0204 7369676E 		.ascii	"signed char\000"
+ 1120      65642063 
+ 1120      68617200 
+ 1121              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

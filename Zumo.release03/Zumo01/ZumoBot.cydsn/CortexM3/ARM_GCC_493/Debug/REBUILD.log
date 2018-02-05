@@ -1,0 +1,13 @@
+--------------- Rebuild Started: 12/13/2016 13:49:02 Project: main.c, Configuration: ARM GCC 4.9-2015-q1-update Debug ---------------
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -I.\ZumoLibrary -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_493\Debug/main.lst -g -D DEBUG -Wall -ffunction-sections -Og -ffat-lto-objects -c main.c -o .\CortexM3\ARM_GCC_493\Debug\main.o
+main.c: In function 'main':
+main.c:387:20: warning: unused variable 'time1' [-Wunused-variable]
+     int time = -1, time1 = -1;
+                    ^
+main.c:378:43: warning: variable 'volts' set but not used [-Wunused-but-set-variable]
+     float ki = 0.025, kp = 1.75, kd = 25, volts = 0;
+                                           ^
+main.c:456:20: warning: 'driver' may be used uninitialized in this function [-Wmaybe-uninitialized]
+                 if (driver > max_speed*2) driver = max_speed*2;
+                    ^
+--------------- Rebuild Succeeded: 12/13/2016 13:49:03 ---------------

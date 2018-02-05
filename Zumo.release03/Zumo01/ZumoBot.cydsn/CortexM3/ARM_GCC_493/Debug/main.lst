@@ -1,0 +1,5134 @@
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	__aeabi_i2f
+  19              		.global	__aeabi_fmul
+  20              		.global	__aeabi_fadd
+  21              		.global	__aeabi_fcmpgt
+  22              		.global	__aeabi_fcmplt
+  23              		.global	__aeabi_fsub
+  24              		.global	__aeabi_fdiv
+  25              		.global	__aeabi_f2iz
+  26              		.global	__aeabi_i2d
+  27              		.global	__aeabi_dmul
+  28              		.global	__aeabi_d2iz
+  29              		.section	.text.main,"ax",%progbits
+  30              		.align	2
+  31              		.global	main
+  32              		.thumb
+  33              		.thumb_func
+  34              		.type	main, %function
+  35              	main:
+  36              	.LFB63:
+  37              		.file 1 "main.c"
+   1:main.c        **** /**
+   2:main.c        **** * @mainpage ZumoBot Project
+   3:main.c        **** * @brief    You can make your own ZumoBot with various sensors.
+   4:main.c        **** * @details  <br><br>
+   5:main.c        ****     <p>
+   6:main.c        ****     <B>General</B><br>
+   7:main.c        ****     You will use Pololu Zumo Shields for your robot project with CY8CKIT-059(PSoC 5LP) from Cypress
+   8:main.c        ****     library has basic methods of various sensors and communications so that you can make what you w
+   9:main.c        ****     <br><br>
+  10:main.c        ****     </p>
+  11:main.c        ****     
+  12:main.c        ****     <p>
+  13:main.c        ****     <B>Sensors</B><br>
+  14:main.c        ****     &nbsp;Included: <br>
+  15:main.c        ****         &nbsp;&nbsp;&nbsp;&nbsp;LSM303D: Accelerometer & Magnetometer<br>
+  16:main.c        ****         &nbsp;&nbsp;&nbsp;&nbsp;L3GD20H: Gyroscope<br>
+  17:main.c        ****         &nbsp;&nbsp;&nbsp;&nbsp;Reflectance sensor<br>
+  18:main.c        ****         &nbsp;&nbsp;&nbsp;&nbsp;Motors
+  19:main.c        ****     &nbsp;Wii nunchuck<br>
+  20:main.c        ****     &nbsp;TSOP-2236: IR Receiver<br>
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 2
+
+
+  21:main.c        ****     &nbsp;HC-SR04: Ultrasonic sensor<br>
+  22:main.c        ****     &nbsp;APDS-9301: Ambient light sensor<br>
+  23:main.c        ****     &nbsp;IR LED <br><br><br>
+  24:main.c        ****     </p>
+  25:main.c        ****     
+  26:main.c        ****     <p>
+  27:main.c        ****     <B>Communication</B><br>
+  28:main.c        ****     I2C, UART, Serial<br>
+  29:main.c        ****     </p>
+  30:main.c        **** */
+  31:main.c        **** 
+  32:main.c        **** #include <project.h>
+  33:main.c        **** #include <stdio.h>
+  34:main.c        **** #include "Motor.h"
+  35:main.c        **** #include "Ultra.h"
+  36:main.c        **** #include "Nunchuk.h"
+  37:main.c        **** #include "Reflectance.h"
+  38:main.c        **** #include "I2C_made.h"
+  39:main.c        **** #include "Gyro.h"
+  40:main.c        **** #include "Accel_magnet.h"
+  41:main.c        **** #include "IR.h"
+  42:main.c        **** #include "Ambient.h"
+  43:main.c        **** #include "Beep.h"
+  44:main.c        **** #include <time.h>
+  45:main.c        **** #include <stdlib.h>
+  46:main.c        **** 
+  47:main.c        **** 
+  48:main.c        **** int rread(void);
+  49:main.c        **** 
+  50:main.c        **** /**
+  51:main.c        ****  * @file    main.c
+  52:main.c        ****  * @brief   
+  53:main.c        ****  * @details  ** You should enable global interrupt for operating properly. **<br>&nbsp;&nbsp;&nbsp;
+  54:main.c        **** */
+  55:main.c        **** 
+  56:main.c        **** 
+  57:main.c        **** /*//battery level//
+  58:main.c        **** int main()
+  59:main.c        **** {
+  60:main.c        ****     CyGlobalIntEnable; 
+  61:main.c        ****     UART_1_Start();
+  62:main.c        ****     ADC_Battery_Start();        
+  63:main.c        ****     int16 adcresult =0;
+  64:main.c        ****     float volts = 0.0;
+  65:main.c        **** 
+  66:main.c        ****     printf("\nBoot\n");
+  67:main.c        **** 
+  68:main.c        ****     //BatteryLed_Write(1); // Switch led on 
+  69:main.c        ****     BatteryLed_Write(0); // Switch led off 
+  70:main.c        **** 
+  71:main.c        **** 
+  72:main.c        ****     for(;;)
+  73:main.c        ****     {
+  74:main.c        ****         
+  75:main.c        ****         ADC_Battery_StartConvert();
+  76:main.c        ****         if(ADC_Battery_IsEndConversion(ADC_Battery_WAIT_FOR_RESULT)) {   // wait for get ADC conver
+  77:main.c        ****             adcresult = ADC_Battery_GetResult16();
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 3
+
+
+  78:main.c        ****             volts = ADC_Battery_CountsTo_Volts(adcresult);                  // convert value to Vol
+  79:main.c        ****         
+  80:main.c        ****             // If you want to print value
+  81:main.c        ****             printf("%d %f\r\n",adcresult, volts);
+  82:main.c        ****         }
+  83:main.c        ****         CyDelay(500);
+  84:main.c        ****         
+  85:main.c        ****     }
+  86:main.c        ****  }   
+  87:main.c        **** //*/
+  88:main.c        **** 
+  89:main.c        **** 
+  90:main.c        **** /*//ultra sonic sensor//
+  91:main.c        **** int main()
+  92:main.c        **** {
+  93:main.c        ****     CyGlobalIntEnable; 
+  94:main.c        ****     UART_1_Start();
+  95:main.c        ****     Ultra_Start();                          // Ultra Sonic Start function
+  96:main.c        ****     while(1) {
+  97:main.c        ****         //If you want to print out the value  
+  98:main.c        ****         printf("distance = %5.0f\r\n", Ultra_GetDistance());
+  99:main.c        ****         CyDelay(1000);
+ 100:main.c        ****     }
+ 101:main.c        **** }   
+ 102:main.c        **** //*/
+ 103:main.c        **** 
+ 104:main.c        **** 
+ 105:main.c        **** /*//nunchuk//
+ 106:main.c        **** int main()
+ 107:main.c        **** {
+ 108:main.c        ****     CyGlobalIntEnable; 
+ 109:main.c        ****     UART_1_Start();
+ 110:main.c        ****   
+ 111:main.c        ****     nunchuk_start();
+ 112:main.c        ****     nunchuk_init();
+ 113:main.c        ****     
+ 114:main.c        ****     for(;;)
+ 115:main.c        ****     {    
+ 116:main.c        ****         nunchuk_read();
+ 117:main.c        ****     }
+ 118:main.c        **** }   
+ 119:main.c        **** //*/
+ 120:main.c        **** 
+ 121:main.c        **** 
+ 122:main.c        **** /*//IR receiver//
+ 123:main.c        **** int main()
+ 124:main.c        **** {
+ 125:main.c        ****     CyGlobalIntEnable; 
+ 126:main.c        ****     UART_1_Start();
+ 127:main.c        ****     
+ 128:main.c        ****     unsigned int IR_val; 
+ 129:main.c        ****     
+ 130:main.c        ****     for(;;)
+ 131:main.c        ****     {
+ 132:main.c        ****         IR_val = get_IR();
+ 133:main.c        ****         printf("%x\r\n\n",IR_val);
+ 134:main.c        ****         if (IR_val == 0xfe013b86) {
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 4
+
+
+ 135:main.c        ****             Mario_Victory();
+ 136:main.c        ****         }
+ 137:main.c        ****         else if (IR_val == 0xfa053b86) {
+ 138:main.c        ****             Mario_Victory();
+ 139:main.c        ****         }
+ 140:main.c        ****         else if (IR_val == 0xfb043b86) {
+ 141:main.c        ****             Mario_Victory();
+ 142:main.c        ****         }
+ 143:main.c        ****         else if (IR_val == 0xfd023b86) {
+ 144:main.c        ****             Mario_Victory();
+ 145:main.c        ****         }
+ 146:main.c        ****         else if (IR_val == 0xfc033b86) {
+ 147:main.c        ****             Mario_Victory();
+ 148:main.c        ****         }
+ 149:main.c        ****     }
+ 150:main.c        ****  }   
+ 151:main.c        **** //*/
+ 152:main.c        **** 
+ 153:main.c        **** 
+ 154:main.c        **** /*//Ambient light sensor//
+ 155:main.c        **** int main()
+ 156:main.c        **** {
+ 157:main.c        ****     CyGlobalIntEnable; 
+ 158:main.c        ****     UART_1_Start();
+ 159:main.c        ****     
+ 160:main.c        ****     I2C_Start();
+ 161:main.c        ****     
+ 162:main.c        ****     I2C_write(0x29,0x80,0x00);          // set to power down
+ 163:main.c        ****     I2C_write(0x29,0x80,0x03);          // set to power on
+ 164:main.c        ****     
+ 165:main.c        ****     for(;;)
+ 166:main.c        ****     {    
+ 167:main.c        ****         uint8 Data0Low,Data0High,Data1Low,Data1High;
+ 168:main.c        ****         Data0Low = I2C_read(0x29,CH0_L);
+ 169:main.c        ****         Data0High = I2C_read(0x29,CH0_H);
+ 170:main.c        ****         Data1Low = I2C_read(0x29,CH1_L);
+ 171:main.c        ****         Data1High = I2C_read(0x29,CH1_H);
+ 172:main.c        ****         
+ 173:main.c        ****         uint8 CH0, CH1;
+ 174:main.c        ****         CH0 = convert_raw(Data0Low,Data0High);      // combine Data0
+ 175:main.c        ****         CH1 = convert_raw(Data1Low,Data1High);      // combine Data1
+ 176:main.c        **** 
+ 177:main.c        ****         double Ch0 = CH0;
+ 178:main.c        ****         double Ch1 = CH1;
+ 179:main.c        ****         
+ 180:main.c        ****         double data = 0;
+ 181:main.c        ****         data = getLux(Ch0,Ch1);
+ 182:main.c        ****         
+ 183:main.c        ****         // If you want to print out data
+ 184:main.c        ****         //printf("%lf\r\n",data);    
+ 185:main.c        ****     }    
+ 186:main.c        ****  }   
+ 187:main.c        **** //*/
+ 188:main.c        **** 
+ 189:main.c        **** 
+ 190:main.c        **** /*//accelerometer//
+ 191:main.c        **** int main()
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 5
+
+
+ 192:main.c        **** {
+ 193:main.c        ****     CyGlobalIntEnable; 
+ 194:main.c        ****     UART_1_Start();
+ 195:main.c        ****   
+ 196:main.c        ****     I2C_Start();
+ 197:main.c        ****   
+ 198:main.c        ****     uint8 X_L_A, X_H_A, Y_L_A, Y_H_A, Z_L_A, Z_H_A;
+ 199:main.c        ****     int16 X_AXIS_A, Y_AXIS_A, Z_AXIS_A;
+ 200:main.c        ****     
+ 201:main.c        ****     I2C_write(ACCEL_MAG_ADDR, ACCEL_CTRL1_REG, 0x37);           // set accelerometer & magnetometer
+ 202:main.c        ****     I2C_write(ACCEL_MAG_ADDR, ACCEL_CTRL7_REG, 0x22);
+ 203:main.c        ****     
+ 204:main.c        ****     
+ 205:main.c        ****     for(;;)
+ 206:main.c        ****     {
+ 207:main.c        ****         //print out accelerometer output
+ 208:main.c        ****         X_L_A = I2C_read(ACCEL_MAG_ADDR, OUT_X_L_A);
+ 209:main.c        ****         X_H_A = I2C_read(ACCEL_MAG_ADDR, OUT_X_H_A);
+ 210:main.c        ****         X_AXIS_A = convert_raw(X_L_A, X_H_A);
+ 211:main.c        ****         
+ 212:main.c        ****         Y_L_A = I2C_read(ACCEL_MAG_ADDR, OUT_Y_L_A);
+ 213:main.c        ****         Y_H_A = I2C_read(ACCEL_MAG_ADDR, OUT_Y_H_A);
+ 214:main.c        ****         Y_AXIS_A = convert_raw(Y_L_A, Y_H_A);
+ 215:main.c        ****         
+ 216:main.c        ****         Z_L_A = I2C_read(ACCEL_MAG_ADDR, OUT_Z_L_A);
+ 217:main.c        ****         Z_H_A = I2C_read(ACCEL_MAG_ADDR, OUT_Z_H_A);
+ 218:main.c        ****         Z_AXIS_A = convert_raw(Z_L_A, Z_H_A);
+ 219:main.c        ****         
+ 220:main.c        ****         printf("ACCEL: %d %d %d %d %d %d \r\n", X_L_A, X_H_A, Y_L_A, Y_H_A, Z_L_A, Z_H_A);
+ 221:main.c        ****         value_convert_accel(X_AXIS_A, Y_AXIS_A, Z_AXIS_A);
+ 222:main.c        ****         printf("\n");
+ 223:main.c        ****         
+ 224:main.c        ****         CyDelay(50);
+ 225:main.c        ****     }
+ 226:main.c        **** }   
+ 227:main.c        **** //*/
+ 228:main.c        **** 
+ 229:main.c        **** /*//
+ 230:main.c        **** int main()
+ 231:main.c        **** {
+ 232:main.c        ****     CyGlobalIntEnable; UART_1_Start(); motor_start();
+ 233:main.c        ****     for(;;)
+ 234:main.c        ****     {
+ 235:main.c        ****         motor_turn(100, -100, 1000);
+ 236:main.c        ****         motor_turn(100, 100, 1000);
+ 237:main.c        ****         motor_turn(-100, -100, 1000);
+ 238:main.c        ****         motor_turn(-100, 100, 1000);
+ 239:main.c        ****     }
+ 240:main.c        **** }
+ 241:main.c        **** //*/
+ 242:main.c        **** /*//
+ 243:main.c        **** int w[] = {0, 408, 612, 1020};
+ 244:main.c        **** 
+ 245:main.c        **** int getPosition(int max[], int min[], int speed) {
+ 246:main.c        ****     int scale = 1000;
+ 247:main.c        ****     struct sensors_ input;
+ 248:main.c        ****     reflectance_read(&input);
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 6
+
+
+ 249:main.c        **** //    printf("%d %d %d %d\n", input.l3, input.l1, input.r1, input.r3);
+ 250:main.c        ****     input.l3 = (input.l3 - min[0])*scale/(max[0] - min[0]);
+ 251:main.c        ****     input.l1 = (input.l1 - min[1])*scale/(max[0] - min[1]);
+ 252:main.c        ****     input.r1 = (input.r1 - min[2])*scale/(max[0] - min[2]);
+ 253:main.c        ****     input.r3 = (input.r3 - min[3])*scale/(max[0] - min[3]);
+ 254:main.c        ****     printf("%d %d %d %d\n", input.l3, input.l1, input.r1, input.r3);
+ 255:main.c        ****     if (input.l3 < 0) input.l3 = 0; else if (input.l3 > scale) input.l3 = scale;
+ 256:main.c        ****     if (input.l1 < 0) input.l1 = 0; else if (input.l1 > scale) input.l1 = scale;
+ 257:main.c        ****     if (input.r1 < 0) input.r1 = 0; else if (input.r1 > scale) input.r1 = scale;
+ 258:main.c        ****     if (input.r3 < 0) input.r3 = 0; else if (input.r3 > scale) input.r3 = scale;
+ 259:main.c        ****     int pos;
+ 260:main.c        ****     w[1] = speed*4/5*2; w[2] = speed*4/5*3; w[3] = speed*4;
+ 261:main.c        ****     pos = (input.l3 * w[0] + input.l1 * w[1] + input.r1 * w[2] + input.r3 * w[3])/(input.l3 + input
+ 262:main.c        ****     return(pos);
+ 263:main.c        **** }
+ 264:main.c        **** 
+ 265:main.c        **** int main()
+ 266:main.c        **** {
+ 267:main.c        ****     CyGlobalIntEnable; 
+ 268:main.c        ****     UART_1_Start(); 
+ 269:main.c        ****     sensor_isr_StartEx(sensor_isr_handler); 
+ 270:main.c        ****     reflectance_start(); 
+ 271:main.c        ****     IR_led_Write(1);
+ 272:main.c        ****     Ultra_Start();
+ 273:main.c        ****     ADC_Battery_Start();
+ 274:main.c        ****     CyDelay(2000);        
+ 275:main.c        ****     BatteryLed_Write(1);
+ 276:main.c        ****     motor_start();
+ 277:main.c        ****     
+ 278:main.c        ****     int j, max[] = {0, 0, 0, 0}, min[] = {23999, 23999, 23999, 23999};
+ 279:main.c        ****     struct sensors_ ref;
+ 280:main.c        ****     
+ 281:main.c        ****     for(j = 0; j < 700; j++) 
+ 282:main.c        ****     {
+ 283:main.c        ****         if (j < 75 || (j > 225 && j < 375) || j > 525) motor_turn(100,-100,1);
+ 284:main.c        ****         else motor_turn(-100,100,1);
+ 285:main.c        ****         CyDelay(5);
+ 286:main.c        ****         reflectance_read(&ref);
+ 287:main.c        ****         if (ref.l3 > max[0]) max[0] = ref.l3;
+ 288:main.c        ****         if (ref.l1 > max[1]) max[1] = ref.l1;
+ 289:main.c        ****         if (ref.r1 > max[2]) max[2] = ref.r1;
+ 290:main.c        ****         if (ref.r3 > max[3]) max[3] = ref.r3;
+ 291:main.c        ****         if (ref.l3 < min[0]) min[0] = ref.l3;
+ 292:main.c        ****         if (ref.l1 < min[1]) min[1] = ref.l1;
+ 293:main.c        ****         if (ref.r1 < min[2]) min[2] = ref.r1;
+ 294:main.c        ****         if (ref.r3 < min[3]) min[3] = ref.r3;
+ 295:main.c        ****     }
+ 296:main.c        ****     
+ 297:main.c        ****     BatteryLed_Write(0);
+ 298:main.c        ****     for (j = 0; j < 4; j++) {max[j] = (max[j] * 3 + min[j])/4; printf("%d %d\n", min[j], max[j]);}
+ 299:main.c        ****     do 
+ 300:main.c        ****     {
+ 301:main.c        ****         motor_turn(-100, 100, 1);
+ 302:main.c        ****         reflectance_read(&ref);
+ 303:main.c        ****     } while(ref.l1 < max[1] && ref.r1 < max[2]);
+ 304:main.c        **** //    motor_stop();
+ 305:main.c        ****         int speed = 255, error, aval = 0, lastError = 0, pid, limit = 20000;
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 7
+
+
+ 306:main.c        ****     float p, i, d, ki = 0.025, kp = 4, kd = 25/4 ;
+ 307:main.c        ****     for (;;)
+ 308:main.c        ****     {
+ 309:main.c        ****         error = getPosition(max, min, speed);
+ 310:main.c        ****         printf("%d ", error);
+ 311:main.c        ****         aval += error;
+ 312:main.c        ****         if (aval > limit) aval = limit;
+ 313:main.c        ****         if (aval < -limit) aval = -limit;
+ 314:main.c        ****         p = error * kp; i = aval * ki; d = (error - lastError) * kd;
+ 315:main.c        ****         lastError = error;
+ 316:main.c        ****         pid = p + i + d;
+ 317:main.c        ****         if (pid > speed * 2) pid = speed * 2;
+ 318:main.c        ****         if (pid < -speed * 2) pid = -speed * 2;
+ 319:main.c        ****         printf("%d\n", pid);
+ 320:main.c        **** //        CyDelay(1000);
+ 321:main.c        ****         if (pid >= 0) motor_turn(speed, speed - pid, 1);
+ 322:main.c        ****         else motor_turn(speed + pid, speed, 1);
+ 323:main.c        ****     }    
+ 324:main.c        **** }
+ 325:main.c        **** //*/
+ 326:main.c        **** 
+ 327:main.c        **** //Sumo
+ 328:main.c        **** /*//
+ 329:main.c        **** int check()
+ 330:main.c        **** {
+ 331:main.c        ****     struct sensors_ asdf;
+ 332:main.c        ****     reflectance_digital(&asdf);
+ 333:main.c        ****     if (asdf.l1 == 0 || asdf.r1 == 0 || asdf.l3 == 0 || asdf.r3 == 0) return(1);
+ 334:main.c        ****     return(0);
+ 335:main.c        **** }
+ 336:main.c        **** int main()
+ 337:main.c        **** {
+ 338:main.c        ****     CyGlobalIntEnable; 
+ 339:main.c        ****     UART_1_Start(); 
+ 340:main.c        ****     sensor_isr_StartEx(sensor_isr_handler); 
+ 341:main.c        ****     reflectance_start(); 
+ 342:main.c        ****     IR_led_Write(1);
+ 343:main.c        ****     Ultra_Start();
+ 344:main.c        ****     ADC_Battery_Start();
+ 345:main.c        ****     CyDelay(2000);        
+ 346:main.c        ****     BatteryLed_Write(1);
+ 347:main.c        ****     motor_start();
+ 348:main.c        ****     int segment = 100;
+ 349:main.c        ****     int dist,t;
+ 350:main.c        ****     srand(time(NULL));
+ 351:main.c        ****     
+ 352:main.c        ****     for(;;) {
+ 353:main.c        ****         int r = rand()%2;
+ 354:main.c        ****         if (r == 0) {while (Ultra_GetDistance() > 80) {motor_turn(100, -100, 1); if (check() == 1) 
+ 355:main.c        ****         else {while (Ultra_GetDistance() > 80) {motor_turn(-100, 100, 1); if (check() == 1) break;}
+ 356:main.c        ****         dist = Ultra_GetDistance();
+ 357:main.c        ****         t = 0;
+ 358:main.c        ****         if (check() == 1) {motor_backward(150, 500);}
+ 359:main.c        ****         while (1)
+ 360:main.c        ****         {
+ 361:main.c        ****             if (dist <= 30) motor_forward(255, 1);
+ 362:main.c        ****             else if (dist < 80) motor_forward(255 - (dist - 30)*5, 1);
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 8
+
+
+ 363:main.c        ****             if (check() == 1) break;
+ 364:main.c        ****             t++;
+ 365:main.c        ****             if (t > segment) dist = Ultra_GetDistance();
+ 366:main.c        ****             if (dist >80) break;
+ 367:main.c        ****         }
+ 368:main.c        ****     }
+ 369:main.c        **** }
+ 370:main.c        **** //*/
+ 371:main.c        **** 
+ 372:main.c        **** //Proper code
+ 373:main.c        **** //
+ 374:main.c        **** int main()
+ 375:main.c        **** {
+  38              		.loc 1 375 0
+  39              		.cfi_startproc
+  40              		@ args = 0, pretend = 0, frame = 72
+  41              		@ frame_needed = 0, uses_anonymous_args = 0
+  42 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  43              		.cfi_def_cfa_offset 36
+  44              		.cfi_offset 4, -36
+  45              		.cfi_offset 5, -32
+  46              		.cfi_offset 6, -28
+  47              		.cfi_offset 7, -24
+  48              		.cfi_offset 8, -20
+  49              		.cfi_offset 9, -16
+  50              		.cfi_offset 10, -12
+  51              		.cfi_offset 11, -8
+  52              		.cfi_offset 14, -4
+  53 0004 95B0     		sub	sp, sp, #84
+  54              		.cfi_def_cfa_offset 120
+  55              	.LVL0:
+ 376:main.c        ****     //Set constants and variables declaration
+ 377:main.c        **** //    float ki = 0, kp = 1, kd = 0, volts = 0.0;
+ 378:main.c        **** //    float ki = 0.025, kp = 1.5, kd = 25, volts = 0;
+ 379:main.c        ****     float ki = 0.025, kp = 1.75, kd = 25, volts = 0;
+ 380:main.c        ****     float pred = 0, diff = 0, pro, integral, aval = 0, derv;
+ 381:main.c        ****     int driver, count = 0;
+ 382:main.c        ****     int i,j;
+ 383:main.c        ****     int max_speed = 255, mina = 80, limit = 20000;
+ 384:main.c        ****     int breaking_point = 0;
+ 385:main.c        ****     struct sensors_ ref, cal;
+ 386:main.c        ****     int16 adcresult = 0;
+ 387:main.c        ****     int min[] = {24000, 24000, 24000, 24000}, max[] = {0, 0, 0, 0};
+  56              		.loc 1 387 0
+  57 0006 B54B     		ldr	r3, .L96
+  58 0008 0EAD     		add	r5, sp, #56
+  59 000a 0FCB     		ldmia	r3, {r0, r1, r2, r3}
+  60 000c 85E80F00 		stmia	r5, {r0, r1, r2, r3}
+  61 0010 0025     		movs	r5, #0
+  62 0012 0A95     		str	r5, [sp, #40]
+  63 0014 0B95     		str	r5, [sp, #44]
+  64 0016 0C95     		str	r5, [sp, #48]
+  65 0018 0D95     		str	r5, [sp, #52]
+  66              	.LVL1:
+ 388:main.c        ****     int time = -1, time1 = -1;
+ 389:main.c        ****     
+ 390:main.c        ****     //Warming up
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 9
+
+
+ 391:main.c        ****     CyGlobalIntEnable; UART_1_Start(); sensor_isr_StartEx(sensor_isr_handler); reflectance_start();
+  67              		.loc 1 391 0
+  68              	@ 391 "main.c" 1
+  69 001a 62B6     		CPSIE   i
+  70              	@ 0 "" 2
+  71              		.thumb
+  72 001c FFF7FEFF 		bl	UART_1_Start
+  73              	.LVL2:
+  74 0020 AF48     		ldr	r0, .L96+4
+  75 0022 FFF7FEFF 		bl	sensor_isr_StartEx
+  76              	.LVL3:
+  77 0026 FFF7FEFF 		bl	reflectance_start
+  78              	.LVL4:
+  79 002a 0120     		movs	r0, #1
+  80 002c FFF7FEFF 		bl	IR_led_Write
+  81              	.LVL5:
+ 392:main.c        ****     Ultra_Start();
+  82              		.loc 1 392 0
+  83 0030 FFF7FEFF 		bl	Ultra_Start
+  84              	.LVL6:
+ 393:main.c        ****     ADC_Battery_Start();
+  85              		.loc 1 393 0
+  86 0034 FFF7FEFF 		bl	ADC_Battery_Start
+  87              	.LVL7:
+ 394:main.c        ****     CyDelay(2000);        
+  88              		.loc 1 394 0
+  89 0038 4FF4FA60 		mov	r0, #2000
+  90 003c FFF7FEFF 		bl	CyDelay
+  91              	.LVL8:
+ 395:main.c        ****     BatteryLed_Write(1);
+  92              		.loc 1 395 0
+  93 0040 0120     		movs	r0, #1
+  94 0042 FFF7FEFF 		bl	BatteryLed_Write
+  95              	.LVL9:
+ 396:main.c        ****     motor_start();
+  96              		.loc 1 396 0
+  97 0046 FFF7FEFF 		bl	motor_start
+  98              	.LVL10:
+ 397:main.c        ****     for(i = 0; i < 700; i++) 
+  99              		.loc 1 397 0
+ 100 004a 45E0     		b	.L2
+ 101              	.LVL11:
+ 102              	.L14:
+ 398:main.c        ****     {
+ 399:main.c        ****         if (i < 75 || (i > 225 && i < 375) || i > 525) motor_turn(100,-100,1);
+ 103              		.loc 1 399 0
+ 104 004c 4A2D     		cmp	r5, #74
+ 105 004e 07DD     		ble	.L3
+ 106              		.loc 1 399 0 is_stmt 0 discriminator 2
+ 107 0050 A5F1E203 		sub	r3, r5, #226
+ 108 0054 942B     		cmp	r3, #148
+ 109 0056 03D9     		bls	.L3
+ 110              		.loc 1 399 0 discriminator 4
+ 111 0058 40F20D23 		movw	r3, #525
+ 112 005c 9D42     		cmp	r5, r3
+ 113 005e 06DD     		ble	.L4
+ 114              	.L3:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 10
+
+
+ 115              		.loc 1 399 0 discriminator 5
+ 116 0060 6420     		movs	r0, #100
+ 117 0062 6FF06301 		mvn	r1, #99
+ 118 0066 0122     		movs	r2, #1
+ 119 0068 FFF7FEFF 		bl	motor_turn
+ 120              	.LVL12:
+ 121 006c 05E0     		b	.L5
+ 122              	.L4:
+ 400:main.c        ****         else motor_turn(-100,100,1);
+ 123              		.loc 1 400 0 is_stmt 1
+ 124 006e 6FF06300 		mvn	r0, #99
+ 125 0072 6421     		movs	r1, #100
+ 126 0074 0122     		movs	r2, #1
+ 127 0076 FFF7FEFF 		bl	motor_turn
+ 128              	.LVL13:
+ 129              	.L5:
+ 401:main.c        ****         CyDelay(5);
+ 130              		.loc 1 401 0
+ 131 007a 0520     		movs	r0, #5
+ 132 007c FFF7FEFF 		bl	CyDelay
+ 133              	.LVL14:
+ 402:main.c        ****         reflectance_read(&ref);
+ 134              		.loc 1 402 0
+ 135 0080 12A8     		add	r0, sp, #72
+ 136 0082 FFF7FEFF 		bl	reflectance_read
+ 137              	.LVL15:
+ 403:main.c        ****         if (ref.l3 > max[0]) max[0] = ref.l3;
+ 138              		.loc 1 403 0
+ 139 0086 BDF84800 		ldrh	r0, [sp, #72]
+ 140 008a 0A9B     		ldr	r3, [sp, #40]
+ 141 008c 9842     		cmp	r0, r3
+ 142 008e 00DD     		ble	.L6
+ 143              		.loc 1 403 0 is_stmt 0 discriminator 1
+ 144 0090 0A90     		str	r0, [sp, #40]
+ 145              	.L6:
+ 404:main.c        ****         if (ref.l1 > max[1]) max[1] = ref.l1;
+ 146              		.loc 1 404 0 is_stmt 1
+ 147 0092 BDF84A10 		ldrh	r1, [sp, #74]
+ 148 0096 0B9B     		ldr	r3, [sp, #44]
+ 149 0098 9942     		cmp	r1, r3
+ 150 009a 00DD     		ble	.L7
+ 151              		.loc 1 404 0 is_stmt 0 discriminator 1
+ 152 009c 0B91     		str	r1, [sp, #44]
+ 153              	.L7:
+ 405:main.c        ****         if (ref.r1 > max[2]) max[2] = ref.r1;
+ 154              		.loc 1 405 0 is_stmt 1
+ 155 009e BDF84C20 		ldrh	r2, [sp, #76]
+ 156 00a2 0C9B     		ldr	r3, [sp, #48]
+ 157 00a4 9A42     		cmp	r2, r3
+ 158 00a6 00DD     		ble	.L8
+ 159              		.loc 1 405 0 is_stmt 0 discriminator 1
+ 160 00a8 0C92     		str	r2, [sp, #48]
+ 161              	.L8:
+ 406:main.c        ****         if (ref.r3 > max[3]) max[3] = ref.r3;
+ 162              		.loc 1 406 0 is_stmt 1
+ 163 00aa BDF84E30 		ldrh	r3, [sp, #78]
+ 164 00ae 0D9E     		ldr	r6, [sp, #52]
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 11
+
+
+ 165 00b0 B342     		cmp	r3, r6
+ 166 00b2 00DD     		ble	.L9
+ 167              		.loc 1 406 0 is_stmt 0 discriminator 1
+ 168 00b4 0D93     		str	r3, [sp, #52]
+ 169              	.L9:
+ 407:main.c        ****         if (ref.l3 < min[0]) min[0] = ref.l3;
+ 170              		.loc 1 407 0 is_stmt 1
+ 171 00b6 0E9E     		ldr	r6, [sp, #56]
+ 172 00b8 B042     		cmp	r0, r6
+ 173 00ba 00DA     		bge	.L10
+ 174              		.loc 1 407 0 is_stmt 0 discriminator 1
+ 175 00bc 0E90     		str	r0, [sp, #56]
+ 176              	.L10:
+ 408:main.c        ****         if (ref.l1 < min[1]) min[1] = ref.l1;
+ 177              		.loc 1 408 0 is_stmt 1
+ 178 00be 0F98     		ldr	r0, [sp, #60]
+ 179 00c0 8142     		cmp	r1, r0
+ 180 00c2 00DA     		bge	.L11
+ 181              		.loc 1 408 0 is_stmt 0 discriminator 1
+ 182 00c4 0F91     		str	r1, [sp, #60]
+ 183              	.L11:
+ 409:main.c        ****         if (ref.r1 < min[2]) min[2] = ref.r1;
+ 184              		.loc 1 409 0 is_stmt 1
+ 185 00c6 1099     		ldr	r1, [sp, #64]
+ 186 00c8 8A42     		cmp	r2, r1
+ 187 00ca 00DA     		bge	.L12
+ 188              		.loc 1 409 0 is_stmt 0 discriminator 1
+ 189 00cc 1092     		str	r2, [sp, #64]
+ 190              	.L12:
+ 410:main.c        ****         if (ref.r3 < min[3]) min[3] = ref.r3;
+ 191              		.loc 1 410 0 is_stmt 1
+ 192 00ce 119A     		ldr	r2, [sp, #68]
+ 193 00d0 9342     		cmp	r3, r2
+ 194 00d2 00DA     		bge	.L13
+ 195              		.loc 1 410 0 is_stmt 0 discriminator 1
+ 196 00d4 1193     		str	r3, [sp, #68]
+ 197              	.L13:
+ 397:main.c        ****     {
+ 198              		.loc 1 397 0 is_stmt 1 discriminator 2
+ 199 00d6 0135     		adds	r5, r5, #1
+ 200              	.LVL16:
+ 201              	.L2:
+ 397:main.c        ****     {
+ 202              		.loc 1 397 0 is_stmt 0 discriminator 1
+ 203 00d8 B5F52F7F 		cmp	r5, #700
+ 204 00dc B6DB     		blt	.L14
+ 411:main.c        ****     }
+ 412:main.c        ****     BatteryLed_Write(0);
+ 205              		.loc 1 412 0 is_stmt 1
+ 206 00de 0020     		movs	r0, #0
+ 207 00e0 FFF7FEFF 		bl	BatteryLed_Write
+ 208              	.LVL17:
+ 413:main.c        ****     reflectance_set_threshold((min[0] + max[0]*4)/5, (min[1] + max[1]*3)/4, (min[2] + max[2]*3)/4, 
+ 209              		.loc 1 413 0
+ 210 00e4 DDF838B0 		ldr	fp, [sp, #56]
+ 211 00e8 0A9E     		ldr	r6, [sp, #40]
+ 212 00ea 0BEB8603 		add	r3, fp, r6, lsl #2
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 12
+
+
+ 213 00ee 7D48     		ldr	r0, .L96+8
+ 214 00f0 80FB0320 		smull	r2, r0, r0, r3
+ 215 00f4 DB17     		asrs	r3, r3, #31
+ 216 00f6 C3EB6000 		rsb	r0, r3, r0, asr #1
+ 217 00fa 0F9B     		ldr	r3, [sp, #60]
+ 218 00fc 1A46     		mov	r2, r3
+ 219 00fe 0393     		str	r3, [sp, #12]
+ 220 0100 0B9B     		ldr	r3, [sp, #44]
+ 221 0102 0493     		str	r3, [sp, #16]
+ 222 0104 03EB4303 		add	r3, r3, r3, lsl #1
+ 223 0108 D318     		adds	r3, r2, r3
+ 224 010a 00D5     		bpl	.L15
+ 225 010c 0333     		adds	r3, r3, #3
+ 226              	.L15:
+ 227 010e 9B10     		asrs	r3, r3, #2
+ 228 0110 0593     		str	r3, [sp, #20]
+ 229 0112 1FFA83F9 		uxth	r9, r3
+ 230 0116 109D     		ldr	r5, [sp, #64]
+ 231              	.LVL18:
+ 232 0118 0C9B     		ldr	r3, [sp, #48]
+ 233 011a 0693     		str	r3, [sp, #24]
+ 234 011c 03EB4303 		add	r3, r3, r3, lsl #1
+ 235 0120 EB18     		adds	r3, r5, r3
+ 236 0122 00D5     		bpl	.L16
+ 237 0124 0333     		adds	r3, r3, #3
+ 238              	.L16:
+ 239 0126 9B10     		asrs	r3, r3, #2
+ 240 0128 0793     		str	r3, [sp, #28]
+ 241 012a 1FFA83FA 		uxth	r10, r3
+ 242 012e DDF84480 		ldr	r8, [sp, #68]
+ 243 0132 0D9F     		ldr	r7, [sp, #52]
+ 244 0134 08EB8703 		add	r3, r8, r7, lsl #2
+ 245 0138 6A4A     		ldr	r2, .L96+8
+ 246 013a 82FB0312 		smull	r1, r2, r2, r3
+ 247 013e DB17     		asrs	r3, r3, #31
+ 248 0140 C3EB6203 		rsb	r3, r3, r2, asr #1
+ 249 0144 80B2     		uxth	r0, r0
+ 250 0146 4946     		mov	r1, r9
+ 251 0148 5246     		mov	r2, r10
+ 252 014a 9BB2     		uxth	r3, r3
+ 253 014c FFF7FEFF 		bl	reflectance_set_threshold
+ 254              	.LVL19:
+ 414:main.c        ****     cal.l3 = (min[0] + max[0]*3)/4; cal.l1 = (min[1] + max[1]*3)/4; cal.r1 = (min[2] + max[2]*3)/4;
+ 255              		.loc 1 414 0
+ 256 0150 06EB4603 		add	r3, r6, r6, lsl #1
+ 257 0154 1BEB0303 		adds	r3, fp, r3
+ 258 0158 00D5     		bpl	.L17
+ 259 015a 0333     		adds	r3, r3, #3
+ 260              	.L17:
+ 261 015c 9B10     		asrs	r3, r3, #2
+ 262 015e 0893     		str	r3, [sp, #32]
+ 263 0160 07EB4703 		add	r3, r7, r7, lsl #1
+ 264 0164 18EB0303 		adds	r3, r8, r3
+ 265 0168 00D5     		bpl	.L18
+ 266 016a 0333     		adds	r3, r3, #3
+ 267              	.L18:
+ 268 016c 9B10     		asrs	r3, r3, #2
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 13
+
+
+ 269 016e 0993     		str	r3, [sp, #36]
+ 415:main.c        ****     printf("%d %d %d %d\n", min[0], min[1], min[2], min[3]);
+ 270              		.loc 1 415 0
+ 271 0170 CDF80080 		str	r8, [sp]
+ 272 0174 5C48     		ldr	r0, .L96+12
+ 273 0176 5946     		mov	r1, fp
+ 274 0178 DDF80C80 		ldr	r8, [sp, #12]
+ 275 017c 4246     		mov	r2, r8
+ 276 017e 2B46     		mov	r3, r5
+ 277 0180 FFF7FEFF 		bl	printf
+ 278              	.LVL20:
+ 416:main.c        ****     printf("%d %d %d %d\n", max[0], max[1], max[2], max[3]);
+ 279              		.loc 1 416 0
+ 280 0184 0097     		str	r7, [sp]
+ 281 0186 5848     		ldr	r0, .L96+12
+ 282 0188 3146     		mov	r1, r6
+ 283 018a 049A     		ldr	r2, [sp, #16]
+ 284 018c 069B     		ldr	r3, [sp, #24]
+ 285 018e FFF7FEFF 		bl	printf
+ 286              	.LVL21:
+ 417:main.c        ****     printf("%d %d %d %d\n", (min[0] + max[0]*3)/4, (min[1] + max[1]*3)/4, (min[2] + max[2]*3)/4, (m
+ 287              		.loc 1 417 0
+ 288 0192 099B     		ldr	r3, [sp, #36]
+ 289 0194 0093     		str	r3, [sp]
+ 290 0196 5448     		ldr	r0, .L96+12
+ 291 0198 0899     		ldr	r1, [sp, #32]
+ 292 019a 059F     		ldr	r7, [sp, #20]
+ 293 019c 3A46     		mov	r2, r7
+ 294 019e 079E     		ldr	r6, [sp, #28]
+ 295 01a0 3346     		mov	r3, r6
+ 296 01a2 FFF7FEFF 		bl	printf
+ 297              	.LVL22:
+ 418:main.c        ****     mina = ((min[1] + max[1]*3)/4 - min[1] + (min[2] + max[2]*3)/4 - min[2])/((max_speed + 1) * 2);
+ 298              		.loc 1 418 0
+ 299 01a6 4246     		mov	r2, r8
+ 300 01a8 BB1A     		subs	r3, r7, r2
+ 301 01aa 3246     		mov	r2, r6
+ 302 01ac 1A44     		add	r2, r2, r3
+ 303 01ae 531B     		subs	r3, r2, r5
+ 304 01b0 01D5     		bpl	.L19
+ 305 01b2 03F2FF13 		addw	r3, r3, #511
+ 306              	.L19:
+ 307 01b6 4FEA6328 		asr	r8, r3, #9
+ 308              	.LVL23:
+ 309              	.L21:
+ 419:main.c        ****     do {
+ 420:main.c        ****         motor_static_turn_l(1);
+ 310              		.loc 1 420 0 discriminator 2
+ 311 01ba 0120     		movs	r0, #1
+ 312 01bc FFF7FEFF 		bl	motor_static_turn_l
+ 313              	.LVL24:
+ 421:main.c        ****         reflectance_digital(&ref);
+ 314              		.loc 1 421 0 discriminator 2
+ 315 01c0 12A8     		add	r0, sp, #72
+ 316 01c2 FFF7FEFF 		bl	reflectance_digital
+ 317              	.LVL25:
+ 422:main.c        **** //        printf("Finding the route...\n%d %d\n", ref.l1, ref.r1);
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 14
+
+
+ 423:main.c        ****     } while(ref.r1 != 0 && ref.l1 != 0);
+ 318              		.loc 1 423 0 discriminator 2
+ 319 01c6 BDF84C30 		ldrh	r3, [sp, #76]
+ 320 01ca 002B     		cmp	r3, #0
+ 321 01cc 00F09A80 		beq	.L78
+ 322              		.loc 1 423 0 is_stmt 0 discriminator 1
+ 323 01d0 BDF84A30 		ldrh	r3, [sp, #74]
+ 324 01d4 002B     		cmp	r3, #0
+ 325 01d6 F0D1     		bne	.L21
+ 326 01d8 4FF0FF35 		mov	r5, #-1
+ 327 01dc 0026     		movs	r6, #0
+ 328 01de 0396     		str	r6, [sp, #12]	@ float
+ 329 01e0 94E0     		b	.L20
+ 330              	.LVL26:
+ 331              	.L34:
+ 424:main.c        ****     while (!(ref.l1 == 0 && ref.r1 == 0 && ref.l3 == 0 && ref.r3 == 0))
+ 425:main.c        ****     {
+ 426:main.c        ****                 reflectance_read(&ref);
+ 332              		.loc 1 426 0 is_stmt 1
+ 333 01e2 12A8     		add	r0, sp, #72
+ 334 01e4 FFF7FEFF 		bl	reflectance_read
+ 335              	.LVL27:
+ 427:main.c        ****                 i = (cal.l1 - ref.l1)/mina; j = (cal.r1 - ref.r1)/mina;
+ 336              		.loc 1 427 0
+ 337 01e8 BDF84A30 		ldrh	r3, [sp, #74]
+ 338 01ec C3EB0903 		rsb	r3, r3, r9
+ 339 01f0 93FBF8F3 		sdiv	r3, r3, r8
+ 340              	.LVL28:
+ 341 01f4 BDF84C00 		ldrh	r0, [sp, #76]
+ 342 01f8 C0EB0A00 		rsb	r0, r0, r10
+ 343 01fc 90FBF8F0 		sdiv	r0, r0, r8
+ 344              	.LVL29:
+ 428:main.c        ****                 if (time >= 1 || time == -1)
+ 345              		.loc 1 428 0
+ 346 0200 002D     		cmp	r5, #0
+ 347 0202 02DC     		bgt	.L22
+ 348              		.loc 1 428 0 is_stmt 0 discriminator 1
+ 349 0204 B5F1FF3F 		cmp	r5, #-1
+ 350 0208 44D1     		bne	.L23
+ 351              	.L22:
+ 429:main.c        ****                 {
+ 430:main.c        ****                     if (time == -1) time = 1;
+ 352              		.loc 1 430 0 is_stmt 1
+ 353 020a B5F1FF3F 		cmp	r5, #-1
+ 354 020e 00D1     		bne	.L24
+ 355 0210 0125     		movs	r5, #1
+ 356              	.LVL30:
+ 357              	.L24:
+ 431:main.c        ****                     if (i <= 5) i = 0; if (j <= 5) j = 0;
+ 358              		.loc 1 431 0
+ 359 0212 052B     		cmp	r3, #5
+ 360 0214 00DC     		bgt	.L25
+ 361 0216 0023     		movs	r3, #0
+ 362              	.LVL31:
+ 363              	.L25:
+ 364              		.loc 1 431 0 is_stmt 0 discriminator 3
+ 365 0218 0528     		cmp	r0, #5
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 15
+
+
+ 366 021a 00DC     		bgt	.L26
+ 367              		.loc 1 431 0
+ 368 021c 0020     		movs	r0, #0
+ 369              	.LVL32:
+ 370              	.L26:
+ 432:main.c        ****                     pred = diff;
+ 433:main.c        ****                     diff = j - i;
+ 371              		.loc 1 433 0 is_stmt 1
+ 372 021e C01A     		subs	r0, r0, r3
+ 373              	.LVL33:
+ 374 0220 FFF7FEFF 		bl	__aeabi_i2f
+ 375              	.LVL34:
+ 376 0224 0746     		mov	r7, r0
+ 377              	.LVL35:
+ 434:main.c        ****                     pro = diff * kp;
+ 378              		.loc 1 434 0
+ 379 0226 3149     		ldr	r1, .L96+16
+ 380 0228 FFF7FEFF 		bl	__aeabi_fmul
+ 381              	.LVL36:
+ 382 022c 8346     		mov	fp, r0
+ 383              	.LVL37:
+ 435:main.c        ****                     aval += diff*time;
+ 384              		.loc 1 435 0
+ 385 022e 2846     		mov	r0, r5
+ 386              	.LVL38:
+ 387 0230 FFF7FEFF 		bl	__aeabi_i2f
+ 388              	.LVL39:
+ 389 0234 0546     		mov	r5, r0
+ 390              	.LVL40:
+ 391 0236 3946     		mov	r1, r7
+ 392 0238 FFF7FEFF 		bl	__aeabi_fmul
+ 393              	.LVL41:
+ 394 023c 0146     		mov	r1, r0
+ 395 023e 3046     		mov	r0, r6
+ 396 0240 FFF7FEFF 		bl	__aeabi_fadd
+ 397              	.LVL42:
+ 398 0244 0646     		mov	r6, r0
+ 399              	.LVL43:
+ 436:main.c        ****                     if (aval > limit) aval = limit;
+ 400              		.loc 1 436 0
+ 401 0246 2A49     		ldr	r1, .L96+20
+ 402 0248 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 403              	.LVL44:
+ 404 024c 00B1     		cbz	r0, .L27
+ 405 024e 284E     		ldr	r6, .L96+20
+ 406              	.LVL45:
+ 407              	.L27:
+ 437:main.c        ****                     if (aval < -limit) aval = -limit;
+ 408              		.loc 1 437 0
+ 409 0250 3046     		mov	r0, r6
+ 410 0252 2849     		ldr	r1, .L96+24
+ 411 0254 FFF7FEFF 		bl	__aeabi_fcmplt
+ 412              	.LVL46:
+ 413 0258 00B1     		cbz	r0, .L28
+ 414 025a 264E     		ldr	r6, .L96+24
+ 415              	.LVL47:
+ 416              	.L28:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 16
+
+
+ 438:main.c        ****                     integral = aval*ki;
+ 417              		.loc 1 438 0
+ 418 025c 3046     		mov	r0, r6
+ 419 025e 2649     		ldr	r1, .L96+28
+ 420 0260 FFF7FEFF 		bl	__aeabi_fmul
+ 421              	.LVL48:
+ 422 0264 0446     		mov	r4, r0
+ 423              	.LVL49:
+ 439:main.c        ****                     derv = (diff - pred)/time;
+ 424              		.loc 1 439 0
+ 425 0266 3846     		mov	r0, r7
+ 426              	.LVL50:
+ 427 0268 0399     		ldr	r1, [sp, #12]	@ float
+ 428 026a FFF7FEFF 		bl	__aeabi_fsub
+ 429              	.LVL51:
+ 430 026e 2946     		mov	r1, r5
+ 431 0270 FFF7FEFF 		bl	__aeabi_fdiv
+ 432              	.LVL52:
+ 440:main.c        ****                     derv *= kd;
+ 433              		.loc 1 440 0
+ 434 0274 2149     		ldr	r1, .L96+32
+ 435 0276 FFF7FEFF 		bl	__aeabi_fmul
+ 436              	.LVL53:
+ 437 027a 0546     		mov	r5, r0
+ 438              	.LVL54:
+ 441:main.c        ****                     driver = (pro + integral + derv);
+ 439              		.loc 1 441 0
+ 440 027c 5846     		mov	r0, fp
+ 441              	.LVL55:
+ 442 027e 2146     		mov	r1, r4
+ 443 0280 FFF7FEFF 		bl	__aeabi_fadd
+ 444              	.LVL56:
+ 445 0284 2946     		mov	r1, r5
+ 446 0286 FFF7FEFF 		bl	__aeabi_fadd
+ 447              	.LVL57:
+ 448 028a FFF7FEFF 		bl	__aeabi_f2iz
+ 449              	.LVL58:
+ 450 028e 0446     		mov	r4, r0
+ 451              	.LVL59:
+ 433:main.c        ****                     pro = diff * kp;
+ 452              		.loc 1 433 0
+ 453 0290 0397     		str	r7, [sp, #12]	@ float
+ 454              	.LVL60:
+ 442:main.c        ****                     time = 0;
+ 455              		.loc 1 442 0
+ 456 0292 0025     		movs	r5, #0
+ 457              	.LVL61:
+ 458              	.L23:
+ 443:main.c        ****                 }
+ 444:main.c        **** //                printf("%d %d %d\n%d\n", pro, integral, derv, driver);
+ 445:main.c        ****                 if (driver > max_speed*2) driver = max_speed*2;
+ 459              		.loc 1 445 0
+ 460 0294 B4F5FF7F 		cmp	r4, #510
+ 461 0298 01DD     		ble	.L29
+ 462 029a 4FF4FF74 		mov	r4, #510
+ 463              	.LVL62:
+ 464              	.L29:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 17
+
+
+ 446:main.c        ****                 if (driver < -max_speed*2) driver = -max_speed*2;
+ 465              		.loc 1 446 0
+ 466 029e 14F5FF7F 		cmn	r4, #510
+ 467 02a2 00DA     		bge	.L30
+ 468 02a4 164C     		ldr	r4, .L96+36
+ 469              	.LVL63:
+ 470              	.L30:
+ 447:main.c        ****                 if (driver > breaking_point) motor_turn(max_speed - driver, max_speed, 1);
+ 471              		.loc 1 447 0
+ 472 02a6 002C     		cmp	r4, #0
+ 473 02a8 06DD     		ble	.L31
+ 474              		.loc 1 447 0 is_stmt 0 discriminator 1
+ 475 02aa C4F1FF00 		rsb	r0, r4, #255
+ 476 02ae FF21     		movs	r1, #255
+ 477 02b0 0122     		movs	r2, #1
+ 478 02b2 FFF7FEFF 		bl	motor_turn
+ 479              	.LVL64:
+ 480 02b6 0BE0     		b	.L32
+ 481              	.L31:
+ 448:main.c        ****                 else if (driver < -breaking_point) motor_turn(max_speed, max_speed + driver, 1);
+ 482              		.loc 1 448 0 is_stmt 1
+ 483 02b8 002C     		cmp	r4, #0
+ 484 02ba 05DA     		bge	.L33
+ 485              		.loc 1 448 0 is_stmt 0 discriminator 1
+ 486 02bc FF20     		movs	r0, #255
+ 487 02be 2118     		adds	r1, r4, r0
+ 488 02c0 0122     		movs	r2, #1
+ 489 02c2 FFF7FEFF 		bl	motor_turn
+ 490              	.LVL65:
+ 491 02c6 03E0     		b	.L32
+ 492              	.L33:
+ 449:main.c        ****                 else motor_forward(max_speed, 1);
+ 493              		.loc 1 449 0 is_stmt 1
+ 494 02c8 FF20     		movs	r0, #255
+ 495 02ca 0121     		movs	r1, #1
+ 496 02cc FFF7FEFF 		bl	motor_forward
+ 497              	.LVL66:
+ 498              	.L32:
+ 450:main.c        ****                 time += 1;
+ 499              		.loc 1 450 0
+ 500 02d0 0135     		adds	r5, r5, #1
+ 501              	.LVL67:
+ 451:main.c        ****                 reflectance_digital(&ref);
+ 502              		.loc 1 451 0
+ 503 02d2 12A8     		add	r0, sp, #72
+ 504 02d4 FFF7FEFF 		bl	reflectance_digital
+ 505              	.LVL68:
+ 506 02d8 18E0     		b	.L20
+ 507              	.L97:
+ 508 02da 00BF     		.align	2
+ 509              	.L96:
+ 510 02dc 00000000 		.word	.LANCHOR0
+ 511 02e0 00000000 		.word	sensor_isr_handler
+ 512 02e4 67666666 		.word	1717986919
+ 513 02e8 00000000 		.word	.LC1
+ 514 02ec 0000E03F 		.word	1071644672
+ 515 02f0 00409C46 		.word	1184645120
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 18
+
+
+ 516 02f4 00409CC6 		.word	-962838528
+ 517 02f8 CDCCCC3C 		.word	1020054733
+ 518 02fc 0000C841 		.word	1103626240
+ 519 0300 02FEFFFF 		.word	-510
+ 520              	.LVL69:
+ 521              	.L78:
+ 522 0304 4FF0FF35 		mov	r5, #-1
+ 523 0308 0026     		movs	r6, #0
+ 524 030a 0396     		str	r6, [sp, #12]	@ float
+ 525              	.LVL70:
+ 526              	.L20:
+ 424:main.c        ****     {
+ 527              		.loc 1 424 0
+ 528 030c BDF84A30 		ldrh	r3, [sp, #74]
+ 529 0310 002B     		cmp	r3, #0
+ 530 0312 7FF466AF 		bne	.L34
+ 424:main.c        ****     {
+ 531              		.loc 1 424 0 is_stmt 0 discriminator 1
+ 532 0316 BDF84C30 		ldrh	r3, [sp, #76]
+ 533 031a 002B     		cmp	r3, #0
+ 534 031c 7FF461AF 		bne	.L34
+ 424:main.c        ****     {
+ 535              		.loc 1 424 0 discriminator 2
+ 536 0320 BDF84830 		ldrh	r3, [sp, #72]
+ 537 0324 002B     		cmp	r3, #0
+ 538 0326 7FF45CAF 		bne	.L34
+ 424:main.c        ****     {
+ 539              		.loc 1 424 0 discriminator 3
+ 540 032a BDF84E30 		ldrh	r3, [sp, #78]
+ 541 032e 002B     		cmp	r3, #0
+ 542 0330 7FF457AF 		bne	.L34
+ 543              	.LVL71:
+ 452:main.c        ****     }
+ 453:main.c        ****     aval = 0; pred = 0;
+ 454:main.c        ****     motor_stop();
+ 544              		.loc 1 454 0 is_stmt 1
+ 545 0334 FFF7FEFF 		bl	motor_stop
+ 546              	.LVL72:
+ 455:main.c        ****     get_IR();
+ 547              		.loc 1 455 0
+ 548 0338 FFF7FEFF 		bl	get_IR
+ 549              	.LVL73:
+ 456:main.c        ****     motor_start();
+ 550              		.loc 1 456 0
+ 551 033c FFF7FEFF 		bl	motor_start
+ 552              	.LVL74:
+ 553              	.L36:
+ 457:main.c        ****     do {motor_forward(255, 1); reflectance_digital(&ref);} while (ref.l3 == 0 && ref.r3 == 0);
+ 554              		.loc 1 457 0 discriminator 2
+ 555 0340 FF20     		movs	r0, #255
+ 556 0342 0121     		movs	r1, #1
+ 557 0344 FFF7FEFF 		bl	motor_forward
+ 558              	.LVL75:
+ 559 0348 12A8     		add	r0, sp, #72
+ 560 034a FFF7FEFF 		bl	reflectance_digital
+ 561              	.LVL76:
+ 562 034e BDF84830 		ldrh	r3, [sp, #72]
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 19
+
+
+ 563 0352 1BB9     		cbnz	r3, .L35
+ 564              		.loc 1 457 0 is_stmt 0 discriminator 1
+ 565 0354 BDF84E30 		ldrh	r3, [sp, #78]
+ 566 0358 002B     		cmp	r3, #0
+ 567 035a F1D0     		beq	.L36
+ 568              	.L35:
+ 569 035c 4FF0000B 		mov	fp, #0
+ 570 0360 5F46     		mov	r7, fp
+ 571 0362 0023     		movs	r3, #0
+ 572 0364 0493     		str	r3, [sp, #16]	@ float
+ 573              	.LVL77:
+ 574              	.L37:
+ 458:main.c        ****     for(;;)
+ 459:main.c        ****     {
+ 460:main.c        ****         ADC_Battery_StartConvert();
+ 575              		.loc 1 460 0 is_stmt 1
+ 576 0366 FFF7FEFF 		bl	ADC_Battery_StartConvert
+ 577              	.LVL78:
+ 461:main.c        ****         if(ADC_Battery_IsEndConversion(ADC_Battery_WAIT_FOR_RESULT)) 
+ 578              		.loc 1 461 0
+ 579 036a 0020     		movs	r0, #0
+ 580 036c FFF7FEFF 		bl	ADC_Battery_IsEndConversion
+ 581              	.LVL79:
+ 582 0370 78B1     		cbz	r0, .L38
+ 462:main.c        ****         {
+ 463:main.c        ****             adcresult = ADC_Battery_GetResult16();
+ 583              		.loc 1 463 0
+ 584 0372 FFF7FEFF 		bl	ADC_Battery_GetResult16
+ 585              	.LVL80:
+ 586 0376 0646     		mov	r6, r0
+ 587              	.LVL81:
+ 464:main.c        ****             volts = ADC_Battery_CountsTo_Volts(adcresult);                  // convert value to Vol
+ 588              		.loc 1 464 0
+ 589 0378 FFF7FEFF 		bl	ADC_Battery_CountsTo_Volts
+ 590              	.LVL82:
+ 465:main.c        ****             adcresult *= 1.5;
+ 591              		.loc 1 465 0
+ 592 037c 3046     		mov	r0, r6
+ 593 037e FFF7FEFF 		bl	__aeabi_i2d
+ 594              	.LVL83:
+ 595 0382 0022     		movs	r2, #0
+ 596 0384 A04B     		ldr	r3, .L98
+ 597 0386 FFF7FEFF 		bl	__aeabi_dmul
+ 598              	.LVL84:
+ 599 038a FFF7FEFF 		bl	__aeabi_d2iz
+ 600              	.LVL85:
+ 601 038e 1FFA80FB 		uxth	fp, r0
+ 602              	.LVL86:
+ 603              	.L38:
+ 466:main.c        ****         }
+ 467:main.c        ****         if (adcresult > 5) 
+ 604              		.loc 1 467 0
+ 605 0392 0FFA8BF3 		sxth	r3, fp
+ 606 0396 052B     		cmp	r3, #5
+ 607 0398 40F32F81 		ble	.L39
+ 468:main.c        ****         {
+ 469:main.c        ****             reflectance_digital(&ref);
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 20
+
+
+ 608              		.loc 1 469 0
+ 609 039c 12A8     		add	r0, sp, #72
+ 610 039e FFF7FEFF 		bl	reflectance_digital
+ 611              	.LVL87:
+ 470:main.c        ****             if (ref.r3 == 1 && ref.l3 == 1) 
+ 612              		.loc 1 470 0
+ 613 03a2 BDF84E30 		ldrh	r3, [sp, #78]
+ 614 03a6 012B     		cmp	r3, #1
+ 615 03a8 7ED1     		bne	.L40
+ 616              		.loc 1 470 0 is_stmt 0 discriminator 1
+ 617 03aa BDF84820 		ldrh	r2, [sp, #72]
+ 618 03ae 012A     		cmp	r2, #1
+ 619 03b0 7AD1     		bne	.L40
+ 471:main.c        ****             {
+ 472:main.c        ****                 reflectance_read(&ref);
+ 620              		.loc 1 472 0 is_stmt 1
+ 621 03b2 12A8     		add	r0, sp, #72
+ 622 03b4 FFF7FEFF 		bl	reflectance_read
+ 623              	.LVL88:
+ 473:main.c        ****                 i = (cal.l1 - ref.l1)/mina; j = (cal.r1 - ref.r1)/mina;
+ 624              		.loc 1 473 0
+ 625 03b8 BDF84A30 		ldrh	r3, [sp, #74]
+ 626 03bc C3EB0903 		rsb	r3, r3, r9
+ 627 03c0 93FBF8F3 		sdiv	r3, r3, r8
+ 628              	.LVL89:
+ 629 03c4 BDF84C00 		ldrh	r0, [sp, #76]
+ 630 03c8 C0EB0A00 		rsb	r0, r0, r10
+ 631 03cc 90FBF8F0 		sdiv	r0, r0, r8
+ 632              	.LVL90:
+ 474:main.c        ****                 if (time >= 1 || time == -1)
+ 633              		.loc 1 474 0
+ 634 03d0 002D     		cmp	r5, #0
+ 635 03d2 02DC     		bgt	.L41
+ 636              		.loc 1 474 0 is_stmt 0 discriminator 1
+ 637 03d4 B5F1FF3F 		cmp	r5, #-1
+ 638 03d8 46D1     		bne	.L42
+ 639              	.L41:
+ 475:main.c        ****                 {
+ 476:main.c        ****                     if (time == -1) time = 1;
+ 640              		.loc 1 476 0 is_stmt 1
+ 641 03da B5F1FF3F 		cmp	r5, #-1
+ 642 03de 00D1     		bne	.L43
+ 643 03e0 0125     		movs	r5, #1
+ 644              	.LVL91:
+ 645              	.L43:
+ 477:main.c        ****                     if (i <= 5) i = 0; if (j <= 5) j = 0;
+ 646              		.loc 1 477 0
+ 647 03e2 052B     		cmp	r3, #5
+ 648 03e4 00DC     		bgt	.L44
+ 649 03e6 0023     		movs	r3, #0
+ 650              	.LVL92:
+ 651              	.L44:
+ 652              		.loc 1 477 0 is_stmt 0 discriminator 3
+ 653 03e8 0528     		cmp	r0, #5
+ 654 03ea 00DC     		bgt	.L45
+ 655              		.loc 1 477 0
+ 656 03ec 0020     		movs	r0, #0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 21
+
+
+ 657              	.LVL93:
+ 658              	.L45:
+ 478:main.c        ****                     pred = diff;
+ 479:main.c        ****                     diff = j - i;
+ 659              		.loc 1 479 0 is_stmt 1
+ 660 03ee C01A     		subs	r0, r0, r3
+ 661              	.LVL94:
+ 662 03f0 FFF7FEFF 		bl	__aeabi_i2f
+ 663              	.LVL95:
+ 664 03f4 0646     		mov	r6, r0
+ 665              	.LVL96:
+ 480:main.c        ****                     pro = diff * kp;
+ 666              		.loc 1 480 0
+ 667 03f6 8549     		ldr	r1, .L98+4
+ 668 03f8 FFF7FEFF 		bl	__aeabi_fmul
+ 669              	.LVL97:
+ 670 03fc 0590     		str	r0, [sp, #20]	@ float
+ 671              	.LVL98:
+ 481:main.c        ****                     aval += diff*time;
+ 672              		.loc 1 481 0
+ 673 03fe 2846     		mov	r0, r5
+ 674              	.LVL99:
+ 675 0400 FFF7FEFF 		bl	__aeabi_i2f
+ 676              	.LVL100:
+ 677 0404 0446     		mov	r4, r0
+ 678              	.LVL101:
+ 679 0406 3146     		mov	r1, r6
+ 680 0408 FFF7FEFF 		bl	__aeabi_fmul
+ 681              	.LVL102:
+ 682 040c 0146     		mov	r1, r0
+ 683 040e 0498     		ldr	r0, [sp, #16]	@ float
+ 684 0410 FFF7FEFF 		bl	__aeabi_fadd
+ 685              	.LVL103:
+ 686 0414 0490     		str	r0, [sp, #16]	@ float
+ 687              	.LVL104:
+ 482:main.c        ****                     if (aval > limit) aval = limit;
+ 688              		.loc 1 482 0
+ 689 0416 7E49     		ldr	r1, .L98+8
+ 690 0418 FFF7FEFF 		bl	__aeabi_fcmpgt
+ 691              	.LVL105:
+ 692 041c 08B1     		cbz	r0, .L46
+ 693 041e 7C4B     		ldr	r3, .L98+8
+ 694 0420 0493     		str	r3, [sp, #16]	@ float
+ 695              	.LVL106:
+ 696              	.L46:
+ 483:main.c        ****                     if (aval < -limit) aval = -limit;
+ 697              		.loc 1 483 0
+ 698 0422 0498     		ldr	r0, [sp, #16]	@ float
+ 699 0424 7B49     		ldr	r1, .L98+12
+ 700 0426 FFF7FEFF 		bl	__aeabi_fcmplt
+ 701              	.LVL107:
+ 702 042a 08B1     		cbz	r0, .L47
+ 703 042c 794B     		ldr	r3, .L98+12
+ 704 042e 0493     		str	r3, [sp, #16]	@ float
+ 705              	.LVL108:
+ 706              	.L47:
+ 484:main.c        ****                     integral = aval*ki;
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 22
+
+
+ 707              		.loc 1 484 0
+ 708 0430 0498     		ldr	r0, [sp, #16]	@ float
+ 709 0432 7949     		ldr	r1, .L98+16
+ 710 0434 FFF7FEFF 		bl	__aeabi_fmul
+ 711              	.LVL109:
+ 712 0438 0546     		mov	r5, r0
+ 713              	.LVL110:
+ 485:main.c        ****                     derv = (diff - pred)/time;
+ 714              		.loc 1 485 0
+ 715 043a 3046     		mov	r0, r6
+ 716              	.LVL111:
+ 717 043c 0399     		ldr	r1, [sp, #12]	@ float
+ 718 043e FFF7FEFF 		bl	__aeabi_fsub
+ 719              	.LVL112:
+ 720 0442 2146     		mov	r1, r4
+ 721 0444 FFF7FEFF 		bl	__aeabi_fdiv
+ 722              	.LVL113:
+ 486:main.c        ****                     derv *= kd;
+ 723              		.loc 1 486 0
+ 724 0448 7449     		ldr	r1, .L98+20
+ 725 044a FFF7FEFF 		bl	__aeabi_fmul
+ 726              	.LVL114:
+ 727 044e 0446     		mov	r4, r0
+ 728              	.LVL115:
+ 487:main.c        ****                     driver = (pro + integral + derv);
+ 729              		.loc 1 487 0
+ 730 0450 0598     		ldr	r0, [sp, #20]	@ float
+ 731              	.LVL116:
+ 732 0452 2946     		mov	r1, r5
+ 733 0454 FFF7FEFF 		bl	__aeabi_fadd
+ 734              	.LVL117:
+ 735 0458 2146     		mov	r1, r4
+ 736 045a FFF7FEFF 		bl	__aeabi_fadd
+ 737              	.LVL118:
+ 738 045e FFF7FEFF 		bl	__aeabi_f2iz
+ 739              	.LVL119:
+ 740 0462 0446     		mov	r4, r0
+ 741              	.LVL120:
+ 479:main.c        ****                     pro = diff * kp;
+ 742              		.loc 1 479 0
+ 743 0464 0396     		str	r6, [sp, #12]	@ float
+ 744              	.LVL121:
+ 488:main.c        ****                     time = 0;
+ 745              		.loc 1 488 0
+ 746 0466 0025     		movs	r5, #0
+ 747              	.LVL122:
+ 748              	.L42:
+ 489:main.c        ****                 }
+ 490:main.c        **** //                printf("%d %d %d\n%d\n", pro, integral, derv, driver);
+ 491:main.c        ****                 if (driver > max_speed*2) driver = max_speed*2;
+ 749              		.loc 1 491 0
+ 750 0468 B4F5FF7F 		cmp	r4, #510
+ 751 046c 01DD     		ble	.L48
+ 752 046e 4FF4FF74 		mov	r4, #510
+ 753              	.LVL123:
+ 754              	.L48:
+ 492:main.c        ****                 if (driver < -max_speed*2) driver = -max_speed*2;
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 23
+
+
+ 755              		.loc 1 492 0
+ 756 0472 14F5FF7F 		cmn	r4, #510
+ 757 0476 00DA     		bge	.L49
+ 758 0478 694C     		ldr	r4, .L98+24
+ 759              	.LVL124:
+ 760              	.L49:
+ 493:main.c        ****                 if (driver > breaking_point) motor_turn(max_speed - driver, max_speed, 1);
+ 761              		.loc 1 493 0
+ 762 047a 002C     		cmp	r4, #0
+ 763 047c 06DD     		ble	.L50
+ 764              		.loc 1 493 0 is_stmt 0 discriminator 1
+ 765 047e C4F1FF00 		rsb	r0, r4, #255
+ 766 0482 FF21     		movs	r1, #255
+ 767 0484 0122     		movs	r2, #1
+ 768 0486 FFF7FEFF 		bl	motor_turn
+ 769              	.LVL125:
+ 770 048a 0BE0     		b	.L51
+ 771              	.L50:
+ 494:main.c        ****                 else if (driver < -breaking_point) motor_turn(max_speed, max_speed + driver, 1);
+ 772              		.loc 1 494 0 is_stmt 1
+ 773 048c 002C     		cmp	r4, #0
+ 774 048e 05DA     		bge	.L52
+ 775              		.loc 1 494 0 is_stmt 0 discriminator 1
+ 776 0490 FF20     		movs	r0, #255
+ 777 0492 2118     		adds	r1, r4, r0
+ 778 0494 0122     		movs	r2, #1
+ 779 0496 FFF7FEFF 		bl	motor_turn
+ 780              	.LVL126:
+ 781 049a 03E0     		b	.L51
+ 782              	.L52:
+ 495:main.c        ****                 else motor_forward(max_speed, 1);
+ 783              		.loc 1 495 0 is_stmt 1
+ 784 049c FF20     		movs	r0, #255
+ 785 049e 0121     		movs	r1, #1
+ 786 04a0 FFF7FEFF 		bl	motor_forward
+ 787              	.LVL127:
+ 788              	.L51:
+ 496:main.c        ****                 time += 1;
+ 789              		.loc 1 496 0
+ 790 04a4 0135     		adds	r5, r5, #1
+ 791              	.LVL128:
+ 792 04a6 5EE7     		b	.L37
+ 793              	.L40:
+ 497:main.c        ****             }
+ 498:main.c        ****             else if (ref.r3 == 1)
+ 794              		.loc 1 498 0
+ 795 04a8 012B     		cmp	r3, #1
+ 796 04aa 50D1     		bne	.L54
+ 499:main.c        ****             {
+ 500:main.c        ****                 printf("Turning left\n");
+ 797              		.loc 1 500 0
+ 798 04ac 5D48     		ldr	r0, .L98+28
+ 799 04ae FFF7FEFF 		bl	puts
+ 800              	.LVL129:
+ 501:main.c        ****                 while (ref.l1 != 1 || ref.r1 != 1) 
+ 801              		.loc 1 501 0
+ 802 04b2 2FE0     		b	.L55
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 24
+
+
+ 803              	.L64:
+ 502:main.c        ****                 {                
+ 503:main.c        ****                     motor_forward(125, 2);
+ 804              		.loc 1 503 0
+ 805 04b4 7D20     		movs	r0, #125
+ 806 04b6 0221     		movs	r1, #2
+ 807 04b8 FFF7FEFF 		bl	motor_forward
+ 808              	.LVL130:
+ 504:main.c        ****                     if (ref.l3 == 0 && ref.r3 == 0) {
+ 809              		.loc 1 504 0
+ 810 04bc BDF84830 		ldrh	r3, [sp, #72]
+ 811 04c0 2BBB     		cbnz	r3, .L56
+ 812              		.loc 1 504 0 is_stmt 0 discriminator 1
+ 813 04c2 BDF84E30 		ldrh	r3, [sp, #78]
+ 814 04c6 13BB     		cbnz	r3, .L56
+ 505:main.c        ****                         if (count < 1) 
+ 815              		.loc 1 505 0 is_stmt 1
+ 816 04c8 002F     		cmp	r7, #0
+ 817 04ca 07DD     		ble	.L57
+ 818 04cc 1CE0     		b	.L93
+ 819              	.L59:
+ 506:main.c        ****                         {
+ 507:main.c        ****                             while (ref.l3 == 0 || ref.r3 == 0) {motor_forward(255, 1); reflectance_
+ 820              		.loc 1 507 0 discriminator 4
+ 821 04ce FF20     		movs	r0, #255
+ 822 04d0 0121     		movs	r1, #1
+ 823 04d2 FFF7FEFF 		bl	motor_forward
+ 824              	.LVL131:
+ 825 04d6 12A8     		add	r0, sp, #72
+ 826 04d8 FFF7FEFF 		bl	reflectance_digital
+ 827              	.LVL132:
+ 828              	.L57:
+ 829              		.loc 1 507 0 is_stmt 0 discriminator 1
+ 830 04dc BDF84830 		ldrh	r3, [sp, #72]
+ 831 04e0 002B     		cmp	r3, #0
+ 832 04e2 F4D0     		beq	.L59
+ 833              		.loc 1 507 0 discriminator 3
+ 834 04e4 BDF84E30 		ldrh	r3, [sp, #78]
+ 835 04e8 002B     		cmp	r3, #0
+ 836 04ea F0D0     		beq	.L59
+ 508:main.c        ****                             count++; for (i = 0; i < count; i++) {Beep(100, 100); CyDelay(10);}
+ 837              		.loc 1 508 0 is_stmt 1
+ 838 04ec 0137     		adds	r7, r7, #1
+ 839              	.LVL133:
+ 840 04ee 0026     		movs	r6, #0
+ 841 04f0 07E0     		b	.L60
+ 842              	.LVL134:
+ 843              	.L61:
+ 844              		.loc 1 508 0 is_stmt 0 discriminator 3
+ 845 04f2 6420     		movs	r0, #100
+ 846 04f4 0146     		mov	r1, r0
+ 847 04f6 FFF7FEFF 		bl	Beep
+ 848              	.LVL135:
+ 849 04fa 0A20     		movs	r0, #10
+ 850 04fc FFF7FEFF 		bl	CyDelay
+ 851              	.LVL136:
+ 852 0500 0136     		adds	r6, r6, #1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 25
+
+
+ 853              	.LVL137:
+ 854              	.L60:
+ 855              		.loc 1 508 0 discriminator 1
+ 856 0502 BE42     		cmp	r6, r7
+ 857 0504 F5DB     		blt	.L61
+ 858 0506 0DE0     		b	.L62
+ 859              	.LVL138:
+ 860              	.L93:
+ 509:main.c        ****                             break;
+ 510:main.c        ****                         }
+ 511:main.c        ****                         else {motor_stop(); return 0;}
+ 861              		.loc 1 511 0 is_stmt 1
+ 862 0508 FFF7FEFF 		bl	motor_stop
+ 863              	.LVL139:
+ 864 050c 77E0     		b	.L63
+ 865              	.L56:
+ 512:main.c        ****                     }
+ 513:main.c        ****                     reflectance_digital(&ref);
+ 866              		.loc 1 513 0
+ 867 050e 12A8     		add	r0, sp, #72
+ 868 0510 FFF7FEFF 		bl	reflectance_digital
+ 869              	.LVL140:
+ 870              	.L55:
+ 501:main.c        ****                 {                
+ 871              		.loc 1 501 0
+ 872 0514 BDF84A30 		ldrh	r3, [sp, #74]
+ 873 0518 012B     		cmp	r3, #1
+ 874 051a CBD1     		bne	.L64
+ 501:main.c        ****                 {                
+ 875              		.loc 1 501 0 is_stmt 0 discriminator 1
+ 876 051c BDF84C30 		ldrh	r3, [sp, #76]
+ 877 0520 012B     		cmp	r3, #1
+ 878 0522 C7D1     		bne	.L64
+ 879              	.L62:
+ 514:main.c        ****                 };
+ 515:main.c        ****                 if (count == 0) 
+ 880              		.loc 1 515 0 is_stmt 1
+ 881 0524 4FB1     		cbz	r7, .L65
+ 882 0526 1EE7     		b	.L37
+ 883              	.L66:
+ 516:main.c        ****                 {
+ 517:main.c        ****                     while (ref.l1 != 0 && ref.r1 != 0) 
+ 518:main.c        ****                         {
+ 519:main.c        ****                             motor_turn(-100, 100, 1);
+ 884              		.loc 1 519 0
+ 885 0528 6FF06300 		mvn	r0, #99
+ 886 052c 6421     		movs	r1, #100
+ 887 052e 0122     		movs	r2, #1
+ 888 0530 FFF7FEFF 		bl	motor_turn
+ 889              	.LVL141:
+ 520:main.c        ****                             reflectance_digital(&ref);
+ 890              		.loc 1 520 0
+ 891 0534 12A8     		add	r0, sp, #72
+ 892 0536 FFF7FEFF 		bl	reflectance_digital
+ 893              	.LVL142:
+ 894              	.L65:
+ 517:main.c        ****                         {
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 26
+
+
+ 895              		.loc 1 517 0
+ 896 053a BDF84A30 		ldrh	r3, [sp, #74]
+ 897 053e 002B     		cmp	r3, #0
+ 898 0540 3FF411AF 		beq	.L37
+ 517:main.c        ****                         {
+ 899              		.loc 1 517 0 is_stmt 0 discriminator 1
+ 900 0544 BDF84C30 		ldrh	r3, [sp, #76]
+ 901 0548 002B     		cmp	r3, #0
+ 902 054a EDD1     		bne	.L66
+ 903 054c 0BE7     		b	.L37
+ 904              	.L54:
+ 521:main.c        ****                         }
+ 522:main.c        ****                         pred = 0;
+ 523:main.c        ****                         integral = 0;
+ 524:main.c        ****                 }
+ 525:main.c        ****             }
+ 526:main.c        ****             else if (ref.l3 == 1)
+ 905              		.loc 1 526 0 is_stmt 1
+ 906 054e BDF84830 		ldrh	r3, [sp, #72]
+ 907 0552 012B     		cmp	r3, #1
+ 908 0554 7FF407AF 		bne	.L37
+ 527:main.c        ****             {
+ 528:main.c        ****                 printf("Turning right\n");
+ 909              		.loc 1 528 0
+ 910 0558 3348     		ldr	r0, .L98+32
+ 911 055a FFF7FEFF 		bl	puts
+ 912              	.LVL143:
+ 529:main.c        ****                 while (ref.l1 != 1 || ref.r1 != 1) 
+ 913              		.loc 1 529 0
+ 914 055e 2FE0     		b	.L67
+ 915              	.L75:
+ 530:main.c        ****                 {                
+ 531:main.c        ****                     motor_forward(125, 2);
+ 916              		.loc 1 531 0
+ 917 0560 7D20     		movs	r0, #125
+ 918 0562 0221     		movs	r1, #2
+ 919 0564 FFF7FEFF 		bl	motor_forward
+ 920              	.LVL144:
+ 532:main.c        ****                     if (ref.l3 == 0 && ref.r3 == 0) {
+ 921              		.loc 1 532 0
+ 922 0568 BDF84830 		ldrh	r3, [sp, #72]
+ 923 056c 2BBB     		cbnz	r3, .L68
+ 924              		.loc 1 532 0 is_stmt 0 discriminator 1
+ 925 056e BDF84E30 		ldrh	r3, [sp, #78]
+ 926 0572 13BB     		cbnz	r3, .L68
+ 533:main.c        ****                         if(count < 1) 
+ 927              		.loc 1 533 0 is_stmt 1
+ 928 0574 002F     		cmp	r7, #0
+ 929 0576 07DD     		ble	.L69
+ 930 0578 1CE0     		b	.L94
+ 931              	.L71:
+ 534:main.c        ****                         {
+ 535:main.c        ****                             while (ref.l3 == 0 || ref.r3 == 0) {motor_forward(255, 1); reflectance_
+ 932              		.loc 1 535 0 discriminator 4
+ 933 057a FF20     		movs	r0, #255
+ 934 057c 0121     		movs	r1, #1
+ 935 057e FFF7FEFF 		bl	motor_forward
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 27
+
+
+ 936              	.LVL145:
+ 937 0582 12A8     		add	r0, sp, #72
+ 938 0584 FFF7FEFF 		bl	reflectance_digital
+ 939              	.LVL146:
+ 940              	.L69:
+ 941              		.loc 1 535 0 is_stmt 0 discriminator 1
+ 942 0588 BDF84830 		ldrh	r3, [sp, #72]
+ 943 058c 002B     		cmp	r3, #0
+ 944 058e F4D0     		beq	.L71
+ 945              		.loc 1 535 0 discriminator 3
+ 946 0590 BDF84E30 		ldrh	r3, [sp, #78]
+ 947 0594 002B     		cmp	r3, #0
+ 948 0596 F0D0     		beq	.L71
+ 536:main.c        ****                             count++;  for (i = 0; i < count; i++) {Beep(100, 100); CyDelay(10);}
+ 949              		.loc 1 536 0 is_stmt 1
+ 950 0598 0137     		adds	r7, r7, #1
+ 951              	.LVL147:
+ 952 059a 0026     		movs	r6, #0
+ 953 059c 07E0     		b	.L72
+ 954              	.LVL148:
+ 955              	.L73:
+ 956              		.loc 1 536 0 is_stmt 0 discriminator 3
+ 957 059e 6420     		movs	r0, #100
+ 958 05a0 0146     		mov	r1, r0
+ 959 05a2 FFF7FEFF 		bl	Beep
+ 960              	.LVL149:
+ 961 05a6 0A20     		movs	r0, #10
+ 962 05a8 FFF7FEFF 		bl	CyDelay
+ 963              	.LVL150:
+ 964 05ac 0136     		adds	r6, r6, #1
+ 965              	.LVL151:
+ 966              	.L72:
+ 967              		.loc 1 536 0 discriminator 1
+ 968 05ae BE42     		cmp	r6, r7
+ 969 05b0 F5DB     		blt	.L73
+ 970 05b2 0DE0     		b	.L74
+ 971              	.LVL152:
+ 972              	.L94:
+ 537:main.c        ****                             break;
+ 538:main.c        ****                         }
+ 539:main.c        ****                         else {motor_stop(); return 0;}
+ 973              		.loc 1 539 0 is_stmt 1
+ 974 05b4 FFF7FEFF 		bl	motor_stop
+ 975              	.LVL153:
+ 976 05b8 21E0     		b	.L63
+ 977              	.L68:
+ 540:main.c        ****                     }
+ 541:main.c        ****                     reflectance_digital(&ref);
+ 978              		.loc 1 541 0
+ 979 05ba 12A8     		add	r0, sp, #72
+ 980 05bc FFF7FEFF 		bl	reflectance_digital
+ 981              	.LVL154:
+ 982              	.L67:
+ 529:main.c        ****                 {                
+ 983              		.loc 1 529 0
+ 984 05c0 BDF84A30 		ldrh	r3, [sp, #74]
+ 985 05c4 012B     		cmp	r3, #1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 28
+
+
+ 986 05c6 CBD1     		bne	.L75
+ 529:main.c        ****                 {                
+ 987              		.loc 1 529 0 is_stmt 0 discriminator 1
+ 988 05c8 BDF84C30 		ldrh	r3, [sp, #76]
+ 989 05cc 012B     		cmp	r3, #1
+ 990 05ce C7D1     		bne	.L75
+ 991              	.L74:
+ 542:main.c        ****                 };
+ 543:main.c        ****                 if (count == 0) 
+ 992              		.loc 1 543 0 is_stmt 1
+ 993 05d0 4FB1     		cbz	r7, .L76
+ 994 05d2 C8E6     		b	.L37
+ 995              	.L77:
+ 544:main.c        ****                 {
+ 545:main.c        ****                     while (ref.l1 != 0 && ref.r1 != 0) 
+ 546:main.c        ****                         {
+ 547:main.c        ****                             motor_turn(-100, 100, 1);
+ 996              		.loc 1 547 0
+ 997 05d4 6FF06300 		mvn	r0, #99
+ 998 05d8 6421     		movs	r1, #100
+ 999 05da 0122     		movs	r2, #1
+ 1000 05dc FFF7FEFF 		bl	motor_turn
+ 1001              	.LVL155:
+ 548:main.c        ****                             reflectance_digital(&ref);
+ 1002              		.loc 1 548 0
+ 1003 05e0 12A8     		add	r0, sp, #72
+ 1004 05e2 FFF7FEFF 		bl	reflectance_digital
+ 1005              	.LVL156:
+ 1006              	.L76:
+ 545:main.c        ****                         {
+ 1007              		.loc 1 545 0
+ 1008 05e6 BDF84A30 		ldrh	r3, [sp, #74]
+ 1009 05ea 002B     		cmp	r3, #0
+ 1010 05ec 3FF4BBAE 		beq	.L37
+ 545:main.c        ****                         {
+ 1011              		.loc 1 545 0 is_stmt 0 discriminator 1
+ 1012 05f0 BDF84C30 		ldrh	r3, [sp, #76]
+ 1013 05f4 002B     		cmp	r3, #0
+ 1014 05f6 EDD1     		bne	.L77
+ 1015 05f8 B5E6     		b	.L37
+ 1016              	.L39:
+ 549:main.c        ****                         }
+ 550:main.c        ****                         pred = 0;
+ 551:main.c        ****                         integral = 0;
+ 552:main.c        ****                 }
+ 553:main.c        ****             }
+ 554:main.c        ****         }
+ 555:main.c        ****         else {motor_stop(); return 0;}
+ 1017              		.loc 1 555 0 is_stmt 1
+ 1018 05fa FFF7FEFF 		bl	motor_stop
+ 1019              	.LVL157:
+ 1020              	.L63:
+ 556:main.c        ****     }
+ 557:main.c        **** }
+ 1021              		.loc 1 557 0
+ 1022 05fe 0020     		movs	r0, #0
+ 1023 0600 15B0     		add	sp, sp, #84
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 29
+
+
+ 1024              		.cfi_def_cfa_offset 36
+ 1025              		@ sp needed
+ 1026 0602 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 1027              	.LVL158:
+ 1028              	.L99:
+ 1029 0606 00BF     		.align	2
+ 1030              	.L98:
+ 1031 0608 0000F83F 		.word	1073217536
+ 1032 060c 0000E03F 		.word	1071644672
+ 1033 0610 00409C46 		.word	1184645120
+ 1034 0614 00409CC6 		.word	-962838528
+ 1035 0618 CDCCCC3C 		.word	1020054733
+ 1036 061c 0000C841 		.word	1103626240
+ 1037 0620 02FEFFFF 		.word	-510
+ 1038 0624 10000000 		.word	.LC2
+ 1039 0628 20000000 		.word	.LC3
+ 1040              		.cfi_endproc
+ 1041              	.LFE63:
+ 1042              		.size	main, .-main
+ 1043              		.section	.text._write,"ax",%progbits
+ 1044              		.align	2
+ 1045              		.global	_write
+ 1046              		.thumb
+ 1047              		.thumb_func
+ 1048              		.type	_write, %function
+ 1049              	_write:
+ 1050              	.LFB64:
+ 558:main.c        **** 
+ 559:main.c        **** //*/
+ 560:main.c        **** /*//reflectance//
+ 561:main.c        **** int main()
+ 562:main.c        **** {
+ 563:main.c        ****     struct sensors_ ref;
+ 564:main.c        ****     struct sensors_ dig;
+ 565:main.c        ****     CyGlobalIntEnable; 
+ 566:main.c        ****     UART_1_Start();
+ 567:main.c        ****   
+ 568:main.c        ****     sensor_isr_StartEx(sensor_isr_handler);
+ 569:main.c        ****     
+ 570:main.c        ****     reflectance_start();
+ 571:main.c        **** 
+ 572:main.c        ****     IR_led_Write(1);
+ 573:main.c        ****     for(;;)
+ 574:main.c        ****     {
+ 575:main.c        ****         reflectance_read(&ref);
+ 576:main.c        ****         printf("%d %d %d %d \r\n", ref.l3, ref.l1, ref.r1, ref.r3);       //print out each period o
+ 577:main.c        ****         reflectance_digital(&dig);      //print out 0 or 1 according to results of reflectance peri
+ 578:main.c        ****         printf("%d %d %d %d \r\n", dig.l3, dig.l1, dig.r1, dig.r3);        //print out 0 or 1 accor
+ 579:main.c        ****         
+ 580:main.c        ****         CyDelay(50);
+ 581:main.c        ****     }
+ 582:main.c        **** }   
+ 583:main.c        **** //*/
+ 584:main.c        **** 
+ 585:main.c        ****  /* //motor//
+ 586:main.c        **** int main()
+ 587:main.c        **** {
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 30
+
+
+ 588:main.c        ****     CyGlobalIntEnable; 
+ 589:main.c        ****     UART_1_Start();
+ 590:main.c        **** 
+ 591:main.c        ****     motor_start();              // motor start
+ 592:main.c        **** 
+ 593:main.c        ****     motor_forward(100,2000);     // moving forward
+ 594:main.c        ****     motor_turn(200,50,2000);     // turn
+ 595:main.c        ****     motor_turn(50,200,2000);     // turn
+ 596:main.c        ****     motor_backward(100,2000);    // movinb backward
+ 597:main.c        ****        
+ 598:main.c        ****     motor_stop();               // motor stop
+ 599:main.c        ****     
+ 600:main.c        ****     for(;;)
+ 601:main.c        ****     {
+ 602:main.c        **** 
+ 603:main.c        ****     }
+ 604:main.c        **** }
+ 605:main.c        **** //*/
+ 606:main.c        ****     
+ 607:main.c        **** 
+ 608:main.c        **** /*//gyroscope//
+ 609:main.c        **** int main()
+ 610:main.c        **** {
+ 611:main.c        ****     CyGlobalIntEnable; 
+ 612:main.c        ****     UART_1_Start();
+ 613:main.c        ****   
+ 614:main.c        ****     I2C_Start();
+ 615:main.c        ****   
+ 616:main.c        ****     uint8 X_L_G, X_H_G, Y_L_G, Y_H_G, Z_L_G, Z_H_G;
+ 617:main.c        ****     int16 X_AXIS_G, Y_AXIS_G, Z_AXIS_G;
+ 618:main.c        ****     
+ 619:main.c        ****     I2C_write(GYRO_ADDR, GYRO_CTRL1_REG, 0x0F);             // set gyroscope into active mode
+ 620:main.c        ****     I2C_write(GYRO_ADDR, GYRO_CTRL4_REG, 0x30);             // set full scale selection to 2000dps 
+ 621:main.c        ****     
+ 622:main.c        ****     for(;;)
+ 623:main.c        ****     {
+ 624:main.c        ****         //print out gyroscope output
+ 625:main.c        ****         X_L_G = I2C_read(GYRO_ADDR, OUT_X_AXIS_L);
+ 626:main.c        ****         X_H_G = I2C_read(GYRO_ADDR, OUT_X_AXIS_H);
+ 627:main.c        ****         X_AXIS_G = convert_raw(X_H_G, X_L_G);
+ 628:main.c        ****         
+ 629:main.c        ****         
+ 630:main.c        ****         Y_L_G = I2C_read(GYRO_ADDR, OUT_Y_AXIS_L);
+ 631:main.c        ****         Y_H_G = I2C_read(GYRO_ADDR, OUT_Y_AXIS_H);
+ 632:main.c        ****         Y_AXIS_G = convert_raw(Y_H_G, Y_L_G);
+ 633:main.c        ****         
+ 634:main.c        ****         
+ 635:main.c        ****         Z_L_G = I2C_read(GYRO_ADDR, OUT_Z_AXIS_L);
+ 636:main.c        ****         Z_H_G = I2C_read(GYRO_ADDR, OUT_Z_AXIS_H);
+ 637:main.c        ****         Z_AXIS_G = convert_raw(Z_H_G, Z_L_G);
+ 638:main.c        ****      
+ 639:main.c        ****         // If you want to print value
+ 640:main.c        ****         printf("%d %d %d \r\n", X_AXIS_G, Y_AXIS_G, Z_AXIS_G);
+ 641:main.c        ****         CyDelay(50);
+ 642:main.c        ****     }
+ 643:main.c        **** }   
+ 644:main.c        **** //*/
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 31
+
+
+ 645:main.c        **** 
+ 646:main.c        **** 
+ 647:main.c        **** /*//magnetometer//
+ 648:main.c        **** int main()
+ 649:main.c        **** {
+ 650:main.c        ****     CyGlobalIntEnable; 
+ 651:main.c        ****     UART_1_Start();
+ 652:main.c        ****   
+ 653:main.c        ****     I2C_Start();
+ 654:main.c        ****    
+ 655:main.c        ****     uint8 X_L_M, X_H_M, Y_L_M, Y_H_M, Z_L_M, Z_H_M;
+ 656:main.c        ****     int16 X_AXIS, Y_AXIS, Z_AXIS;
+ 657:main.c        ****     
+ 658:main.c        ****     I2C_write(GYRO_ADDR, GYRO_CTRL1_REG, 0x0F);             // set gyroscope into active mode
+ 659:main.c        ****     I2C_write(GYRO_ADDR, GYRO_CTRL4_REG, 0x30);             // set full scale selection to 2000dps
+ 660:main.c        ****     I2C_write(ACCEL_MAG_ADDR, ACCEL_CTRL1_REG, 0x37);           // set accelerometer & magnetometer
+ 661:main.c        ****     I2C_write(ACCEL_MAG_ADDR, ACCEL_CTRL7_REG, 0x22);
+ 662:main.c        ****     
+ 663:main.c        ****     
+ 664:main.c        ****     for(;;)
+ 665:main.c        ****     {
+ 666:main.c        ****         X_L_M = I2C_read(ACCEL_MAG_ADDR, OUT_X_L_M);
+ 667:main.c        ****         X_H_M = I2C_read(ACCEL_MAG_ADDR, OUT_X_H_M);
+ 668:main.c        ****         X_AXIS = convert_raw(X_L_M, X_H_M);
+ 669:main.c        ****         
+ 670:main.c        ****         Y_L_M = I2C_read(ACCEL_MAG_ADDR, OUT_Y_L_M);
+ 671:main.c        ****         Y_H_M = I2C_read(ACCEL_MAG_ADDR, OUT_Y_H_M);
+ 672:main.c        ****         Y_AXIS = convert_raw(Y_L_M, Y_H_M);
+ 673:main.c        ****         
+ 674:main.c        ****         Z_L_M = I2C_read(ACCEL_MAG_ADDR, OUT_Z_L_M);
+ 675:main.c        ****         Z_H_M = I2C_read(ACCEL_MAG_ADDR, OUT_Z_H_M);
+ 676:main.c        ****         Z_AXIS = convert_raw(Z_L_M, Z_H_M);
+ 677:main.c        ****         
+ 678:main.c        ****         heading(X_AXIS, Y_AXIS);
+ 679:main.c        ****         printf("MAGNET: %d %d %d %d %d %d \r\n", X_L_M, X_H_M, Y_L_M, Y_H_M, Z_L_M, Z_H_M);
+ 680:main.c        ****         printf("%d %d %d \r\n", X_AXIS,Y_AXIS, Z_AXIS);
+ 681:main.c        ****         CyDelay(50);      
+ 682:main.c        ****     }
+ 683:main.c        **** }   
+ 684:main.c        **** //*/
+ 685:main.c        **** 
+ 686:main.c        **** 
+ 687:main.c        **** #if 0
+ 688:main.c        **** int rread(void)
+ 689:main.c        **** {
+ 690:main.c        ****     SC0_SetDriveMode(PIN_DM_STRONG);
+ 691:main.c        ****     SC0_Write(1);
+ 692:main.c        ****     CyDelayUs(10);
+ 693:main.c        ****     SC0_SetDriveMode(PIN_DM_DIG_HIZ);
+ 694:main.c        ****     Timer_1_Start();
+ 695:main.c        ****     uint16_t start = Timer_1_ReadCounter();
+ 696:main.c        ****     uint16_t end = 0;
+ 697:main.c        ****     while(!(Timer_1_ReadStatusRegister() & Timer_1_STATUS_TC)) {
+ 698:main.c        ****         if(SC0_Read() == 0 && end == 0) {
+ 699:main.c        ****             end = Timer_1_ReadCounter();
+ 700:main.c        ****         }
+ 701:main.c        ****     }
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 32
+
+
+ 702:main.c        ****     Timer_1_Stop();
+ 703:main.c        ****     
+ 704:main.c        ****     return (start - end);
+ 705:main.c        **** }
+ 706:main.c        **** #endif
+ 707:main.c        **** 
+ 708:main.c        **** /* Don't remove the functions below */
+ 709:main.c        **** int _write(int file, char *ptr, int len)
+ 710:main.c        **** {
+ 1051              		.loc 1 710 0
+ 1052              		.cfi_startproc
+ 1053              		@ args = 0, pretend = 0, frame = 0
+ 1054              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1055              	.LVL159:
+ 1056 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1057              		.cfi_def_cfa_offset 24
+ 1058              		.cfi_offset 3, -24
+ 1059              		.cfi_offset 4, -20
+ 1060              		.cfi_offset 5, -16
+ 1061              		.cfi_offset 6, -12
+ 1062              		.cfi_offset 7, -8
+ 1063              		.cfi_offset 14, -4
+ 1064 0002 0C46     		mov	r4, r1
+ 1065 0004 1746     		mov	r7, r2
+ 1066              	.LVL160:
+ 711:main.c        ****     (void)file; /* Parameter is not used, suppress unused argument warning */
+ 712:main.c        **** 	int n;
+ 713:main.c        **** 	for(n = 0; n < len; n++) {
+ 1067              		.loc 1 713 0
+ 1068 0006 0025     		movs	r5, #0
+ 1069 0008 0BE0     		b	.L101
+ 1070              	.LVL161:
+ 1071              	.L103:
+ 714:main.c        ****         if(*ptr == '\n') UART_1_PutChar('\r');
+ 1072              		.loc 1 714 0
+ 1073 000a 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 1074 000c 0A2B     		cmp	r3, #10
+ 1075 000e 02D1     		bne	.L102
+ 1076              		.loc 1 714 0 is_stmt 0 discriminator 1
+ 1077 0010 0D20     		movs	r0, #13
+ 1078 0012 FFF7FEFF 		bl	UART_1_PutChar
+ 1079              	.LVL162:
+ 1080              	.L102:
+ 715:main.c        **** 		UART_1_PutChar(*ptr++);
+ 1081              		.loc 1 715 0 is_stmt 1 discriminator 2
+ 1082 0016 661C     		adds	r6, r4, #1
+ 1083              	.LVL163:
+ 1084 0018 2078     		ldrb	r0, [r4]	@ zero_extendqisi2
+ 1085 001a FFF7FEFF 		bl	UART_1_PutChar
+ 1086              	.LVL164:
+ 713:main.c        ****         if(*ptr == '\n') UART_1_PutChar('\r');
+ 1087              		.loc 1 713 0 discriminator 2
+ 1088 001e 0135     		adds	r5, r5, #1
+ 1089              	.LVL165:
+ 1090              		.loc 1 715 0 discriminator 2
+ 1091 0020 3446     		mov	r4, r6
+ 1092              	.LVL166:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 33
+
+
+ 1093              	.L101:
+ 713:main.c        ****         if(*ptr == '\n') UART_1_PutChar('\r');
+ 1094              		.loc 1 713 0 discriminator 1
+ 1095 0022 BD42     		cmp	r5, r7
+ 1096 0024 F1DB     		blt	.L103
+ 716:main.c        **** 	}
+ 717:main.c        **** 	return len;
+ 718:main.c        **** }
+ 1097              		.loc 1 718 0
+ 1098 0026 3846     		mov	r0, r7
+ 1099 0028 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1100              		.cfi_endproc
+ 1101              	.LFE64:
+ 1102              		.size	_write, .-_write
+ 1103 002a 00BF     		.section	.text._read,"ax",%progbits
+ 1104              		.align	2
+ 1105              		.global	_read
+ 1106              		.thumb
+ 1107              		.thumb_func
+ 1108              		.type	_read, %function
+ 1109              	_read:
+ 1110              	.LFB65:
+ 719:main.c        **** 
+ 720:main.c        **** int _read (int file, char *ptr, int count)
+ 721:main.c        **** {
+ 1111              		.loc 1 721 0
+ 1112              		.cfi_startproc
+ 1113              		@ args = 0, pretend = 0, frame = 0
+ 1114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1115              	.LVL167:
+ 1116 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1117              		.cfi_def_cfa_offset 24
+ 1118              		.cfi_offset 3, -24
+ 1119              		.cfi_offset 4, -20
+ 1120              		.cfi_offset 5, -16
+ 1121              		.cfi_offset 6, -12
+ 1122              		.cfi_offset 7, -8
+ 1123              		.cfi_offset 14, -4
+ 1124 0002 0F46     		mov	r7, r1
+ 1125 0004 1446     		mov	r4, r2
+ 1126              	.LVL168:
+ 722:main.c        ****     int chs = 0;
+ 1127              		.loc 1 722 0
+ 1128 0006 0026     		movs	r6, #0
+ 723:main.c        ****     char ch;
+ 724:main.c        ****  
+ 725:main.c        ****     (void)file; /* Parameter is not used, suppress unused argument warning */
+ 726:main.c        ****     while(count > 0) {
+ 1129              		.loc 1 726 0
+ 1130 0008 12E0     		b	.L107
+ 1131              	.LVL169:
+ 1132              	.L110:
+ 727:main.c        ****         ch = UART_1_GetChar();
+ 1133              		.loc 1 727 0
+ 1134 000a FFF7FEFF 		bl	UART_1_GetChar
+ 1135              	.LVL170:
+ 728:main.c        ****         if(ch != 0) {
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 34
+
+
+ 1136              		.loc 1 728 0
+ 1137 000e 0546     		mov	r5, r0
+ 1138 0010 70B1     		cbz	r0, .L107
+ 729:main.c        ****             UART_1_PutChar(ch);
+ 1139              		.loc 1 729 0
+ 1140 0012 FFF7FEFF 		bl	UART_1_PutChar
+ 1141              	.LVL171:
+ 730:main.c        ****             chs++;
+ 1142              		.loc 1 730 0
+ 1143 0016 0136     		adds	r6, r6, #1
+ 1144              	.LVL172:
+ 731:main.c        ****             if(ch == '\r') {
+ 1145              		.loc 1 731 0
+ 1146 0018 0D2D     		cmp	r5, #13
+ 1147 001a 03D1     		bne	.L108
+ 1148              	.LVL173:
+ 732:main.c        ****                 ch = '\n';
+ 733:main.c        ****                 UART_1_PutChar(ch);
+ 1149              		.loc 1 733 0
+ 1150 001c 0A20     		movs	r0, #10
+ 1151 001e FFF7FEFF 		bl	UART_1_PutChar
+ 1152              	.LVL174:
+ 732:main.c        ****                 ch = '\n';
+ 1153              		.loc 1 732 0
+ 1154 0022 0A25     		movs	r5, #10
+ 1155              	.LVL175:
+ 1156              	.L108:
+ 734:main.c        ****             }
+ 735:main.c        ****             *ptr++ = ch;
+ 1157              		.loc 1 735 0
+ 1158 0024 7B1C     		adds	r3, r7, #1
+ 1159              	.LVL176:
+ 1160 0026 3D70     		strb	r5, [r7]
+ 736:main.c        ****             count--;
+ 1161              		.loc 1 736 0
+ 1162 0028 013C     		subs	r4, r4, #1
+ 1163              	.LVL177:
+ 737:main.c        ****             if(ch == '\n') break;
+ 1164              		.loc 1 737 0
+ 1165 002a 0A2D     		cmp	r5, #10
+ 1166 002c 02D0     		beq	.L109
+ 735:main.c        ****             count--;
+ 1167              		.loc 1 735 0
+ 1168 002e 1F46     		mov	r7, r3
+ 1169              	.LVL178:
+ 1170              	.L107:
+ 726:main.c        ****         ch = UART_1_GetChar();
+ 1171              		.loc 1 726 0
+ 1172 0030 002C     		cmp	r4, #0
+ 1173 0032 EADC     		bgt	.L110
+ 1174              	.LVL179:
+ 1175              	.L109:
+ 738:main.c        ****         }
+ 739:main.c        ****     }
+ 740:main.c        ****     return chs;
+ 741:main.c        **** }
+ 1176              		.loc 1 741 0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 35
+
+
+ 1177 0034 3046     		mov	r0, r6
+ 1178 0036 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 1179              		.cfi_endproc
+ 1180              	.LFE65:
+ 1181              		.size	_read, .-_read
+ 1182              		.section	.rodata
+ 1183              		.align	2
+ 1184              		.set	.LANCHOR0,. + 0
+ 1185              	.LC0:
+ 1186 0000 C05D0000 		.word	24000
+ 1187 0004 C05D0000 		.word	24000
+ 1188 0008 C05D0000 		.word	24000
+ 1189 000c C05D0000 		.word	24000
+ 1190              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 1191              		.align	2
+ 1192              	.LC1:
+ 1193 0000 25642025 		.ascii	"%d %d %d %d\012\000"
+ 1193      64202564 
+ 1193      2025640A 
+ 1193      00
+ 1194 000d 000000   		.space	3
+ 1195              	.LC2:
+ 1196 0010 5475726E 		.ascii	"Turning left\000"
+ 1196      696E6720 
+ 1196      6C656674 
+ 1196      00
+ 1197 001d 000000   		.space	3
+ 1198              	.LC3:
+ 1199 0020 5475726E 		.ascii	"Turning right\000"
+ 1199      696E6720 
+ 1199      72696768 
+ 1199      7400
+ 1200 002e 0000     		.text
+ 1201              	.Letext0:
+ 1202              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 1203              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 1204              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 1205              		.file 5 ".\\ZumoLibrary/Reflectance.h"
+ 1206              		.file 6 "Generated_Source\\PSoC5/UART_1.h"
+ 1207              		.file 7 "Generated_Source\\PSoC5/sensor_isr.h"
+ 1208              		.file 8 "Generated_Source\\PSoC5/IR_led.h"
+ 1209              		.file 9 "Generated_Source\\PSoC5/ADC_Battery.h"
+ 1210              		.file 10 "Generated_Source\\PSoC5/CyLib.h"
+ 1211              		.file 11 "Generated_Source\\PSoC5/BatteryLed.h"
+ 1212              		.file 12 ".\\ZumoLibrary/Ultra.h"
+ 1213              		.file 13 ".\\ZumoLibrary/Motor.h"
+ 1214              		.file 14 ".\\ZumoLibrary/IR.h"
+ 1215              		.file 15 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9
+ 1216              		.file 16 ".\\ZumoLibrary/Beep.h"
+ 1217              		.file 17 "Generated_Source\\PSoC5/core_cm3.h"
+ 1218              		.file 18 "<built-in>"
+ 1219              		.section	.debug_info,"",%progbits
+ 1220              	.Ldebug_info0:
+ 1221 0000 EF0A0000 		.4byte	0xaef
+ 1222 0004 0400     		.2byte	0x4
+ 1223 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1224 000a 04       		.byte	0x4
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 36
+
+
+ 1225 000b 01       		.uleb128 0x1
+ 1226 000c 1E020000 		.4byte	.LASF66
+ 1227 0010 01       		.byte	0x1
+ 1228 0011 E0020000 		.4byte	.LASF67
+ 1229 0015 28030000 		.4byte	.LASF68
+ 1230 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1231 001d 00000000 		.4byte	0
+ 1232 0021 00000000 		.4byte	.Ldebug_line0
+ 1233 0025 02       		.uleb128 0x2
+ 1234 0026 08       		.byte	0x8
+ 1235 0027 07       		.byte	0x7
+ 1236 0028 9D010000 		.4byte	.LASF0
+ 1237 002c 02       		.uleb128 0x2
+ 1238 002d 04       		.byte	0x4
+ 1239 002e 07       		.byte	0x7
+ 1240 002f B4010000 		.4byte	.LASF1
+ 1241 0033 03       		.uleb128 0x3
+ 1242 0034 04       		.byte	0x4
+ 1243 0035 05       		.byte	0x5
+ 1244 0036 696E7400 		.ascii	"int\000"
+ 1245 003a 02       		.uleb128 0x2
+ 1246 003b 01       		.byte	0x1
+ 1247 003c 06       		.byte	0x6
+ 1248 003d 91010000 		.4byte	.LASF2
+ 1249 0041 02       		.uleb128 0x2
+ 1250 0042 01       		.byte	0x1
+ 1251 0043 08       		.byte	0x8
+ 1252 0044 39010000 		.4byte	.LASF3
+ 1253 0048 02       		.uleb128 0x2
+ 1254 0049 02       		.byte	0x2
+ 1255 004a 05       		.byte	0x5
+ 1256 004b 3C000000 		.4byte	.LASF4
+ 1257 004f 04       		.uleb128 0x4
+ 1258 0050 86000000 		.4byte	.LASF6
+ 1259 0054 02       		.byte	0x2
+ 1260 0055 2B       		.byte	0x2b
+ 1261 0056 5A000000 		.4byte	0x5a
+ 1262 005a 02       		.uleb128 0x2
+ 1263 005b 02       		.byte	0x2
+ 1264 005c 07       		.byte	0x7
+ 1265 005d F7010000 		.4byte	.LASF5
+ 1266 0061 04       		.uleb128 0x4
+ 1267 0062 57030000 		.4byte	.LASF7
+ 1268 0066 02       		.byte	0x2
+ 1269 0067 3F       		.byte	0x3f
+ 1270 0068 6C000000 		.4byte	0x6c
+ 1271 006c 02       		.uleb128 0x2
+ 1272 006d 04       		.byte	0x4
+ 1273 006e 05       		.byte	0x5
+ 1274 006f 20010000 		.4byte	.LASF8
+ 1275 0073 02       		.uleb128 0x2
+ 1276 0074 04       		.byte	0x4
+ 1277 0075 07       		.byte	0x7
+ 1278 0076 E7020000 		.4byte	.LASF9
+ 1279 007a 02       		.uleb128 0x2
+ 1280 007b 08       		.byte	0x8
+ 1281 007c 05       		.byte	0x5
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 37
+
+
+ 1282 007d F9000000 		.4byte	.LASF10
+ 1283 0081 04       		.uleb128 0x4
+ 1284 0082 C1010000 		.4byte	.LASF11
+ 1285 0086 03       		.byte	0x3
+ 1286 0087 21       		.byte	0x21
+ 1287 0088 4F000000 		.4byte	0x4f
+ 1288 008c 04       		.uleb128 0x4
+ 1289 008d AC020000 		.4byte	.LASF12
+ 1290 0091 03       		.byte	0x3
+ 1291 0092 2C       		.byte	0x2c
+ 1292 0093 61000000 		.4byte	0x61
+ 1293 0097 05       		.uleb128 0x5
+ 1294 0098 B0000000 		.4byte	.LASF13
+ 1295 009c 04       		.byte	0x4
+ 1296 009d 9201     		.2byte	0x192
+ 1297 009f 41000000 		.4byte	0x41
+ 1298 00a3 05       		.uleb128 0x5
+ 1299 00a4 D9020000 		.4byte	.LASF14
+ 1300 00a8 04       		.byte	0x4
+ 1301 00a9 9401     		.2byte	0x194
+ 1302 00ab 73000000 		.4byte	0x73
+ 1303 00af 05       		.uleb128 0x5
+ 1304 00b0 9F000000 		.4byte	.LASF15
+ 1305 00b4 04       		.byte	0x4
+ 1306 00b5 9601     		.2byte	0x196
+ 1307 00b7 48000000 		.4byte	0x48
+ 1308 00bb 05       		.uleb128 0x5
+ 1309 00bc 29000000 		.4byte	.LASF16
+ 1310 00c0 04       		.byte	0x4
+ 1311 00c1 9801     		.2byte	0x198
+ 1312 00c3 C7000000 		.4byte	0xc7
+ 1313 00c7 02       		.uleb128 0x2
+ 1314 00c8 04       		.byte	0x4
+ 1315 00c9 04       		.byte	0x4
+ 1316 00ca F3000000 		.4byte	.LASF17
+ 1317 00ce 02       		.uleb128 0x2
+ 1318 00cf 08       		.byte	0x8
+ 1319 00d0 04       		.byte	0x4
+ 1320 00d1 A3030000 		.4byte	.LASF18
+ 1321 00d5 02       		.uleb128 0x2
+ 1322 00d6 01       		.byte	0x1
+ 1323 00d7 08       		.byte	0x8
+ 1324 00d8 1B010000 		.4byte	.LASF19
+ 1325 00dc 05       		.uleb128 0x5
+ 1326 00dd 5F010000 		.4byte	.LASF20
+ 1327 00e1 04       		.byte	0x4
+ 1328 00e2 4E02     		.2byte	0x24e
+ 1329 00e4 E8000000 		.4byte	0xe8
+ 1330 00e8 06       		.uleb128 0x6
+ 1331 00e9 04       		.byte	0x4
+ 1332 00ea EE000000 		.4byte	0xee
+ 1333 00ee 07       		.uleb128 0x7
+ 1334 00ef 02       		.uleb128 0x2
+ 1335 00f0 04       		.byte	0x4
+ 1336 00f1 07       		.byte	0x7
+ 1337 00f2 46000000 		.4byte	.LASF21
+ 1338 00f6 06       		.uleb128 0x6
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 38
+
+
+ 1339 00f7 04       		.byte	0x4
+ 1340 00f8 D5000000 		.4byte	0xd5
+ 1341 00fc 06       		.uleb128 0x6
+ 1342 00fd 04       		.byte	0x4
+ 1343 00fe 02010000 		.4byte	0x102
+ 1344 0102 08       		.uleb128 0x8
+ 1345 0103 D5000000 		.4byte	0xd5
+ 1346 0107 09       		.uleb128 0x9
+ 1347 0108 96000000 		.4byte	.LASF69
+ 1348 010c 08       		.byte	0x8
+ 1349 010d 05       		.byte	0x5
+ 1350 010e 11       		.byte	0x11
+ 1351 010f 40010000 		.4byte	0x140
+ 1352 0113 0A       		.uleb128 0xa
+ 1353 0114 6C3300   		.ascii	"l3\000"
+ 1354 0117 05       		.byte	0x5
+ 1355 0118 12       		.byte	0x12
+ 1356 0119 81000000 		.4byte	0x81
+ 1357 011d 00       		.byte	0
+ 1358 011e 0A       		.uleb128 0xa
+ 1359 011f 6C3100   		.ascii	"l1\000"
+ 1360 0122 05       		.byte	0x5
+ 1361 0123 14       		.byte	0x14
+ 1362 0124 81000000 		.4byte	0x81
+ 1363 0128 02       		.byte	0x2
+ 1364 0129 0A       		.uleb128 0xa
+ 1365 012a 723100   		.ascii	"r1\000"
+ 1366 012d 05       		.byte	0x5
+ 1367 012e 15       		.byte	0x15
+ 1368 012f 81000000 		.4byte	0x81
+ 1369 0133 04       		.byte	0x4
+ 1370 0134 0A       		.uleb128 0xa
+ 1371 0135 723300   		.ascii	"r3\000"
+ 1372 0138 05       		.byte	0x5
+ 1373 0139 17       		.byte	0x17
+ 1374 013a 81000000 		.4byte	0x81
+ 1375 013e 06       		.byte	0x6
+ 1376 013f 00       		.byte	0
+ 1377 0140 02       		.uleb128 0x2
+ 1378 0141 08       		.byte	0x8
+ 1379 0142 04       		.byte	0x4
+ 1380 0143 47010000 		.4byte	.LASF22
+ 1381 0147 0B       		.uleb128 0xb
+ 1382 0148 7A000000 		.4byte	.LASF70
+ 1383 014c 01       		.byte	0x1
+ 1384 014d 7601     		.2byte	0x176
+ 1385 014f 33000000 		.4byte	0x33
+ 1386 0153 00000000 		.4byte	.LFB63
+ 1387 0157 2C060000 		.4byte	.LFE63-.LFB63
+ 1388 015b 01       		.uleb128 0x1
+ 1389 015c 9C       		.byte	0x9c
+ 1390 015d 0E080000 		.4byte	0x80e
+ 1391 0161 0C       		.uleb128 0xc
+ 1392 0162 6B6900   		.ascii	"ki\000"
+ 1393 0165 01       		.byte	0x1
+ 1394 0166 7B01     		.2byte	0x17b
+ 1395 0168 C7000000 		.4byte	0xc7
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 39
+
+
+ 1396 016c 04       		.byte	0x4
+ 1397 016d CDCCCC3C 		.4byte	0x3ccccccd
+ 1398 0171 0C       		.uleb128 0xc
+ 1399 0172 6B7000   		.ascii	"kp\000"
+ 1400 0175 01       		.byte	0x1
+ 1401 0176 7B01     		.2byte	0x17b
+ 1402 0178 C7000000 		.4byte	0xc7
+ 1403 017c 04       		.byte	0x4
+ 1404 017d 0000E03F 		.4byte	0x3fe00000
+ 1405 0181 0C       		.uleb128 0xc
+ 1406 0182 6B6400   		.ascii	"kd\000"
+ 1407 0185 01       		.byte	0x1
+ 1408 0186 7B01     		.2byte	0x17b
+ 1409 0188 C7000000 		.4byte	0xc7
+ 1410 018c 04       		.byte	0x4
+ 1411 018d 0000C841 		.4byte	0x41c80000
+ 1412 0191 0D       		.uleb128 0xd
+ 1413 0192 0A020000 		.4byte	.LASF23
+ 1414 0196 01       		.byte	0x1
+ 1415 0197 7B01     		.2byte	0x17b
+ 1416 0199 C7000000 		.4byte	0xc7
+ 1417 019d 00000000 		.4byte	.LLST0
+ 1418 01a1 0D       		.uleb128 0xd
+ 1419 01a2 94030000 		.4byte	.LASF24
+ 1420 01a6 01       		.byte	0x1
+ 1421 01a7 7C01     		.2byte	0x17c
+ 1422 01a9 C7000000 		.4byte	0xc7
+ 1423 01ad 18000000 		.4byte	.LLST1
+ 1424 01b1 0D       		.uleb128 0xd
+ 1425 01b2 E7030000 		.4byte	.LASF25
+ 1426 01b6 01       		.byte	0x1
+ 1427 01b7 7C01     		.2byte	0x17c
+ 1428 01b9 C7000000 		.4byte	0xc7
+ 1429 01bd 6A000000 		.4byte	.LLST2
+ 1430 01c1 0E       		.uleb128 0xe
+ 1431 01c2 70726F00 		.ascii	"pro\000"
+ 1432 01c6 01       		.byte	0x1
+ 1433 01c7 7C01     		.2byte	0x17c
+ 1434 01c9 C7000000 		.4byte	0xc7
+ 1435 01cd FF000000 		.4byte	.LLST3
+ 1436 01d1 0D       		.uleb128 0xd
+ 1437 01d2 30010000 		.4byte	.LASF26
+ 1438 01d6 01       		.byte	0x1
+ 1439 01d7 7C01     		.2byte	0x17c
+ 1440 01d9 C7000000 		.4byte	0xc7
+ 1441 01dd 35010000 		.4byte	.LLST4
+ 1442 01e1 0D       		.uleb128 0xd
+ 1443 01e2 1D030000 		.4byte	.LASF27
+ 1444 01e6 01       		.byte	0x1
+ 1445 01e7 7C01     		.2byte	0x17c
+ 1446 01e9 C7000000 		.4byte	0xc7
+ 1447 01ed 69010000 		.4byte	.LLST5
+ 1448 01f1 0D       		.uleb128 0xd
+ 1449 01f2 18030000 		.4byte	.LASF28
+ 1450 01f6 01       		.byte	0x1
+ 1451 01f7 7C01     		.2byte	0x17c
+ 1452 01f9 C7000000 		.4byte	0xc7
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 40
+
+
+ 1453 01fd FF010000 		.4byte	.LLST6
+ 1454 0201 0D       		.uleb128 0xd
+ 1455 0202 EB010000 		.4byte	.LASF29
+ 1456 0206 01       		.byte	0x1
+ 1457 0207 7D01     		.2byte	0x17d
+ 1458 0209 33000000 		.4byte	0x33
+ 1459 020d 49020000 		.4byte	.LLST7
+ 1460 0211 0D       		.uleb128 0xd
+ 1461 0212 22030000 		.4byte	.LASF30
+ 1462 0216 01       		.byte	0x1
+ 1463 0217 7D01     		.2byte	0x17d
+ 1464 0219 33000000 		.4byte	0x33
+ 1465 021d 93020000 		.4byte	.LLST8
+ 1466 0221 0E       		.uleb128 0xe
+ 1467 0222 6900     		.ascii	"i\000"
+ 1468 0224 01       		.byte	0x1
+ 1469 0225 7E01     		.2byte	0x17e
+ 1470 0227 33000000 		.4byte	0x33
+ 1471 022b B2020000 		.4byte	.LLST9
+ 1472 022f 0E       		.uleb128 0xe
+ 1473 0230 6A00     		.ascii	"j\000"
+ 1474 0232 01       		.byte	0x1
+ 1475 0233 7E01     		.2byte	0x17e
+ 1476 0235 33000000 		.4byte	0x33
+ 1477 0239 15030000 		.4byte	.LLST10
+ 1478 023d 0F       		.uleb128 0xf
+ 1479 023e 8A030000 		.4byte	.LASF31
+ 1480 0242 01       		.byte	0x1
+ 1481 0243 7F01     		.2byte	0x17f
+ 1482 0245 33000000 		.4byte	0x33
+ 1483 0249 FF       		.byte	0xff
+ 1484 024a 0D       		.uleb128 0xd
+ 1485 024b 8C010000 		.4byte	.LASF32
+ 1486 024f 01       		.byte	0x1
+ 1487 0250 7F01     		.2byte	0x17f
+ 1488 0252 33000000 		.4byte	0x33
+ 1489 0256 33030000 		.4byte	.LLST11
+ 1490 025a 10       		.uleb128 0x10
+ 1491 025b 00000000 		.4byte	.LASF33
+ 1492 025f 01       		.byte	0x1
+ 1493 0260 7F01     		.2byte	0x17f
+ 1494 0262 33000000 		.4byte	0x33
+ 1495 0266 204E     		.2byte	0x4e20
+ 1496 0268 0F       		.uleb128 0xf
+ 1497 0269 B6000000 		.4byte	.LASF34
+ 1498 026d 01       		.byte	0x1
+ 1499 026e 8001     		.2byte	0x180
+ 1500 0270 33000000 		.4byte	0x33
+ 1501 0274 00       		.byte	0
+ 1502 0275 11       		.uleb128 0x11
+ 1503 0276 72656600 		.ascii	"ref\000"
+ 1504 027a 01       		.byte	0x1
+ 1505 027b 8101     		.2byte	0x181
+ 1506 027d 07010000 		.4byte	0x107
+ 1507 0281 02       		.uleb128 0x2
+ 1508 0282 91       		.byte	0x91
+ 1509 0283 50       		.sleb128 -48
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 41
+
+
+ 1510 0284 12       		.uleb128 0x12
+ 1511 0285 63616C00 		.ascii	"cal\000"
+ 1512 0289 01       		.byte	0x1
+ 1513 028a 8101     		.2byte	0x181
+ 1514 028c 07010000 		.4byte	0x107
+ 1515 0290 0D       		.uleb128 0xd
+ 1516 0291 99030000 		.4byte	.LASF35
+ 1517 0295 01       		.byte	0x1
+ 1518 0296 8201     		.2byte	0x182
+ 1519 0298 AF000000 		.4byte	0xaf
+ 1520 029c 53030000 		.4byte	.LLST12
+ 1521 02a0 11       		.uleb128 0x11
+ 1522 02a1 6D696E00 		.ascii	"min\000"
+ 1523 02a5 01       		.byte	0x1
+ 1524 02a6 8301     		.2byte	0x183
+ 1525 02a8 0E080000 		.4byte	0x80e
+ 1526 02ac 02       		.uleb128 0x2
+ 1527 02ad 91       		.byte	0x91
+ 1528 02ae 40       		.sleb128 -64
+ 1529 02af 11       		.uleb128 0x11
+ 1530 02b0 6D617800 		.ascii	"max\000"
+ 1531 02b4 01       		.byte	0x1
+ 1532 02b5 8301     		.2byte	0x183
+ 1533 02b7 0E080000 		.4byte	0x80e
+ 1534 02bb 03       		.uleb128 0x3
+ 1535 02bc 91       		.byte	0x91
+ 1536 02bd B07F     		.sleb128 -80
+ 1537 02bf 0D       		.uleb128 0xd
+ 1538 02c0 F2010000 		.4byte	.LASF36
+ 1539 02c4 01       		.byte	0x1
+ 1540 02c5 8401     		.2byte	0x184
+ 1541 02c7 33000000 		.4byte	0x33
+ 1542 02cb 88030000 		.4byte	.LLST13
+ 1543 02cf 13       		.uleb128 0x13
+ 1544 02d0 E1030000 		.4byte	.LASF37
+ 1545 02d4 01       		.byte	0x1
+ 1546 02d5 8401     		.2byte	0x184
+ 1547 02d7 33000000 		.4byte	0x33
+ 1548 02db 7F       		.sleb128 -1
+ 1549 02dc 14       		.uleb128 0x14
+ 1550 02dd 20000000 		.4byte	.LVL2
+ 1551 02e1 3A090000 		.4byte	0x93a
+ 1552 02e5 14       		.uleb128 0x14
+ 1553 02e6 26000000 		.4byte	.LVL3
+ 1554 02ea 41090000 		.4byte	0x941
+ 1555 02ee 14       		.uleb128 0x14
+ 1556 02ef 2A000000 		.4byte	.LVL4
+ 1557 02f3 52090000 		.4byte	0x952
+ 1558 02f7 15       		.uleb128 0x15
+ 1559 02f8 30000000 		.4byte	.LVL5
+ 1560 02fc 59090000 		.4byte	0x959
+ 1561 0300 0A030000 		.4byte	0x30a
+ 1562 0304 16       		.uleb128 0x16
+ 1563 0305 01       		.uleb128 0x1
+ 1564 0306 50       		.byte	0x50
+ 1565 0307 01       		.uleb128 0x1
+ 1566 0308 31       		.byte	0x31
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 42
+
+
+ 1567 0309 00       		.byte	0
+ 1568 030a 14       		.uleb128 0x14
+ 1569 030b 34000000 		.4byte	.LVL6
+ 1570 030f 6A090000 		.4byte	0x96a
+ 1571 0313 14       		.uleb128 0x14
+ 1572 0314 38000000 		.4byte	.LVL7
+ 1573 0318 77090000 		.4byte	0x977
+ 1574 031c 15       		.uleb128 0x15
+ 1575 031d 40000000 		.4byte	.LVL8
+ 1576 0321 7E090000 		.4byte	0x97e
+ 1577 0325 31030000 		.4byte	0x331
+ 1578 0329 16       		.uleb128 0x16
+ 1579 032a 01       		.uleb128 0x1
+ 1580 032b 50       		.byte	0x50
+ 1581 032c 03       		.uleb128 0x3
+ 1582 032d 0A       		.byte	0xa
+ 1583 032e D007     		.2byte	0x7d0
+ 1584 0330 00       		.byte	0
+ 1585 0331 15       		.uleb128 0x15
+ 1586 0332 46000000 		.4byte	.LVL9
+ 1587 0336 8F090000 		.4byte	0x98f
+ 1588 033a 44030000 		.4byte	0x344
+ 1589 033e 16       		.uleb128 0x16
+ 1590 033f 01       		.uleb128 0x1
+ 1591 0340 50       		.byte	0x50
+ 1592 0341 01       		.uleb128 0x1
+ 1593 0342 31       		.byte	0x31
+ 1594 0343 00       		.byte	0
+ 1595 0344 14       		.uleb128 0x14
+ 1596 0345 4A000000 		.4byte	.LVL10
+ 1597 0349 A0090000 		.4byte	0x9a0
+ 1598 034d 15       		.uleb128 0x15
+ 1599 034e 6C000000 		.4byte	.LVL12
+ 1600 0352 AD090000 		.4byte	0x9ad
+ 1601 0356 6C030000 		.4byte	0x36c
+ 1602 035a 16       		.uleb128 0x16
+ 1603 035b 01       		.uleb128 0x1
+ 1604 035c 52       		.byte	0x52
+ 1605 035d 01       		.uleb128 0x1
+ 1606 035e 31       		.byte	0x31
+ 1607 035f 16       		.uleb128 0x16
+ 1608 0360 01       		.uleb128 0x1
+ 1609 0361 51       		.byte	0x51
+ 1610 0362 02       		.uleb128 0x2
+ 1611 0363 09       		.byte	0x9
+ 1612 0364 9C       		.byte	0x9c
+ 1613 0365 16       		.uleb128 0x16
+ 1614 0366 01       		.uleb128 0x1
+ 1615 0367 50       		.byte	0x50
+ 1616 0368 02       		.uleb128 0x2
+ 1617 0369 08       		.byte	0x8
+ 1618 036a 64       		.byte	0x64
+ 1619 036b 00       		.byte	0
+ 1620 036c 15       		.uleb128 0x15
+ 1621 036d 7A000000 		.4byte	.LVL13
+ 1622 0371 AD090000 		.4byte	0x9ad
+ 1623 0375 8B030000 		.4byte	0x38b
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 43
+
+
+ 1624 0379 16       		.uleb128 0x16
+ 1625 037a 01       		.uleb128 0x1
+ 1626 037b 52       		.byte	0x52
+ 1627 037c 01       		.uleb128 0x1
+ 1628 037d 31       		.byte	0x31
+ 1629 037e 16       		.uleb128 0x16
+ 1630 037f 01       		.uleb128 0x1
+ 1631 0380 51       		.byte	0x51
+ 1632 0381 02       		.uleb128 0x2
+ 1633 0382 08       		.byte	0x8
+ 1634 0383 64       		.byte	0x64
+ 1635 0384 16       		.uleb128 0x16
+ 1636 0385 01       		.uleb128 0x1
+ 1637 0386 50       		.byte	0x50
+ 1638 0387 02       		.uleb128 0x2
+ 1639 0388 09       		.byte	0x9
+ 1640 0389 9C       		.byte	0x9c
+ 1641 038a 00       		.byte	0
+ 1642 038b 15       		.uleb128 0x15
+ 1643 038c 80000000 		.4byte	.LVL14
+ 1644 0390 7E090000 		.4byte	0x97e
+ 1645 0394 9E030000 		.4byte	0x39e
+ 1646 0398 16       		.uleb128 0x16
+ 1647 0399 01       		.uleb128 0x1
+ 1648 039a 50       		.byte	0x50
+ 1649 039b 01       		.uleb128 0x1
+ 1650 039c 35       		.byte	0x35
+ 1651 039d 00       		.byte	0
+ 1652 039e 15       		.uleb128 0x15
+ 1653 039f 86000000 		.4byte	.LVL15
+ 1654 03a3 C8090000 		.4byte	0x9c8
+ 1655 03a7 B2030000 		.4byte	0x3b2
+ 1656 03ab 16       		.uleb128 0x16
+ 1657 03ac 01       		.uleb128 0x1
+ 1658 03ad 50       		.byte	0x50
+ 1659 03ae 02       		.uleb128 0x2
+ 1660 03af 91       		.byte	0x91
+ 1661 03b0 50       		.sleb128 -48
+ 1662 03b1 00       		.byte	0
+ 1663 03b2 15       		.uleb128 0x15
+ 1664 03b3 E4000000 		.4byte	.LVL17
+ 1665 03b7 8F090000 		.4byte	0x98f
+ 1666 03bb C5030000 		.4byte	0x3c5
+ 1667 03bf 16       		.uleb128 0x16
+ 1668 03c0 01       		.uleb128 0x1
+ 1669 03c1 50       		.byte	0x50
+ 1670 03c2 01       		.uleb128 0x1
+ 1671 03c3 30       		.byte	0x30
+ 1672 03c4 00       		.byte	0
+ 1673 03c5 15       		.uleb128 0x15
+ 1674 03c6 50010000 		.4byte	.LVL19
+ 1675 03ca DF090000 		.4byte	0x9df
+ 1676 03ce 09040000 		.4byte	0x409
+ 1677 03d2 16       		.uleb128 0x16
+ 1678 03d3 01       		.uleb128 0x1
+ 1679 03d4 53       		.byte	0x53
+ 1680 03d5 26       		.uleb128 0x26
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 44
+
+
+ 1681 03d6 77       		.byte	0x77
+ 1682 03d7 00       		.sleb128 0
+ 1683 03d8 32       		.byte	0x32
+ 1684 03d9 24       		.byte	0x24
+ 1685 03da 78       		.byte	0x78
+ 1686 03db 00       		.sleb128 0
+ 1687 03dc 22       		.byte	0x22
+ 1688 03dd F7       		.byte	0xf7
+ 1689 03de 33       		.uleb128 0x33
+ 1690 03df F7       		.byte	0xf7
+ 1691 03e0 25       		.uleb128 0x25
+ 1692 03e1 0C       		.byte	0xc
+ 1693 03e2 67666666 		.4byte	0x66666667
+ 1694 03e6 F7       		.byte	0xf7
+ 1695 03e7 25       		.uleb128 0x25
+ 1696 03e8 1E       		.byte	0x1e
+ 1697 03e9 08       		.byte	0x8
+ 1698 03ea 20       		.byte	0x20
+ 1699 03eb F7       		.byte	0xf7
+ 1700 03ec 25       		.uleb128 0x25
+ 1701 03ed 25       		.byte	0x25
+ 1702 03ee F7       		.byte	0xf7
+ 1703 03ef 2C       		.uleb128 0x2c
+ 1704 03f0 31       		.byte	0x31
+ 1705 03f1 26       		.byte	0x26
+ 1706 03f2 77       		.byte	0x77
+ 1707 03f3 00       		.sleb128 0
+ 1708 03f4 32       		.byte	0x32
+ 1709 03f5 24       		.byte	0x24
+ 1710 03f6 78       		.byte	0x78
+ 1711 03f7 00       		.sleb128 0
+ 1712 03f8 22       		.byte	0x22
+ 1713 03f9 4F       		.byte	0x4f
+ 1714 03fa 26       		.byte	0x26
+ 1715 03fb 1C       		.byte	0x1c
+ 1716 03fc 16       		.uleb128 0x16
+ 1717 03fd 01       		.uleb128 0x1
+ 1718 03fe 52       		.byte	0x52
+ 1719 03ff 02       		.uleb128 0x2
+ 1720 0400 7A       		.byte	0x7a
+ 1721 0401 00       		.sleb128 0
+ 1722 0402 16       		.uleb128 0x16
+ 1723 0403 01       		.uleb128 0x1
+ 1724 0404 51       		.byte	0x51
+ 1725 0405 02       		.uleb128 0x2
+ 1726 0406 79       		.byte	0x79
+ 1727 0407 00       		.sleb128 0
+ 1728 0408 00       		.byte	0
+ 1729 0409 15       		.uleb128 0x15
+ 1730 040a 84010000 		.4byte	.LVL20
+ 1731 040e FF090000 		.4byte	0x9ff
+ 1732 0412 3A040000 		.4byte	0x43a
+ 1733 0416 16       		.uleb128 0x16
+ 1734 0417 01       		.uleb128 0x1
+ 1735 0418 53       		.byte	0x53
+ 1736 0419 02       		.uleb128 0x2
+ 1737 041a 75       		.byte	0x75
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 45
+
+
+ 1738 041b 00       		.sleb128 0
+ 1739 041c 16       		.uleb128 0x16
+ 1740 041d 01       		.uleb128 0x1
+ 1741 041e 52       		.byte	0x52
+ 1742 041f 02       		.uleb128 0x2
+ 1743 0420 78       		.byte	0x78
+ 1744 0421 00       		.sleb128 0
+ 1745 0422 16       		.uleb128 0x16
+ 1746 0423 01       		.uleb128 0x1
+ 1747 0424 51       		.byte	0x51
+ 1748 0425 02       		.uleb128 0x2
+ 1749 0426 7B       		.byte	0x7b
+ 1750 0427 00       		.sleb128 0
+ 1751 0428 16       		.uleb128 0x16
+ 1752 0429 01       		.uleb128 0x1
+ 1753 042a 50       		.byte	0x50
+ 1754 042b 05       		.uleb128 0x5
+ 1755 042c 03       		.byte	0x3
+ 1756 042d 00000000 		.4byte	.LC1
+ 1757 0431 16       		.uleb128 0x16
+ 1758 0432 02       		.uleb128 0x2
+ 1759 0433 7D       		.byte	0x7d
+ 1760 0434 00       		.sleb128 0
+ 1761 0435 03       		.uleb128 0x3
+ 1762 0436 91       		.byte	0x91
+ 1763 0437 4C       		.sleb128 -52
+ 1764 0438 06       		.byte	0x6
+ 1765 0439 00       		.byte	0
+ 1766 043a 15       		.uleb128 0x15
+ 1767 043b 92010000 		.4byte	.LVL21
+ 1768 043f FF090000 		.4byte	0x9ff
+ 1769 0443 6E040000 		.4byte	0x46e
+ 1770 0447 16       		.uleb128 0x16
+ 1771 0448 01       		.uleb128 0x1
+ 1772 0449 53       		.byte	0x53
+ 1773 044a 04       		.uleb128 0x4
+ 1774 044b 91       		.byte	0x91
+ 1775 044c A07F     		.sleb128 -96
+ 1776 044e 06       		.byte	0x6
+ 1777 044f 16       		.uleb128 0x16
+ 1778 0450 01       		.uleb128 0x1
+ 1779 0451 52       		.byte	0x52
+ 1780 0452 04       		.uleb128 0x4
+ 1781 0453 91       		.byte	0x91
+ 1782 0454 987F     		.sleb128 -104
+ 1783 0456 06       		.byte	0x6
+ 1784 0457 16       		.uleb128 0x16
+ 1785 0458 01       		.uleb128 0x1
+ 1786 0459 51       		.byte	0x51
+ 1787 045a 02       		.uleb128 0x2
+ 1788 045b 76       		.byte	0x76
+ 1789 045c 00       		.sleb128 0
+ 1790 045d 16       		.uleb128 0x16
+ 1791 045e 01       		.uleb128 0x1
+ 1792 045f 50       		.byte	0x50
+ 1793 0460 05       		.uleb128 0x5
+ 1794 0461 03       		.byte	0x3
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 46
+
+
+ 1795 0462 00000000 		.4byte	.LC1
+ 1796 0466 16       		.uleb128 0x16
+ 1797 0467 02       		.uleb128 0x2
+ 1798 0468 7D       		.byte	0x7d
+ 1799 0469 00       		.sleb128 0
+ 1800 046a 02       		.uleb128 0x2
+ 1801 046b 77       		.byte	0x77
+ 1802 046c 00       		.sleb128 0
+ 1803 046d 00       		.byte	0
+ 1804 046e 15       		.uleb128 0x15
+ 1805 046f A6010000 		.4byte	.LVL22
+ 1806 0473 FF090000 		.4byte	0x9ff
+ 1807 0477 A2040000 		.4byte	0x4a2
+ 1808 047b 16       		.uleb128 0x16
+ 1809 047c 01       		.uleb128 0x1
+ 1810 047d 53       		.byte	0x53
+ 1811 047e 02       		.uleb128 0x2
+ 1812 047f 76       		.byte	0x76
+ 1813 0480 00       		.sleb128 0
+ 1814 0481 16       		.uleb128 0x16
+ 1815 0482 01       		.uleb128 0x1
+ 1816 0483 52       		.byte	0x52
+ 1817 0484 02       		.uleb128 0x2
+ 1818 0485 77       		.byte	0x77
+ 1819 0486 00       		.sleb128 0
+ 1820 0487 16       		.uleb128 0x16
+ 1821 0488 01       		.uleb128 0x1
+ 1822 0489 51       		.byte	0x51
+ 1823 048a 04       		.uleb128 0x4
+ 1824 048b 91       		.byte	0x91
+ 1825 048c A87F     		.sleb128 -88
+ 1826 048e 06       		.byte	0x6
+ 1827 048f 16       		.uleb128 0x16
+ 1828 0490 01       		.uleb128 0x1
+ 1829 0491 50       		.byte	0x50
+ 1830 0492 05       		.uleb128 0x5
+ 1831 0493 03       		.byte	0x3
+ 1832 0494 00000000 		.4byte	.LC1
+ 1833 0498 16       		.uleb128 0x16
+ 1834 0499 02       		.uleb128 0x2
+ 1835 049a 7D       		.byte	0x7d
+ 1836 049b 00       		.sleb128 0
+ 1837 049c 04       		.uleb128 0x4
+ 1838 049d 91       		.byte	0x91
+ 1839 049e AC7F     		.sleb128 -84
+ 1840 04a0 06       		.byte	0x6
+ 1841 04a1 00       		.byte	0
+ 1842 04a2 15       		.uleb128 0x15
+ 1843 04a3 C0010000 		.4byte	.LVL24
+ 1844 04a7 150A0000 		.4byte	0xa15
+ 1845 04ab B5040000 		.4byte	0x4b5
+ 1846 04af 16       		.uleb128 0x16
+ 1847 04b0 01       		.uleb128 0x1
+ 1848 04b1 50       		.byte	0x50
+ 1849 04b2 01       		.uleb128 0x1
+ 1850 04b3 31       		.byte	0x31
+ 1851 04b4 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 47
+
+
+ 1852 04b5 15       		.uleb128 0x15
+ 1853 04b6 C6010000 		.4byte	.LVL25
+ 1854 04ba 260A0000 		.4byte	0xa26
+ 1855 04be C9040000 		.4byte	0x4c9
+ 1856 04c2 16       		.uleb128 0x16
+ 1857 04c3 01       		.uleb128 0x1
+ 1858 04c4 50       		.byte	0x50
+ 1859 04c5 02       		.uleb128 0x2
+ 1860 04c6 91       		.byte	0x91
+ 1861 04c7 50       		.sleb128 -48
+ 1862 04c8 00       		.byte	0
+ 1863 04c9 15       		.uleb128 0x15
+ 1864 04ca E8010000 		.4byte	.LVL27
+ 1865 04ce C8090000 		.4byte	0x9c8
+ 1866 04d2 DD040000 		.4byte	0x4dd
+ 1867 04d6 16       		.uleb128 0x16
+ 1868 04d7 01       		.uleb128 0x1
+ 1869 04d8 50       		.byte	0x50
+ 1870 04d9 02       		.uleb128 0x2
+ 1871 04da 91       		.byte	0x91
+ 1872 04db 50       		.sleb128 -48
+ 1873 04dc 00       		.byte	0
+ 1874 04dd 15       		.uleb128 0x15
+ 1875 04de B6020000 		.4byte	.LVL64
+ 1876 04e2 AD090000 		.4byte	0x9ad
+ 1877 04e6 FF040000 		.4byte	0x4ff
+ 1878 04ea 16       		.uleb128 0x16
+ 1879 04eb 01       		.uleb128 0x1
+ 1880 04ec 52       		.byte	0x52
+ 1881 04ed 01       		.uleb128 0x1
+ 1882 04ee 31       		.byte	0x31
+ 1883 04ef 16       		.uleb128 0x16
+ 1884 04f0 01       		.uleb128 0x1
+ 1885 04f1 51       		.byte	0x51
+ 1886 04f2 02       		.uleb128 0x2
+ 1887 04f3 08       		.byte	0x8
+ 1888 04f4 FF       		.byte	0xff
+ 1889 04f5 16       		.uleb128 0x16
+ 1890 04f6 01       		.uleb128 0x1
+ 1891 04f7 50       		.byte	0x50
+ 1892 04f8 05       		.uleb128 0x5
+ 1893 04f9 08       		.byte	0x8
+ 1894 04fa FF       		.byte	0xff
+ 1895 04fb 74       		.byte	0x74
+ 1896 04fc 00       		.sleb128 0
+ 1897 04fd 1C       		.byte	0x1c
+ 1898 04fe 00       		.byte	0
+ 1899 04ff 15       		.uleb128 0x15
+ 1900 0500 C6020000 		.4byte	.LVL65
+ 1901 0504 AD090000 		.4byte	0x9ad
+ 1902 0508 1F050000 		.4byte	0x51f
+ 1903 050c 16       		.uleb128 0x16
+ 1904 050d 01       		.uleb128 0x1
+ 1905 050e 52       		.byte	0x52
+ 1906 050f 01       		.uleb128 0x1
+ 1907 0510 31       		.byte	0x31
+ 1908 0511 16       		.uleb128 0x16
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 48
+
+
+ 1909 0512 01       		.uleb128 0x1
+ 1910 0513 51       		.byte	0x51
+ 1911 0514 03       		.uleb128 0x3
+ 1912 0515 74       		.byte	0x74
+ 1913 0516 FF01     		.sleb128 255
+ 1914 0518 16       		.uleb128 0x16
+ 1915 0519 01       		.uleb128 0x1
+ 1916 051a 50       		.byte	0x50
+ 1917 051b 02       		.uleb128 0x2
+ 1918 051c 08       		.byte	0x8
+ 1919 051d FF       		.byte	0xff
+ 1920 051e 00       		.byte	0
+ 1921 051f 15       		.uleb128 0x15
+ 1922 0520 D0020000 		.4byte	.LVL66
+ 1923 0524 370A0000 		.4byte	0xa37
+ 1924 0528 38050000 		.4byte	0x538
+ 1925 052c 16       		.uleb128 0x16
+ 1926 052d 01       		.uleb128 0x1
+ 1927 052e 51       		.byte	0x51
+ 1928 052f 01       		.uleb128 0x1
+ 1929 0530 31       		.byte	0x31
+ 1930 0531 16       		.uleb128 0x16
+ 1931 0532 01       		.uleb128 0x1
+ 1932 0533 50       		.byte	0x50
+ 1933 0534 02       		.uleb128 0x2
+ 1934 0535 09       		.byte	0x9
+ 1935 0536 FF       		.byte	0xff
+ 1936 0537 00       		.byte	0
+ 1937 0538 15       		.uleb128 0x15
+ 1938 0539 D8020000 		.4byte	.LVL68
+ 1939 053d 260A0000 		.4byte	0xa26
+ 1940 0541 4C050000 		.4byte	0x54c
+ 1941 0545 16       		.uleb128 0x16
+ 1942 0546 01       		.uleb128 0x1
+ 1943 0547 50       		.byte	0x50
+ 1944 0548 02       		.uleb128 0x2
+ 1945 0549 91       		.byte	0x91
+ 1946 054a 50       		.sleb128 -48
+ 1947 054b 00       		.byte	0
+ 1948 054c 14       		.uleb128 0x14
+ 1949 054d 38030000 		.4byte	.LVL72
+ 1950 0551 4D0A0000 		.4byte	0xa4d
+ 1951 0555 14       		.uleb128 0x14
+ 1952 0556 3C030000 		.4byte	.LVL73
+ 1953 055a 5A0A0000 		.4byte	0xa5a
+ 1954 055e 14       		.uleb128 0x14
+ 1955 055f 40030000 		.4byte	.LVL74
+ 1956 0563 A0090000 		.4byte	0x9a0
+ 1957 0567 15       		.uleb128 0x15
+ 1958 0568 48030000 		.4byte	.LVL75
+ 1959 056c 370A0000 		.4byte	0xa37
+ 1960 0570 80050000 		.4byte	0x580
+ 1961 0574 16       		.uleb128 0x16
+ 1962 0575 01       		.uleb128 0x1
+ 1963 0576 51       		.byte	0x51
+ 1964 0577 01       		.uleb128 0x1
+ 1965 0578 31       		.byte	0x31
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 49
+
+
+ 1966 0579 16       		.uleb128 0x16
+ 1967 057a 01       		.uleb128 0x1
+ 1968 057b 50       		.byte	0x50
+ 1969 057c 02       		.uleb128 0x2
+ 1970 057d 09       		.byte	0x9
+ 1971 057e FF       		.byte	0xff
+ 1972 057f 00       		.byte	0
+ 1973 0580 15       		.uleb128 0x15
+ 1974 0581 4E030000 		.4byte	.LVL76
+ 1975 0585 260A0000 		.4byte	0xa26
+ 1976 0589 94050000 		.4byte	0x594
+ 1977 058d 16       		.uleb128 0x16
+ 1978 058e 01       		.uleb128 0x1
+ 1979 058f 50       		.byte	0x50
+ 1980 0590 02       		.uleb128 0x2
+ 1981 0591 91       		.byte	0x91
+ 1982 0592 50       		.sleb128 -48
+ 1983 0593 00       		.byte	0
+ 1984 0594 14       		.uleb128 0x14
+ 1985 0595 6A030000 		.4byte	.LVL78
+ 1986 0599 6B0A0000 		.4byte	0xa6b
+ 1987 059d 15       		.uleb128 0x15
+ 1988 059e 70030000 		.4byte	.LVL79
+ 1989 05a2 720A0000 		.4byte	0xa72
+ 1990 05a6 B0050000 		.4byte	0x5b0
+ 1991 05aa 16       		.uleb128 0x16
+ 1992 05ab 01       		.uleb128 0x1
+ 1993 05ac 50       		.byte	0x50
+ 1994 05ad 01       		.uleb128 0x1
+ 1995 05ae 30       		.byte	0x30
+ 1996 05af 00       		.byte	0
+ 1997 05b0 14       		.uleb128 0x14
+ 1998 05b1 76030000 		.4byte	.LVL80
+ 1999 05b5 870A0000 		.4byte	0xa87
+ 2000 05b9 15       		.uleb128 0x15
+ 2001 05ba 7C030000 		.4byte	.LVL82
+ 2002 05be 920A0000 		.4byte	0xa92
+ 2003 05c2 CD050000 		.4byte	0x5cd
+ 2004 05c6 16       		.uleb128 0x16
+ 2005 05c7 01       		.uleb128 0x1
+ 2006 05c8 50       		.byte	0x50
+ 2007 05c9 02       		.uleb128 0x2
+ 2008 05ca 76       		.byte	0x76
+ 2009 05cb 00       		.sleb128 0
+ 2010 05cc 00       		.byte	0
+ 2011 05cd 15       		.uleb128 0x15
+ 2012 05ce A2030000 		.4byte	.LVL87
+ 2013 05d2 260A0000 		.4byte	0xa26
+ 2014 05d6 E1050000 		.4byte	0x5e1
+ 2015 05da 16       		.uleb128 0x16
+ 2016 05db 01       		.uleb128 0x1
+ 2017 05dc 50       		.byte	0x50
+ 2018 05dd 02       		.uleb128 0x2
+ 2019 05de 91       		.byte	0x91
+ 2020 05df 50       		.sleb128 -48
+ 2021 05e0 00       		.byte	0
+ 2022 05e1 15       		.uleb128 0x15
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 50
+
+
+ 2023 05e2 B8030000 		.4byte	.LVL88
+ 2024 05e6 C8090000 		.4byte	0x9c8
+ 2025 05ea F5050000 		.4byte	0x5f5
+ 2026 05ee 16       		.uleb128 0x16
+ 2027 05ef 01       		.uleb128 0x1
+ 2028 05f0 50       		.byte	0x50
+ 2029 05f1 02       		.uleb128 0x2
+ 2030 05f2 91       		.byte	0x91
+ 2031 05f3 50       		.sleb128 -48
+ 2032 05f4 00       		.byte	0
+ 2033 05f5 15       		.uleb128 0x15
+ 2034 05f6 8A040000 		.4byte	.LVL125
+ 2035 05fa AD090000 		.4byte	0x9ad
+ 2036 05fe 17060000 		.4byte	0x617
+ 2037 0602 16       		.uleb128 0x16
+ 2038 0603 01       		.uleb128 0x1
+ 2039 0604 52       		.byte	0x52
+ 2040 0605 01       		.uleb128 0x1
+ 2041 0606 31       		.byte	0x31
+ 2042 0607 16       		.uleb128 0x16
+ 2043 0608 01       		.uleb128 0x1
+ 2044 0609 51       		.byte	0x51
+ 2045 060a 02       		.uleb128 0x2
+ 2046 060b 08       		.byte	0x8
+ 2047 060c FF       		.byte	0xff
+ 2048 060d 16       		.uleb128 0x16
+ 2049 060e 01       		.uleb128 0x1
+ 2050 060f 50       		.byte	0x50
+ 2051 0610 05       		.uleb128 0x5
+ 2052 0611 08       		.byte	0x8
+ 2053 0612 FF       		.byte	0xff
+ 2054 0613 74       		.byte	0x74
+ 2055 0614 00       		.sleb128 0
+ 2056 0615 1C       		.byte	0x1c
+ 2057 0616 00       		.byte	0
+ 2058 0617 15       		.uleb128 0x15
+ 2059 0618 9A040000 		.4byte	.LVL126
+ 2060 061c AD090000 		.4byte	0x9ad
+ 2061 0620 37060000 		.4byte	0x637
+ 2062 0624 16       		.uleb128 0x16
+ 2063 0625 01       		.uleb128 0x1
+ 2064 0626 52       		.byte	0x52
+ 2065 0627 01       		.uleb128 0x1
+ 2066 0628 31       		.byte	0x31
+ 2067 0629 16       		.uleb128 0x16
+ 2068 062a 01       		.uleb128 0x1
+ 2069 062b 51       		.byte	0x51
+ 2070 062c 03       		.uleb128 0x3
+ 2071 062d 74       		.byte	0x74
+ 2072 062e FF01     		.sleb128 255
+ 2073 0630 16       		.uleb128 0x16
+ 2074 0631 01       		.uleb128 0x1
+ 2075 0632 50       		.byte	0x50
+ 2076 0633 02       		.uleb128 0x2
+ 2077 0634 08       		.byte	0x8
+ 2078 0635 FF       		.byte	0xff
+ 2079 0636 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 51
+
+
+ 2080 0637 15       		.uleb128 0x15
+ 2081 0638 A4040000 		.4byte	.LVL127
+ 2082 063c 370A0000 		.4byte	0xa37
+ 2083 0640 50060000 		.4byte	0x650
+ 2084 0644 16       		.uleb128 0x16
+ 2085 0645 01       		.uleb128 0x1
+ 2086 0646 51       		.byte	0x51
+ 2087 0647 01       		.uleb128 0x1
+ 2088 0648 31       		.byte	0x31
+ 2089 0649 16       		.uleb128 0x16
+ 2090 064a 01       		.uleb128 0x1
+ 2091 064b 50       		.byte	0x50
+ 2092 064c 02       		.uleb128 0x2
+ 2093 064d 09       		.byte	0x9
+ 2094 064e FF       		.byte	0xff
+ 2095 064f 00       		.byte	0
+ 2096 0650 15       		.uleb128 0x15
+ 2097 0651 B2040000 		.4byte	.LVL129
+ 2098 0655 A70A0000 		.4byte	0xaa7
+ 2099 0659 67060000 		.4byte	0x667
+ 2100 065d 16       		.uleb128 0x16
+ 2101 065e 01       		.uleb128 0x1
+ 2102 065f 50       		.byte	0x50
+ 2103 0660 05       		.uleb128 0x5
+ 2104 0661 03       		.byte	0x3
+ 2105 0662 10000000 		.4byte	.LC2
+ 2106 0666 00       		.byte	0
+ 2107 0667 15       		.uleb128 0x15
+ 2108 0668 BC040000 		.4byte	.LVL130
+ 2109 066c 370A0000 		.4byte	0xa37
+ 2110 0670 80060000 		.4byte	0x680
+ 2111 0674 16       		.uleb128 0x16
+ 2112 0675 01       		.uleb128 0x1
+ 2113 0676 51       		.byte	0x51
+ 2114 0677 01       		.uleb128 0x1
+ 2115 0678 32       		.byte	0x32
+ 2116 0679 16       		.uleb128 0x16
+ 2117 067a 01       		.uleb128 0x1
+ 2118 067b 50       		.byte	0x50
+ 2119 067c 02       		.uleb128 0x2
+ 2120 067d 08       		.byte	0x8
+ 2121 067e 7D       		.byte	0x7d
+ 2122 067f 00       		.byte	0
+ 2123 0680 15       		.uleb128 0x15
+ 2124 0681 D6040000 		.4byte	.LVL131
+ 2125 0685 370A0000 		.4byte	0xa37
+ 2126 0689 99060000 		.4byte	0x699
+ 2127 068d 16       		.uleb128 0x16
+ 2128 068e 01       		.uleb128 0x1
+ 2129 068f 51       		.byte	0x51
+ 2130 0690 01       		.uleb128 0x1
+ 2131 0691 31       		.byte	0x31
+ 2132 0692 16       		.uleb128 0x16
+ 2133 0693 01       		.uleb128 0x1
+ 2134 0694 50       		.byte	0x50
+ 2135 0695 02       		.uleb128 0x2
+ 2136 0696 09       		.byte	0x9
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 52
+
+
+ 2137 0697 FF       		.byte	0xff
+ 2138 0698 00       		.byte	0
+ 2139 0699 15       		.uleb128 0x15
+ 2140 069a DC040000 		.4byte	.LVL132
+ 2141 069e 260A0000 		.4byte	0xa26
+ 2142 06a2 AD060000 		.4byte	0x6ad
+ 2143 06a6 16       		.uleb128 0x16
+ 2144 06a7 01       		.uleb128 0x1
+ 2145 06a8 50       		.byte	0x50
+ 2146 06a9 02       		.uleb128 0x2
+ 2147 06aa 91       		.byte	0x91
+ 2148 06ab 50       		.sleb128 -48
+ 2149 06ac 00       		.byte	0
+ 2150 06ad 15       		.uleb128 0x15
+ 2151 06ae FA040000 		.4byte	.LVL135
+ 2152 06b2 C00A0000 		.4byte	0xac0
+ 2153 06b6 C7060000 		.4byte	0x6c7
+ 2154 06ba 16       		.uleb128 0x16
+ 2155 06bb 01       		.uleb128 0x1
+ 2156 06bc 51       		.byte	0x51
+ 2157 06bd 02       		.uleb128 0x2
+ 2158 06be 08       		.byte	0x8
+ 2159 06bf 64       		.byte	0x64
+ 2160 06c0 16       		.uleb128 0x16
+ 2161 06c1 01       		.uleb128 0x1
+ 2162 06c2 50       		.byte	0x50
+ 2163 06c3 02       		.uleb128 0x2
+ 2164 06c4 08       		.byte	0x8
+ 2165 06c5 64       		.byte	0x64
+ 2166 06c6 00       		.byte	0
+ 2167 06c7 15       		.uleb128 0x15
+ 2168 06c8 00050000 		.4byte	.LVL136
+ 2169 06cc 7E090000 		.4byte	0x97e
+ 2170 06d0 DA060000 		.4byte	0x6da
+ 2171 06d4 16       		.uleb128 0x16
+ 2172 06d5 01       		.uleb128 0x1
+ 2173 06d6 50       		.byte	0x50
+ 2174 06d7 01       		.uleb128 0x1
+ 2175 06d8 3A       		.byte	0x3a
+ 2176 06d9 00       		.byte	0
+ 2177 06da 14       		.uleb128 0x14
+ 2178 06db 0C050000 		.4byte	.LVL139
+ 2179 06df 4D0A0000 		.4byte	0xa4d
+ 2180 06e3 15       		.uleb128 0x15
+ 2181 06e4 14050000 		.4byte	.LVL140
+ 2182 06e8 260A0000 		.4byte	0xa26
+ 2183 06ec F7060000 		.4byte	0x6f7
+ 2184 06f0 16       		.uleb128 0x16
+ 2185 06f1 01       		.uleb128 0x1
+ 2186 06f2 50       		.byte	0x50
+ 2187 06f3 02       		.uleb128 0x2
+ 2188 06f4 91       		.byte	0x91
+ 2189 06f5 50       		.sleb128 -48
+ 2190 06f6 00       		.byte	0
+ 2191 06f7 15       		.uleb128 0x15
+ 2192 06f8 34050000 		.4byte	.LVL141
+ 2193 06fc AD090000 		.4byte	0x9ad
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 53
+
+
+ 2194 0700 16070000 		.4byte	0x716
+ 2195 0704 16       		.uleb128 0x16
+ 2196 0705 01       		.uleb128 0x1
+ 2197 0706 52       		.byte	0x52
+ 2198 0707 01       		.uleb128 0x1
+ 2199 0708 31       		.byte	0x31
+ 2200 0709 16       		.uleb128 0x16
+ 2201 070a 01       		.uleb128 0x1
+ 2202 070b 51       		.byte	0x51
+ 2203 070c 02       		.uleb128 0x2
+ 2204 070d 08       		.byte	0x8
+ 2205 070e 64       		.byte	0x64
+ 2206 070f 16       		.uleb128 0x16
+ 2207 0710 01       		.uleb128 0x1
+ 2208 0711 50       		.byte	0x50
+ 2209 0712 02       		.uleb128 0x2
+ 2210 0713 09       		.byte	0x9
+ 2211 0714 9C       		.byte	0x9c
+ 2212 0715 00       		.byte	0
+ 2213 0716 15       		.uleb128 0x15
+ 2214 0717 3A050000 		.4byte	.LVL142
+ 2215 071b 260A0000 		.4byte	0xa26
+ 2216 071f 2A070000 		.4byte	0x72a
+ 2217 0723 16       		.uleb128 0x16
+ 2218 0724 01       		.uleb128 0x1
+ 2219 0725 50       		.byte	0x50
+ 2220 0726 02       		.uleb128 0x2
+ 2221 0727 91       		.byte	0x91
+ 2222 0728 50       		.sleb128 -48
+ 2223 0729 00       		.byte	0
+ 2224 072a 15       		.uleb128 0x15
+ 2225 072b 5E050000 		.4byte	.LVL143
+ 2226 072f A70A0000 		.4byte	0xaa7
+ 2227 0733 41070000 		.4byte	0x741
+ 2228 0737 16       		.uleb128 0x16
+ 2229 0738 01       		.uleb128 0x1
+ 2230 0739 50       		.byte	0x50
+ 2231 073a 05       		.uleb128 0x5
+ 2232 073b 03       		.byte	0x3
+ 2233 073c 20000000 		.4byte	.LC3
+ 2234 0740 00       		.byte	0
+ 2235 0741 15       		.uleb128 0x15
+ 2236 0742 68050000 		.4byte	.LVL144
+ 2237 0746 370A0000 		.4byte	0xa37
+ 2238 074a 5A070000 		.4byte	0x75a
+ 2239 074e 16       		.uleb128 0x16
+ 2240 074f 01       		.uleb128 0x1
+ 2241 0750 51       		.byte	0x51
+ 2242 0751 01       		.uleb128 0x1
+ 2243 0752 32       		.byte	0x32
+ 2244 0753 16       		.uleb128 0x16
+ 2245 0754 01       		.uleb128 0x1
+ 2246 0755 50       		.byte	0x50
+ 2247 0756 02       		.uleb128 0x2
+ 2248 0757 08       		.byte	0x8
+ 2249 0758 7D       		.byte	0x7d
+ 2250 0759 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 54
+
+
+ 2251 075a 15       		.uleb128 0x15
+ 2252 075b 82050000 		.4byte	.LVL145
+ 2253 075f 370A0000 		.4byte	0xa37
+ 2254 0763 73070000 		.4byte	0x773
+ 2255 0767 16       		.uleb128 0x16
+ 2256 0768 01       		.uleb128 0x1
+ 2257 0769 51       		.byte	0x51
+ 2258 076a 01       		.uleb128 0x1
+ 2259 076b 31       		.byte	0x31
+ 2260 076c 16       		.uleb128 0x16
+ 2261 076d 01       		.uleb128 0x1
+ 2262 076e 50       		.byte	0x50
+ 2263 076f 02       		.uleb128 0x2
+ 2264 0770 09       		.byte	0x9
+ 2265 0771 FF       		.byte	0xff
+ 2266 0772 00       		.byte	0
+ 2267 0773 15       		.uleb128 0x15
+ 2268 0774 88050000 		.4byte	.LVL146
+ 2269 0778 260A0000 		.4byte	0xa26
+ 2270 077c 87070000 		.4byte	0x787
+ 2271 0780 16       		.uleb128 0x16
+ 2272 0781 01       		.uleb128 0x1
+ 2273 0782 50       		.byte	0x50
+ 2274 0783 02       		.uleb128 0x2
+ 2275 0784 91       		.byte	0x91
+ 2276 0785 50       		.sleb128 -48
+ 2277 0786 00       		.byte	0
+ 2278 0787 15       		.uleb128 0x15
+ 2279 0788 A6050000 		.4byte	.LVL149
+ 2280 078c C00A0000 		.4byte	0xac0
+ 2281 0790 A1070000 		.4byte	0x7a1
+ 2282 0794 16       		.uleb128 0x16
+ 2283 0795 01       		.uleb128 0x1
+ 2284 0796 51       		.byte	0x51
+ 2285 0797 02       		.uleb128 0x2
+ 2286 0798 08       		.byte	0x8
+ 2287 0799 64       		.byte	0x64
+ 2288 079a 16       		.uleb128 0x16
+ 2289 079b 01       		.uleb128 0x1
+ 2290 079c 50       		.byte	0x50
+ 2291 079d 02       		.uleb128 0x2
+ 2292 079e 08       		.byte	0x8
+ 2293 079f 64       		.byte	0x64
+ 2294 07a0 00       		.byte	0
+ 2295 07a1 15       		.uleb128 0x15
+ 2296 07a2 AC050000 		.4byte	.LVL150
+ 2297 07a6 7E090000 		.4byte	0x97e
+ 2298 07aa B4070000 		.4byte	0x7b4
+ 2299 07ae 16       		.uleb128 0x16
+ 2300 07af 01       		.uleb128 0x1
+ 2301 07b0 50       		.byte	0x50
+ 2302 07b1 01       		.uleb128 0x1
+ 2303 07b2 3A       		.byte	0x3a
+ 2304 07b3 00       		.byte	0
+ 2305 07b4 14       		.uleb128 0x14
+ 2306 07b5 B8050000 		.4byte	.LVL153
+ 2307 07b9 4D0A0000 		.4byte	0xa4d
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 55
+
+
+ 2308 07bd 15       		.uleb128 0x15
+ 2309 07be C0050000 		.4byte	.LVL154
+ 2310 07c2 260A0000 		.4byte	0xa26
+ 2311 07c6 D1070000 		.4byte	0x7d1
+ 2312 07ca 16       		.uleb128 0x16
+ 2313 07cb 01       		.uleb128 0x1
+ 2314 07cc 50       		.byte	0x50
+ 2315 07cd 02       		.uleb128 0x2
+ 2316 07ce 91       		.byte	0x91
+ 2317 07cf 50       		.sleb128 -48
+ 2318 07d0 00       		.byte	0
+ 2319 07d1 15       		.uleb128 0x15
+ 2320 07d2 E0050000 		.4byte	.LVL155
+ 2321 07d6 AD090000 		.4byte	0x9ad
+ 2322 07da F0070000 		.4byte	0x7f0
+ 2323 07de 16       		.uleb128 0x16
+ 2324 07df 01       		.uleb128 0x1
+ 2325 07e0 52       		.byte	0x52
+ 2326 07e1 01       		.uleb128 0x1
+ 2327 07e2 31       		.byte	0x31
+ 2328 07e3 16       		.uleb128 0x16
+ 2329 07e4 01       		.uleb128 0x1
+ 2330 07e5 51       		.byte	0x51
+ 2331 07e6 02       		.uleb128 0x2
+ 2332 07e7 08       		.byte	0x8
+ 2333 07e8 64       		.byte	0x64
+ 2334 07e9 16       		.uleb128 0x16
+ 2335 07ea 01       		.uleb128 0x1
+ 2336 07eb 50       		.byte	0x50
+ 2337 07ec 02       		.uleb128 0x2
+ 2338 07ed 09       		.byte	0x9
+ 2339 07ee 9C       		.byte	0x9c
+ 2340 07ef 00       		.byte	0
+ 2341 07f0 15       		.uleb128 0x15
+ 2342 07f1 E6050000 		.4byte	.LVL156
+ 2343 07f5 260A0000 		.4byte	0xa26
+ 2344 07f9 04080000 		.4byte	0x804
+ 2345 07fd 16       		.uleb128 0x16
+ 2346 07fe 01       		.uleb128 0x1
+ 2347 07ff 50       		.byte	0x50
+ 2348 0800 02       		.uleb128 0x2
+ 2349 0801 91       		.byte	0x91
+ 2350 0802 50       		.sleb128 -48
+ 2351 0803 00       		.byte	0
+ 2352 0804 14       		.uleb128 0x14
+ 2353 0805 FE050000 		.4byte	.LVL157
+ 2354 0809 4D0A0000 		.4byte	0xa4d
+ 2355 080d 00       		.byte	0
+ 2356 080e 17       		.uleb128 0x17
+ 2357 080f 33000000 		.4byte	0x33
+ 2358 0813 1E080000 		.4byte	0x81e
+ 2359 0817 18       		.uleb128 0x18
+ 2360 0818 EF000000 		.4byte	0xef
+ 2361 081c 03       		.byte	0x3
+ 2362 081d 00       		.byte	0
+ 2363 081e 19       		.uleb128 0x19
+ 2364 081f 7F000000 		.4byte	.LASF39
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 56
+
+
+ 2365 0823 01       		.byte	0x1
+ 2366 0824 C502     		.2byte	0x2c5
+ 2367 0826 33000000 		.4byte	0x33
+ 2368 082a 00000000 		.4byte	.LFB64
+ 2369 082e 2A000000 		.4byte	.LFE64-.LFB64
+ 2370 0832 01       		.uleb128 0x1
+ 2371 0833 9C       		.byte	0x9c
+ 2372 0834 93080000 		.4byte	0x893
+ 2373 0838 1A       		.uleb128 0x1a
+ 2374 0839 91000000 		.4byte	.LASF38
+ 2375 083d 01       		.byte	0x1
+ 2376 083e C502     		.2byte	0x2c5
+ 2377 0840 33000000 		.4byte	0x33
+ 2378 0844 EE030000 		.4byte	.LLST14
+ 2379 0848 1B       		.uleb128 0x1b
+ 2380 0849 70747200 		.ascii	"ptr\000"
+ 2381 084d 01       		.byte	0x1
+ 2382 084e C502     		.2byte	0x2c5
+ 2383 0850 F6000000 		.4byte	0xf6
+ 2384 0854 0F040000 		.4byte	.LLST15
+ 2385 0858 1B       		.uleb128 0x1b
+ 2386 0859 6C656E00 		.ascii	"len\000"
+ 2387 085d 01       		.byte	0x1
+ 2388 085e C502     		.2byte	0x2c5
+ 2389 0860 33000000 		.4byte	0x33
+ 2390 0864 43040000 		.4byte	.LLST16
+ 2391 0868 0E       		.uleb128 0xe
+ 2392 0869 6E00     		.ascii	"n\000"
+ 2393 086b 01       		.byte	0x1
+ 2394 086c C802     		.2byte	0x2c8
+ 2395 086e 33000000 		.4byte	0x33
+ 2396 0872 61040000 		.4byte	.LLST17
+ 2397 0876 15       		.uleb128 0x15
+ 2398 0877 16000000 		.4byte	.LVL162
+ 2399 087b D60A0000 		.4byte	0xad6
+ 2400 087f 89080000 		.4byte	0x889
+ 2401 0883 16       		.uleb128 0x16
+ 2402 0884 01       		.uleb128 0x1
+ 2403 0885 50       		.byte	0x50
+ 2404 0886 01       		.uleb128 0x1
+ 2405 0887 3D       		.byte	0x3d
+ 2406 0888 00       		.byte	0
+ 2407 0889 14       		.uleb128 0x14
+ 2408 088a 1E000000 		.4byte	.LVL164
+ 2409 088e D60A0000 		.4byte	0xad6
+ 2410 0892 00       		.byte	0
+ 2411 0893 19       		.uleb128 0x19
+ 2412 0894 86010000 		.4byte	.LASF40
+ 2413 0898 01       		.byte	0x1
+ 2414 0899 D002     		.2byte	0x2d0
+ 2415 089b 33000000 		.4byte	0x33
+ 2416 089f 00000000 		.4byte	.LFB65
+ 2417 08a3 38000000 		.4byte	.LFE65-.LFB65
+ 2418 08a7 01       		.uleb128 0x1
+ 2419 08a8 9C       		.byte	0x9c
+ 2420 08a9 29090000 		.4byte	0x929
+ 2421 08ad 1A       		.uleb128 0x1a
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 57
+
+
+ 2422 08ae 91000000 		.4byte	.LASF38
+ 2423 08b2 01       		.byte	0x1
+ 2424 08b3 D002     		.2byte	0x2d0
+ 2425 08b5 33000000 		.4byte	0x33
+ 2426 08b9 80040000 		.4byte	.LLST18
+ 2427 08bd 1B       		.uleb128 0x1b
+ 2428 08be 70747200 		.ascii	"ptr\000"
+ 2429 08c2 01       		.byte	0x1
+ 2430 08c3 D002     		.2byte	0x2d0
+ 2431 08c5 F6000000 		.4byte	0xf6
+ 2432 08c9 A1040000 		.4byte	.LLST19
+ 2433 08cd 1A       		.uleb128 0x1a
+ 2434 08ce 22030000 		.4byte	.LASF30
+ 2435 08d2 01       		.byte	0x1
+ 2436 08d3 D002     		.2byte	0x2d0
+ 2437 08d5 33000000 		.4byte	0x33
+ 2438 08d9 D5040000 		.4byte	.LLST20
+ 2439 08dd 0E       		.uleb128 0xe
+ 2440 08de 63687300 		.ascii	"chs\000"
+ 2441 08e2 01       		.byte	0x1
+ 2442 08e3 D202     		.2byte	0x2d2
+ 2443 08e5 33000000 		.4byte	0x33
+ 2444 08e9 F3040000 		.4byte	.LLST21
+ 2445 08ed 0E       		.uleb128 0xe
+ 2446 08ee 636800   		.ascii	"ch\000"
+ 2447 08f1 01       		.byte	0x1
+ 2448 08f2 D302     		.2byte	0x2d3
+ 2449 08f4 D5000000 		.4byte	0xd5
+ 2450 08f8 12050000 		.4byte	.LLST22
+ 2451 08fc 14       		.uleb128 0x14
+ 2452 08fd 0E000000 		.4byte	.LVL170
+ 2453 0901 E70A0000 		.4byte	0xae7
+ 2454 0905 15       		.uleb128 0x15
+ 2455 0906 16000000 		.4byte	.LVL171
+ 2456 090a D60A0000 		.4byte	0xad6
+ 2457 090e 19090000 		.4byte	0x919
+ 2458 0912 16       		.uleb128 0x16
+ 2459 0913 01       		.uleb128 0x1
+ 2460 0914 50       		.byte	0x50
+ 2461 0915 02       		.uleb128 0x2
+ 2462 0916 75       		.byte	0x75
+ 2463 0917 00       		.sleb128 0
+ 2464 0918 00       		.byte	0
+ 2465 0919 1C       		.uleb128 0x1c
+ 2466 091a 22000000 		.4byte	.LVL174
+ 2467 091e D60A0000 		.4byte	0xad6
+ 2468 0922 16       		.uleb128 0x16
+ 2469 0923 01       		.uleb128 0x1
+ 2470 0924 50       		.byte	0x50
+ 2471 0925 01       		.uleb128 0x1
+ 2472 0926 3A       		.byte	0x3a
+ 2473 0927 00       		.byte	0
+ 2474 0928 00       		.byte	0
+ 2475 0929 1D       		.uleb128 0x1d
+ 2476 092a B1030000 		.4byte	.LASF71
+ 2477 092e 11       		.byte	0x11
+ 2478 092f 9606     		.2byte	0x696
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 58
+
+
+ 2479 0931 35090000 		.4byte	0x935
+ 2480 0935 1E       		.uleb128 0x1e
+ 2481 0936 8C000000 		.4byte	0x8c
+ 2482 093a 1F       		.uleb128 0x1f
+ 2483 093b D7000000 		.4byte	.LASF41
+ 2484 093f 06       		.byte	0x6
+ 2485 0940 54       		.byte	0x54
+ 2486 0941 20       		.uleb128 0x20
+ 2487 0942 F9020000 		.4byte	.LASF43
+ 2488 0946 07       		.byte	0x7
+ 2489 0947 18       		.byte	0x18
+ 2490 0948 52090000 		.4byte	0x952
+ 2491 094c 21       		.uleb128 0x21
+ 2492 094d DC000000 		.4byte	0xdc
+ 2493 0951 00       		.byte	0
+ 2494 0952 1F       		.uleb128 0x1f
+ 2495 0953 C5000000 		.4byte	.LASF42
+ 2496 0957 05       		.byte	0x5
+ 2497 0958 1A       		.byte	0x1a
+ 2498 0959 20       		.uleb128 0x20
+ 2499 095a EC030000 		.4byte	.LASF44
+ 2500 095e 08       		.byte	0x8
+ 2501 095f 26       		.byte	0x26
+ 2502 0960 6A090000 		.4byte	0x96a
+ 2503 0964 21       		.uleb128 0x21
+ 2504 0965 97000000 		.4byte	0x97
+ 2505 0969 00       		.byte	0
+ 2506 096a 22       		.uleb128 0x22
+ 2507 096b 53010000 		.4byte	.LASF48
+ 2508 096f 0C       		.byte	0xc
+ 2509 0970 09       		.byte	0x9
+ 2510 0971 77090000 		.4byte	0x977
+ 2511 0975 23       		.uleb128 0x23
+ 2512 0976 00       		.byte	0
+ 2513 0977 1F       		.uleb128 0x1f
+ 2514 0978 4F000000 		.4byte	.LASF45
+ 2515 097c 09       		.byte	0x9
+ 2516 097d 34       		.byte	0x34
+ 2517 097e 20       		.uleb128 0x20
+ 2518 097f BE030000 		.4byte	.LASF46
+ 2519 0983 0A       		.byte	0xa
+ 2520 0984 76       		.byte	0x76
+ 2521 0985 8F090000 		.4byte	0x98f
+ 2522 0989 21       		.uleb128 0x21
+ 2523 098a A3000000 		.4byte	0xa3
+ 2524 098e 00       		.byte	0
+ 2525 098f 20       		.uleb128 0x20
+ 2526 0990 C8020000 		.4byte	.LASF47
+ 2527 0994 0B       		.byte	0xb
+ 2528 0995 26       		.byte	0x26
+ 2529 0996 A0090000 		.4byte	0x9a0
+ 2530 099a 21       		.uleb128 0x21
+ 2531 099b 97000000 		.4byte	0x97
+ 2532 099f 00       		.byte	0
+ 2533 09a0 22       		.uleb128 0x22
+ 2534 09a1 0C030000 		.4byte	.LASF49
+ 2535 09a5 0D       		.byte	0xd
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 59
+
+
+ 2536 09a6 0B       		.byte	0xb
+ 2537 09a7 AD090000 		.4byte	0x9ad
+ 2538 09ab 23       		.uleb128 0x23
+ 2539 09ac 00       		.byte	0
+ 2540 09ad 20       		.uleb128 0x20
+ 2541 09ae A5000000 		.4byte	.LASF50
+ 2542 09b2 0D       		.byte	0xd
+ 2543 09b3 12       		.byte	0x12
+ 2544 09b4 C8090000 		.4byte	0x9c8
+ 2545 09b8 21       		.uleb128 0x21
+ 2546 09b9 33000000 		.4byte	0x33
+ 2547 09bd 21       		.uleb128 0x21
+ 2548 09be 33000000 		.4byte	0x33
+ 2549 09c2 21       		.uleb128 0x21
+ 2550 09c3 A3000000 		.4byte	0xa3
+ 2551 09c7 00       		.byte	0
+ 2552 09c8 20       		.uleb128 0x20
+ 2553 09c9 61030000 		.4byte	.LASF51
+ 2554 09cd 05       		.byte	0x5
+ 2555 09ce 1B       		.byte	0x1b
+ 2556 09cf D9090000 		.4byte	0x9d9
+ 2557 09d3 21       		.uleb128 0x21
+ 2558 09d4 D9090000 		.4byte	0x9d9
+ 2559 09d8 00       		.byte	0
+ 2560 09d9 06       		.uleb128 0x6
+ 2561 09da 04       		.byte	0x4
+ 2562 09db 07010000 		.4byte	0x107
+ 2563 09df 20       		.uleb128 0x20
+ 2564 09e0 6C010000 		.4byte	.LASF52
+ 2565 09e4 05       		.byte	0x5
+ 2566 09e5 1D       		.byte	0x1d
+ 2567 09e6 FF090000 		.4byte	0x9ff
+ 2568 09ea 21       		.uleb128 0x21
+ 2569 09eb 81000000 		.4byte	0x81
+ 2570 09ef 21       		.uleb128 0x21
+ 2571 09f0 81000000 		.4byte	0x81
+ 2572 09f4 21       		.uleb128 0x21
+ 2573 09f5 81000000 		.4byte	0x81
+ 2574 09f9 21       		.uleb128 0x21
+ 2575 09fa 81000000 		.4byte	0x81
+ 2576 09fe 00       		.byte	0
+ 2577 09ff 24       		.uleb128 0x24
+ 2578 0a00 29010000 		.4byte	.LASF59
+ 2579 0a04 0F       		.byte	0xf
+ 2580 0a05 B2       		.byte	0xb2
+ 2581 0a06 33000000 		.4byte	0x33
+ 2582 0a0a 150A0000 		.4byte	0xa15
+ 2583 0a0e 21       		.uleb128 0x21
+ 2584 0a0f FC000000 		.4byte	0xfc
+ 2585 0a13 23       		.uleb128 0x23
+ 2586 0a14 00       		.byte	0
+ 2587 0a15 20       		.uleb128 0x20
+ 2588 0a16 B4020000 		.4byte	.LASF53
+ 2589 0a1a 0D       		.byte	0xd
+ 2590 0a1b 18       		.byte	0x18
+ 2591 0a1c 260A0000 		.4byte	0xa26
+ 2592 0a20 21       		.uleb128 0x21
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 60
+
+
+ 2593 0a21 A3000000 		.4byte	0xa3
+ 2594 0a25 00       		.byte	0
+ 2595 0a26 20       		.uleb128 0x20
+ 2596 0a27 07010000 		.4byte	.LASF54
+ 2597 0a2b 05       		.byte	0x5
+ 2598 0a2c 1C       		.byte	0x1c
+ 2599 0a2d 370A0000 		.4byte	0xa37
+ 2600 0a31 21       		.uleb128 0x21
+ 2601 0a32 D9090000 		.4byte	0x9d9
+ 2602 0a36 00       		.byte	0
+ 2603 0a37 20       		.uleb128 0x20
+ 2604 0a38 10020000 		.4byte	.LASF55
+ 2605 0a3c 0D       		.byte	0xd
+ 2606 0a3d 0F       		.byte	0xf
+ 2607 0a3e 4D0A0000 		.4byte	0xa4d
+ 2608 0a42 21       		.uleb128 0x21
+ 2609 0a43 97000000 		.4byte	0x97
+ 2610 0a47 21       		.uleb128 0x21
+ 2611 0a48 A3000000 		.4byte	0xa3
+ 2612 0a4c 00       		.byte	0
+ 2613 0a4d 22       		.uleb128 0x22
+ 2614 0a4e 31000000 		.4byte	.LASF56
+ 2615 0a52 0D       		.byte	0xd
+ 2616 0a53 0C       		.byte	0xc
+ 2617 0a54 5A0A0000 		.4byte	0xa5a
+ 2618 0a58 23       		.uleb128 0x23
+ 2619 0a59 00       		.byte	0
+ 2620 0a5a 25       		.uleb128 0x25
+ 2621 0a5b AA030000 		.4byte	.LASF57
+ 2622 0a5f 0E       		.byte	0xe
+ 2623 0a60 10       		.byte	0x10
+ 2624 0a61 33000000 		.4byte	0x33
+ 2625 0a65 6B0A0000 		.4byte	0xa6b
+ 2626 0a69 23       		.uleb128 0x23
+ 2627 0a6a 00       		.byte	0
+ 2628 0a6b 1F       		.uleb128 0x1f
+ 2629 0a6c 61000000 		.4byte	.LASF58
+ 2630 0a70 09       		.byte	0x9
+ 2631 0a71 D1       		.byte	0xd1
+ 2632 0a72 24       		.uleb128 0x24
+ 2633 0a73 CA010000 		.4byte	.LASF60
+ 2634 0a77 09       		.byte	0x9
+ 2635 0a78 39       		.byte	0x39
+ 2636 0a79 97000000 		.4byte	0x97
+ 2637 0a7d 870A0000 		.4byte	0xa87
+ 2638 0a81 21       		.uleb128 0x21
+ 2639 0a82 97000000 		.4byte	0x97
+ 2640 0a86 00       		.byte	0
+ 2641 0a87 26       		.uleb128 0x26
+ 2642 0a88 72030000 		.4byte	.LASF64
+ 2643 0a8c 09       		.byte	0x9
+ 2644 0a8d 3B       		.byte	0x3b
+ 2645 0a8e AF000000 		.4byte	0xaf
+ 2646 0a92 24       		.uleb128 0x24
+ 2647 0a93 C6030000 		.4byte	.LASF61
+ 2648 0a97 09       		.byte	0x9
+ 2649 0a98 41       		.byte	0x41
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 61
+
+
+ 2650 0a99 BB000000 		.4byte	0xbb
+ 2651 0a9d A70A0000 		.4byte	0xaa7
+ 2652 0aa1 21       		.uleb128 0x21
+ 2653 0aa2 AF000000 		.4byte	0xaf
+ 2654 0aa6 00       		.byte	0
+ 2655 0aa7 27       		.uleb128 0x27
+ 2656 0aa8 06000000 		.4byte	.LASF72
+ 2657 0aac 12       		.byte	0x12
+ 2658 0aad 00       		.byte	0
+ 2659 0aae E6010000 		.4byte	.LASF73
+ 2660 0ab2 33000000 		.4byte	0x33
+ 2661 0ab6 C00A0000 		.4byte	0xac0
+ 2662 0aba 21       		.uleb128 0x21
+ 2663 0abb FC000000 		.4byte	0xfc
+ 2664 0abf 00       		.byte	0
+ 2665 0ac0 20       		.uleb128 0x20
+ 2666 0ac1 24000000 		.4byte	.LASF62
+ 2667 0ac5 10       		.byte	0x10
+ 2668 0ac6 05       		.byte	0x5
+ 2669 0ac7 D60A0000 		.4byte	0xad6
+ 2670 0acb 21       		.uleb128 0x21
+ 2671 0acc A3000000 		.4byte	0xa3
+ 2672 0ad0 21       		.uleb128 0x21
+ 2673 0ad1 97000000 		.4byte	0x97
+ 2674 0ad5 00       		.byte	0
+ 2675 0ad6 20       		.uleb128 0x20
+ 2676 0ad7 E4000000 		.4byte	.LASF63
+ 2677 0adb 06       		.byte	0x6
+ 2678 0adc 8A       		.byte	0x8a
+ 2679 0add E70A0000 		.4byte	0xae7
+ 2680 0ae1 21       		.uleb128 0x21
+ 2681 0ae2 97000000 		.4byte	0x97
+ 2682 0ae6 00       		.byte	0
+ 2683 0ae7 26       		.uleb128 0x26
+ 2684 0ae8 15000000 		.4byte	.LASF65
+ 2685 0aec 06       		.byte	0x6
+ 2686 0aed 71       		.byte	0x71
+ 2687 0aee 97000000 		.4byte	0x97
+ 2688 0af2 00       		.byte	0
+ 2689              		.section	.debug_abbrev,"",%progbits
+ 2690              	.Ldebug_abbrev0:
+ 2691 0000 01       		.uleb128 0x1
+ 2692 0001 11       		.uleb128 0x11
+ 2693 0002 01       		.byte	0x1
+ 2694 0003 25       		.uleb128 0x25
+ 2695 0004 0E       		.uleb128 0xe
+ 2696 0005 13       		.uleb128 0x13
+ 2697 0006 0B       		.uleb128 0xb
+ 2698 0007 03       		.uleb128 0x3
+ 2699 0008 0E       		.uleb128 0xe
+ 2700 0009 1B       		.uleb128 0x1b
+ 2701 000a 0E       		.uleb128 0xe
+ 2702 000b 55       		.uleb128 0x55
+ 2703 000c 17       		.uleb128 0x17
+ 2704 000d 11       		.uleb128 0x11
+ 2705 000e 01       		.uleb128 0x1
+ 2706 000f 10       		.uleb128 0x10
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 62
+
+
+ 2707 0010 17       		.uleb128 0x17
+ 2708 0011 00       		.byte	0
+ 2709 0012 00       		.byte	0
+ 2710 0013 02       		.uleb128 0x2
+ 2711 0014 24       		.uleb128 0x24
+ 2712 0015 00       		.byte	0
+ 2713 0016 0B       		.uleb128 0xb
+ 2714 0017 0B       		.uleb128 0xb
+ 2715 0018 3E       		.uleb128 0x3e
+ 2716 0019 0B       		.uleb128 0xb
+ 2717 001a 03       		.uleb128 0x3
+ 2718 001b 0E       		.uleb128 0xe
+ 2719 001c 00       		.byte	0
+ 2720 001d 00       		.byte	0
+ 2721 001e 03       		.uleb128 0x3
+ 2722 001f 24       		.uleb128 0x24
+ 2723 0020 00       		.byte	0
+ 2724 0021 0B       		.uleb128 0xb
+ 2725 0022 0B       		.uleb128 0xb
+ 2726 0023 3E       		.uleb128 0x3e
+ 2727 0024 0B       		.uleb128 0xb
+ 2728 0025 03       		.uleb128 0x3
+ 2729 0026 08       		.uleb128 0x8
+ 2730 0027 00       		.byte	0
+ 2731 0028 00       		.byte	0
+ 2732 0029 04       		.uleb128 0x4
+ 2733 002a 16       		.uleb128 0x16
+ 2734 002b 00       		.byte	0
+ 2735 002c 03       		.uleb128 0x3
+ 2736 002d 0E       		.uleb128 0xe
+ 2737 002e 3A       		.uleb128 0x3a
+ 2738 002f 0B       		.uleb128 0xb
+ 2739 0030 3B       		.uleb128 0x3b
+ 2740 0031 0B       		.uleb128 0xb
+ 2741 0032 49       		.uleb128 0x49
+ 2742 0033 13       		.uleb128 0x13
+ 2743 0034 00       		.byte	0
+ 2744 0035 00       		.byte	0
+ 2745 0036 05       		.uleb128 0x5
+ 2746 0037 16       		.uleb128 0x16
+ 2747 0038 00       		.byte	0
+ 2748 0039 03       		.uleb128 0x3
+ 2749 003a 0E       		.uleb128 0xe
+ 2750 003b 3A       		.uleb128 0x3a
+ 2751 003c 0B       		.uleb128 0xb
+ 2752 003d 3B       		.uleb128 0x3b
+ 2753 003e 05       		.uleb128 0x5
+ 2754 003f 49       		.uleb128 0x49
+ 2755 0040 13       		.uleb128 0x13
+ 2756 0041 00       		.byte	0
+ 2757 0042 00       		.byte	0
+ 2758 0043 06       		.uleb128 0x6
+ 2759 0044 0F       		.uleb128 0xf
+ 2760 0045 00       		.byte	0
+ 2761 0046 0B       		.uleb128 0xb
+ 2762 0047 0B       		.uleb128 0xb
+ 2763 0048 49       		.uleb128 0x49
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 63
+
+
+ 2764 0049 13       		.uleb128 0x13
+ 2765 004a 00       		.byte	0
+ 2766 004b 00       		.byte	0
+ 2767 004c 07       		.uleb128 0x7
+ 2768 004d 15       		.uleb128 0x15
+ 2769 004e 00       		.byte	0
+ 2770 004f 27       		.uleb128 0x27
+ 2771 0050 19       		.uleb128 0x19
+ 2772 0051 00       		.byte	0
+ 2773 0052 00       		.byte	0
+ 2774 0053 08       		.uleb128 0x8
+ 2775 0054 26       		.uleb128 0x26
+ 2776 0055 00       		.byte	0
+ 2777 0056 49       		.uleb128 0x49
+ 2778 0057 13       		.uleb128 0x13
+ 2779 0058 00       		.byte	0
+ 2780 0059 00       		.byte	0
+ 2781 005a 09       		.uleb128 0x9
+ 2782 005b 13       		.uleb128 0x13
+ 2783 005c 01       		.byte	0x1
+ 2784 005d 03       		.uleb128 0x3
+ 2785 005e 0E       		.uleb128 0xe
+ 2786 005f 0B       		.uleb128 0xb
+ 2787 0060 0B       		.uleb128 0xb
+ 2788 0061 3A       		.uleb128 0x3a
+ 2789 0062 0B       		.uleb128 0xb
+ 2790 0063 3B       		.uleb128 0x3b
+ 2791 0064 0B       		.uleb128 0xb
+ 2792 0065 01       		.uleb128 0x1
+ 2793 0066 13       		.uleb128 0x13
+ 2794 0067 00       		.byte	0
+ 2795 0068 00       		.byte	0
+ 2796 0069 0A       		.uleb128 0xa
+ 2797 006a 0D       		.uleb128 0xd
+ 2798 006b 00       		.byte	0
+ 2799 006c 03       		.uleb128 0x3
+ 2800 006d 08       		.uleb128 0x8
+ 2801 006e 3A       		.uleb128 0x3a
+ 2802 006f 0B       		.uleb128 0xb
+ 2803 0070 3B       		.uleb128 0x3b
+ 2804 0071 0B       		.uleb128 0xb
+ 2805 0072 49       		.uleb128 0x49
+ 2806 0073 13       		.uleb128 0x13
+ 2807 0074 38       		.uleb128 0x38
+ 2808 0075 0B       		.uleb128 0xb
+ 2809 0076 00       		.byte	0
+ 2810 0077 00       		.byte	0
+ 2811 0078 0B       		.uleb128 0xb
+ 2812 0079 2E       		.uleb128 0x2e
+ 2813 007a 01       		.byte	0x1
+ 2814 007b 3F       		.uleb128 0x3f
+ 2815 007c 19       		.uleb128 0x19
+ 2816 007d 03       		.uleb128 0x3
+ 2817 007e 0E       		.uleb128 0xe
+ 2818 007f 3A       		.uleb128 0x3a
+ 2819 0080 0B       		.uleb128 0xb
+ 2820 0081 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 64
+
+
+ 2821 0082 05       		.uleb128 0x5
+ 2822 0083 49       		.uleb128 0x49
+ 2823 0084 13       		.uleb128 0x13
+ 2824 0085 11       		.uleb128 0x11
+ 2825 0086 01       		.uleb128 0x1
+ 2826 0087 12       		.uleb128 0x12
+ 2827 0088 06       		.uleb128 0x6
+ 2828 0089 40       		.uleb128 0x40
+ 2829 008a 18       		.uleb128 0x18
+ 2830 008b 9642     		.uleb128 0x2116
+ 2831 008d 19       		.uleb128 0x19
+ 2832 008e 01       		.uleb128 0x1
+ 2833 008f 13       		.uleb128 0x13
+ 2834 0090 00       		.byte	0
+ 2835 0091 00       		.byte	0
+ 2836 0092 0C       		.uleb128 0xc
+ 2837 0093 34       		.uleb128 0x34
+ 2838 0094 00       		.byte	0
+ 2839 0095 03       		.uleb128 0x3
+ 2840 0096 08       		.uleb128 0x8
+ 2841 0097 3A       		.uleb128 0x3a
+ 2842 0098 0B       		.uleb128 0xb
+ 2843 0099 3B       		.uleb128 0x3b
+ 2844 009a 05       		.uleb128 0x5
+ 2845 009b 49       		.uleb128 0x49
+ 2846 009c 13       		.uleb128 0x13
+ 2847 009d 1C       		.uleb128 0x1c
+ 2848 009e 0A       		.uleb128 0xa
+ 2849 009f 00       		.byte	0
+ 2850 00a0 00       		.byte	0
+ 2851 00a1 0D       		.uleb128 0xd
+ 2852 00a2 34       		.uleb128 0x34
+ 2853 00a3 00       		.byte	0
+ 2854 00a4 03       		.uleb128 0x3
+ 2855 00a5 0E       		.uleb128 0xe
+ 2856 00a6 3A       		.uleb128 0x3a
+ 2857 00a7 0B       		.uleb128 0xb
+ 2858 00a8 3B       		.uleb128 0x3b
+ 2859 00a9 05       		.uleb128 0x5
+ 2860 00aa 49       		.uleb128 0x49
+ 2861 00ab 13       		.uleb128 0x13
+ 2862 00ac 02       		.uleb128 0x2
+ 2863 00ad 17       		.uleb128 0x17
+ 2864 00ae 00       		.byte	0
+ 2865 00af 00       		.byte	0
+ 2866 00b0 0E       		.uleb128 0xe
+ 2867 00b1 34       		.uleb128 0x34
+ 2868 00b2 00       		.byte	0
+ 2869 00b3 03       		.uleb128 0x3
+ 2870 00b4 08       		.uleb128 0x8
+ 2871 00b5 3A       		.uleb128 0x3a
+ 2872 00b6 0B       		.uleb128 0xb
+ 2873 00b7 3B       		.uleb128 0x3b
+ 2874 00b8 05       		.uleb128 0x5
+ 2875 00b9 49       		.uleb128 0x49
+ 2876 00ba 13       		.uleb128 0x13
+ 2877 00bb 02       		.uleb128 0x2
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 65
+
+
+ 2878 00bc 17       		.uleb128 0x17
+ 2879 00bd 00       		.byte	0
+ 2880 00be 00       		.byte	0
+ 2881 00bf 0F       		.uleb128 0xf
+ 2882 00c0 34       		.uleb128 0x34
+ 2883 00c1 00       		.byte	0
+ 2884 00c2 03       		.uleb128 0x3
+ 2885 00c3 0E       		.uleb128 0xe
+ 2886 00c4 3A       		.uleb128 0x3a
+ 2887 00c5 0B       		.uleb128 0xb
+ 2888 00c6 3B       		.uleb128 0x3b
+ 2889 00c7 05       		.uleb128 0x5
+ 2890 00c8 49       		.uleb128 0x49
+ 2891 00c9 13       		.uleb128 0x13
+ 2892 00ca 1C       		.uleb128 0x1c
+ 2893 00cb 0B       		.uleb128 0xb
+ 2894 00cc 00       		.byte	0
+ 2895 00cd 00       		.byte	0
+ 2896 00ce 10       		.uleb128 0x10
+ 2897 00cf 34       		.uleb128 0x34
+ 2898 00d0 00       		.byte	0
+ 2899 00d1 03       		.uleb128 0x3
+ 2900 00d2 0E       		.uleb128 0xe
+ 2901 00d3 3A       		.uleb128 0x3a
+ 2902 00d4 0B       		.uleb128 0xb
+ 2903 00d5 3B       		.uleb128 0x3b
+ 2904 00d6 05       		.uleb128 0x5
+ 2905 00d7 49       		.uleb128 0x49
+ 2906 00d8 13       		.uleb128 0x13
+ 2907 00d9 1C       		.uleb128 0x1c
+ 2908 00da 05       		.uleb128 0x5
+ 2909 00db 00       		.byte	0
+ 2910 00dc 00       		.byte	0
+ 2911 00dd 11       		.uleb128 0x11
+ 2912 00de 34       		.uleb128 0x34
+ 2913 00df 00       		.byte	0
+ 2914 00e0 03       		.uleb128 0x3
+ 2915 00e1 08       		.uleb128 0x8
+ 2916 00e2 3A       		.uleb128 0x3a
+ 2917 00e3 0B       		.uleb128 0xb
+ 2918 00e4 3B       		.uleb128 0x3b
+ 2919 00e5 05       		.uleb128 0x5
+ 2920 00e6 49       		.uleb128 0x49
+ 2921 00e7 13       		.uleb128 0x13
+ 2922 00e8 02       		.uleb128 0x2
+ 2923 00e9 18       		.uleb128 0x18
+ 2924 00ea 00       		.byte	0
+ 2925 00eb 00       		.byte	0
+ 2926 00ec 12       		.uleb128 0x12
+ 2927 00ed 34       		.uleb128 0x34
+ 2928 00ee 00       		.byte	0
+ 2929 00ef 03       		.uleb128 0x3
+ 2930 00f0 08       		.uleb128 0x8
+ 2931 00f1 3A       		.uleb128 0x3a
+ 2932 00f2 0B       		.uleb128 0xb
+ 2933 00f3 3B       		.uleb128 0x3b
+ 2934 00f4 05       		.uleb128 0x5
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 66
+
+
+ 2935 00f5 49       		.uleb128 0x49
+ 2936 00f6 13       		.uleb128 0x13
+ 2937 00f7 00       		.byte	0
+ 2938 00f8 00       		.byte	0
+ 2939 00f9 13       		.uleb128 0x13
+ 2940 00fa 34       		.uleb128 0x34
+ 2941 00fb 00       		.byte	0
+ 2942 00fc 03       		.uleb128 0x3
+ 2943 00fd 0E       		.uleb128 0xe
+ 2944 00fe 3A       		.uleb128 0x3a
+ 2945 00ff 0B       		.uleb128 0xb
+ 2946 0100 3B       		.uleb128 0x3b
+ 2947 0101 05       		.uleb128 0x5
+ 2948 0102 49       		.uleb128 0x49
+ 2949 0103 13       		.uleb128 0x13
+ 2950 0104 1C       		.uleb128 0x1c
+ 2951 0105 0D       		.uleb128 0xd
+ 2952 0106 00       		.byte	0
+ 2953 0107 00       		.byte	0
+ 2954 0108 14       		.uleb128 0x14
+ 2955 0109 898201   		.uleb128 0x4109
+ 2956 010c 00       		.byte	0
+ 2957 010d 11       		.uleb128 0x11
+ 2958 010e 01       		.uleb128 0x1
+ 2959 010f 31       		.uleb128 0x31
+ 2960 0110 13       		.uleb128 0x13
+ 2961 0111 00       		.byte	0
+ 2962 0112 00       		.byte	0
+ 2963 0113 15       		.uleb128 0x15
+ 2964 0114 898201   		.uleb128 0x4109
+ 2965 0117 01       		.byte	0x1
+ 2966 0118 11       		.uleb128 0x11
+ 2967 0119 01       		.uleb128 0x1
+ 2968 011a 31       		.uleb128 0x31
+ 2969 011b 13       		.uleb128 0x13
+ 2970 011c 01       		.uleb128 0x1
+ 2971 011d 13       		.uleb128 0x13
+ 2972 011e 00       		.byte	0
+ 2973 011f 00       		.byte	0
+ 2974 0120 16       		.uleb128 0x16
+ 2975 0121 8A8201   		.uleb128 0x410a
+ 2976 0124 00       		.byte	0
+ 2977 0125 02       		.uleb128 0x2
+ 2978 0126 18       		.uleb128 0x18
+ 2979 0127 9142     		.uleb128 0x2111
+ 2980 0129 18       		.uleb128 0x18
+ 2981 012a 00       		.byte	0
+ 2982 012b 00       		.byte	0
+ 2983 012c 17       		.uleb128 0x17
+ 2984 012d 01       		.uleb128 0x1
+ 2985 012e 01       		.byte	0x1
+ 2986 012f 49       		.uleb128 0x49
+ 2987 0130 13       		.uleb128 0x13
+ 2988 0131 01       		.uleb128 0x1
+ 2989 0132 13       		.uleb128 0x13
+ 2990 0133 00       		.byte	0
+ 2991 0134 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 67
+
+
+ 2992 0135 18       		.uleb128 0x18
+ 2993 0136 21       		.uleb128 0x21
+ 2994 0137 00       		.byte	0
+ 2995 0138 49       		.uleb128 0x49
+ 2996 0139 13       		.uleb128 0x13
+ 2997 013a 2F       		.uleb128 0x2f
+ 2998 013b 0B       		.uleb128 0xb
+ 2999 013c 00       		.byte	0
+ 3000 013d 00       		.byte	0
+ 3001 013e 19       		.uleb128 0x19
+ 3002 013f 2E       		.uleb128 0x2e
+ 3003 0140 01       		.byte	0x1
+ 3004 0141 3F       		.uleb128 0x3f
+ 3005 0142 19       		.uleb128 0x19
+ 3006 0143 03       		.uleb128 0x3
+ 3007 0144 0E       		.uleb128 0xe
+ 3008 0145 3A       		.uleb128 0x3a
+ 3009 0146 0B       		.uleb128 0xb
+ 3010 0147 3B       		.uleb128 0x3b
+ 3011 0148 05       		.uleb128 0x5
+ 3012 0149 27       		.uleb128 0x27
+ 3013 014a 19       		.uleb128 0x19
+ 3014 014b 49       		.uleb128 0x49
+ 3015 014c 13       		.uleb128 0x13
+ 3016 014d 11       		.uleb128 0x11
+ 3017 014e 01       		.uleb128 0x1
+ 3018 014f 12       		.uleb128 0x12
+ 3019 0150 06       		.uleb128 0x6
+ 3020 0151 40       		.uleb128 0x40
+ 3021 0152 18       		.uleb128 0x18
+ 3022 0153 9742     		.uleb128 0x2117
+ 3023 0155 19       		.uleb128 0x19
+ 3024 0156 01       		.uleb128 0x1
+ 3025 0157 13       		.uleb128 0x13
+ 3026 0158 00       		.byte	0
+ 3027 0159 00       		.byte	0
+ 3028 015a 1A       		.uleb128 0x1a
+ 3029 015b 05       		.uleb128 0x5
+ 3030 015c 00       		.byte	0
+ 3031 015d 03       		.uleb128 0x3
+ 3032 015e 0E       		.uleb128 0xe
+ 3033 015f 3A       		.uleb128 0x3a
+ 3034 0160 0B       		.uleb128 0xb
+ 3035 0161 3B       		.uleb128 0x3b
+ 3036 0162 05       		.uleb128 0x5
+ 3037 0163 49       		.uleb128 0x49
+ 3038 0164 13       		.uleb128 0x13
+ 3039 0165 02       		.uleb128 0x2
+ 3040 0166 17       		.uleb128 0x17
+ 3041 0167 00       		.byte	0
+ 3042 0168 00       		.byte	0
+ 3043 0169 1B       		.uleb128 0x1b
+ 3044 016a 05       		.uleb128 0x5
+ 3045 016b 00       		.byte	0
+ 3046 016c 03       		.uleb128 0x3
+ 3047 016d 08       		.uleb128 0x8
+ 3048 016e 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 68
+
+
+ 3049 016f 0B       		.uleb128 0xb
+ 3050 0170 3B       		.uleb128 0x3b
+ 3051 0171 05       		.uleb128 0x5
+ 3052 0172 49       		.uleb128 0x49
+ 3053 0173 13       		.uleb128 0x13
+ 3054 0174 02       		.uleb128 0x2
+ 3055 0175 17       		.uleb128 0x17
+ 3056 0176 00       		.byte	0
+ 3057 0177 00       		.byte	0
+ 3058 0178 1C       		.uleb128 0x1c
+ 3059 0179 898201   		.uleb128 0x4109
+ 3060 017c 01       		.byte	0x1
+ 3061 017d 11       		.uleb128 0x11
+ 3062 017e 01       		.uleb128 0x1
+ 3063 017f 31       		.uleb128 0x31
+ 3064 0180 13       		.uleb128 0x13
+ 3065 0181 00       		.byte	0
+ 3066 0182 00       		.byte	0
+ 3067 0183 1D       		.uleb128 0x1d
+ 3068 0184 34       		.uleb128 0x34
+ 3069 0185 00       		.byte	0
+ 3070 0186 03       		.uleb128 0x3
+ 3071 0187 0E       		.uleb128 0xe
+ 3072 0188 3A       		.uleb128 0x3a
+ 3073 0189 0B       		.uleb128 0xb
+ 3074 018a 3B       		.uleb128 0x3b
+ 3075 018b 05       		.uleb128 0x5
+ 3076 018c 49       		.uleb128 0x49
+ 3077 018d 13       		.uleb128 0x13
+ 3078 018e 3F       		.uleb128 0x3f
+ 3079 018f 19       		.uleb128 0x19
+ 3080 0190 3C       		.uleb128 0x3c
+ 3081 0191 19       		.uleb128 0x19
+ 3082 0192 00       		.byte	0
+ 3083 0193 00       		.byte	0
+ 3084 0194 1E       		.uleb128 0x1e
+ 3085 0195 35       		.uleb128 0x35
+ 3086 0196 00       		.byte	0
+ 3087 0197 49       		.uleb128 0x49
+ 3088 0198 13       		.uleb128 0x13
+ 3089 0199 00       		.byte	0
+ 3090 019a 00       		.byte	0
+ 3091 019b 1F       		.uleb128 0x1f
+ 3092 019c 2E       		.uleb128 0x2e
+ 3093 019d 00       		.byte	0
+ 3094 019e 3F       		.uleb128 0x3f
+ 3095 019f 19       		.uleb128 0x19
+ 3096 01a0 03       		.uleb128 0x3
+ 3097 01a1 0E       		.uleb128 0xe
+ 3098 01a2 3A       		.uleb128 0x3a
+ 3099 01a3 0B       		.uleb128 0xb
+ 3100 01a4 3B       		.uleb128 0x3b
+ 3101 01a5 0B       		.uleb128 0xb
+ 3102 01a6 27       		.uleb128 0x27
+ 3103 01a7 19       		.uleb128 0x19
+ 3104 01a8 3C       		.uleb128 0x3c
+ 3105 01a9 19       		.uleb128 0x19
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 69
+
+
+ 3106 01aa 00       		.byte	0
+ 3107 01ab 00       		.byte	0
+ 3108 01ac 20       		.uleb128 0x20
+ 3109 01ad 2E       		.uleb128 0x2e
+ 3110 01ae 01       		.byte	0x1
+ 3111 01af 3F       		.uleb128 0x3f
+ 3112 01b0 19       		.uleb128 0x19
+ 3113 01b1 03       		.uleb128 0x3
+ 3114 01b2 0E       		.uleb128 0xe
+ 3115 01b3 3A       		.uleb128 0x3a
+ 3116 01b4 0B       		.uleb128 0xb
+ 3117 01b5 3B       		.uleb128 0x3b
+ 3118 01b6 0B       		.uleb128 0xb
+ 3119 01b7 27       		.uleb128 0x27
+ 3120 01b8 19       		.uleb128 0x19
+ 3121 01b9 3C       		.uleb128 0x3c
+ 3122 01ba 19       		.uleb128 0x19
+ 3123 01bb 01       		.uleb128 0x1
+ 3124 01bc 13       		.uleb128 0x13
+ 3125 01bd 00       		.byte	0
+ 3126 01be 00       		.byte	0
+ 3127 01bf 21       		.uleb128 0x21
+ 3128 01c0 05       		.uleb128 0x5
+ 3129 01c1 00       		.byte	0
+ 3130 01c2 49       		.uleb128 0x49
+ 3131 01c3 13       		.uleb128 0x13
+ 3132 01c4 00       		.byte	0
+ 3133 01c5 00       		.byte	0
+ 3134 01c6 22       		.uleb128 0x22
+ 3135 01c7 2E       		.uleb128 0x2e
+ 3136 01c8 01       		.byte	0x1
+ 3137 01c9 3F       		.uleb128 0x3f
+ 3138 01ca 19       		.uleb128 0x19
+ 3139 01cb 03       		.uleb128 0x3
+ 3140 01cc 0E       		.uleb128 0xe
+ 3141 01cd 3A       		.uleb128 0x3a
+ 3142 01ce 0B       		.uleb128 0xb
+ 3143 01cf 3B       		.uleb128 0x3b
+ 3144 01d0 0B       		.uleb128 0xb
+ 3145 01d1 3C       		.uleb128 0x3c
+ 3146 01d2 19       		.uleb128 0x19
+ 3147 01d3 01       		.uleb128 0x1
+ 3148 01d4 13       		.uleb128 0x13
+ 3149 01d5 00       		.byte	0
+ 3150 01d6 00       		.byte	0
+ 3151 01d7 23       		.uleb128 0x23
+ 3152 01d8 18       		.uleb128 0x18
+ 3153 01d9 00       		.byte	0
+ 3154 01da 00       		.byte	0
+ 3155 01db 00       		.byte	0
+ 3156 01dc 24       		.uleb128 0x24
+ 3157 01dd 2E       		.uleb128 0x2e
+ 3158 01de 01       		.byte	0x1
+ 3159 01df 3F       		.uleb128 0x3f
+ 3160 01e0 19       		.uleb128 0x19
+ 3161 01e1 03       		.uleb128 0x3
+ 3162 01e2 0E       		.uleb128 0xe
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 70
+
+
+ 3163 01e3 3A       		.uleb128 0x3a
+ 3164 01e4 0B       		.uleb128 0xb
+ 3165 01e5 3B       		.uleb128 0x3b
+ 3166 01e6 0B       		.uleb128 0xb
+ 3167 01e7 27       		.uleb128 0x27
+ 3168 01e8 19       		.uleb128 0x19
+ 3169 01e9 49       		.uleb128 0x49
+ 3170 01ea 13       		.uleb128 0x13
+ 3171 01eb 3C       		.uleb128 0x3c
+ 3172 01ec 19       		.uleb128 0x19
+ 3173 01ed 01       		.uleb128 0x1
+ 3174 01ee 13       		.uleb128 0x13
+ 3175 01ef 00       		.byte	0
+ 3176 01f0 00       		.byte	0
+ 3177 01f1 25       		.uleb128 0x25
+ 3178 01f2 2E       		.uleb128 0x2e
+ 3179 01f3 01       		.byte	0x1
+ 3180 01f4 3F       		.uleb128 0x3f
+ 3181 01f5 19       		.uleb128 0x19
+ 3182 01f6 03       		.uleb128 0x3
+ 3183 01f7 0E       		.uleb128 0xe
+ 3184 01f8 3A       		.uleb128 0x3a
+ 3185 01f9 0B       		.uleb128 0xb
+ 3186 01fa 3B       		.uleb128 0x3b
+ 3187 01fb 0B       		.uleb128 0xb
+ 3188 01fc 49       		.uleb128 0x49
+ 3189 01fd 13       		.uleb128 0x13
+ 3190 01fe 3C       		.uleb128 0x3c
+ 3191 01ff 19       		.uleb128 0x19
+ 3192 0200 01       		.uleb128 0x1
+ 3193 0201 13       		.uleb128 0x13
+ 3194 0202 00       		.byte	0
+ 3195 0203 00       		.byte	0
+ 3196 0204 26       		.uleb128 0x26
+ 3197 0205 2E       		.uleb128 0x2e
+ 3198 0206 00       		.byte	0
+ 3199 0207 3F       		.uleb128 0x3f
+ 3200 0208 19       		.uleb128 0x19
+ 3201 0209 03       		.uleb128 0x3
+ 3202 020a 0E       		.uleb128 0xe
+ 3203 020b 3A       		.uleb128 0x3a
+ 3204 020c 0B       		.uleb128 0xb
+ 3205 020d 3B       		.uleb128 0x3b
+ 3206 020e 0B       		.uleb128 0xb
+ 3207 020f 27       		.uleb128 0x27
+ 3208 0210 19       		.uleb128 0x19
+ 3209 0211 49       		.uleb128 0x49
+ 3210 0212 13       		.uleb128 0x13
+ 3211 0213 3C       		.uleb128 0x3c
+ 3212 0214 19       		.uleb128 0x19
+ 3213 0215 00       		.byte	0
+ 3214 0216 00       		.byte	0
+ 3215 0217 27       		.uleb128 0x27
+ 3216 0218 2E       		.uleb128 0x2e
+ 3217 0219 01       		.byte	0x1
+ 3218 021a 3F       		.uleb128 0x3f
+ 3219 021b 19       		.uleb128 0x19
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 71
+
+
+ 3220 021c 03       		.uleb128 0x3
+ 3221 021d 0E       		.uleb128 0xe
+ 3222 021e 3A       		.uleb128 0x3a
+ 3223 021f 0B       		.uleb128 0xb
+ 3224 0220 3B       		.uleb128 0x3b
+ 3225 0221 0B       		.uleb128 0xb
+ 3226 0222 6E       		.uleb128 0x6e
+ 3227 0223 0E       		.uleb128 0xe
+ 3228 0224 27       		.uleb128 0x27
+ 3229 0225 19       		.uleb128 0x19
+ 3230 0226 49       		.uleb128 0x49
+ 3231 0227 13       		.uleb128 0x13
+ 3232 0228 3C       		.uleb128 0x3c
+ 3233 0229 19       		.uleb128 0x19
+ 3234 022a 01       		.uleb128 0x1
+ 3235 022b 13       		.uleb128 0x13
+ 3236 022c 00       		.byte	0
+ 3237 022d 00       		.byte	0
+ 3238 022e 00       		.byte	0
+ 3239              		.section	.debug_loc,"",%progbits
+ 3240              	.Ldebug_loc0:
+ 3241              	.LLST0:
+ 3242 0000 06000000 		.4byte	.LVL0
+ 3243 0004 66030000 		.4byte	.LVL77
+ 3244 0008 0600     		.2byte	0x6
+ 3245 000a 9E       		.byte	0x9e
+ 3246 000b 04       		.uleb128 0x4
+ 3247 000c 00000000 		.4byte	0
+ 3248 0010 00000000 		.4byte	0
+ 3249 0014 00000000 		.4byte	0
+ 3250              	.LLST1:
+ 3251 0018 06000000 		.4byte	.LVL0
+ 3252 001c E2010000 		.4byte	.LVL26
+ 3253 0020 0600     		.2byte	0x6
+ 3254 0022 9E       		.byte	0x9e
+ 3255 0023 04       		.uleb128 0x4
+ 3256 0024 00000000 		.4byte	0
+ 3257 0028 1E020000 		.4byte	.LVL32
+ 3258 002c 92020000 		.4byte	.LVL60
+ 3259 0030 0300     		.2byte	0x3
+ 3260 0032 91       		.byte	0x91
+ 3261 0033 947F     		.sleb128 -108
+ 3262 0035 04030000 		.4byte	.LVL69
+ 3263 0039 0C030000 		.4byte	.LVL70
+ 3264 003d 0600     		.2byte	0x6
+ 3265 003f 9E       		.byte	0x9e
+ 3266 0040 04       		.uleb128 0x4
+ 3267 0041 00000000 		.4byte	0
+ 3268 0045 34030000 		.4byte	.LVL71
+ 3269 0049 66030000 		.4byte	.LVL77
+ 3270 004d 0600     		.2byte	0x6
+ 3271 004f 9E       		.byte	0x9e
+ 3272 0050 04       		.uleb128 0x4
+ 3273 0051 00000000 		.4byte	0
+ 3274 0055 EE030000 		.4byte	.LVL93
+ 3275 0059 66040000 		.4byte	.LVL121
+ 3276 005d 0300     		.2byte	0x3
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 72
+
+
+ 3277 005f 91       		.byte	0x91
+ 3278 0060 947F     		.sleb128 -108
+ 3279 0062 00000000 		.4byte	0
+ 3280 0066 00000000 		.4byte	0
+ 3281              	.LLST2:
+ 3282 006a 06000000 		.4byte	.LVL0
+ 3283 006e E2010000 		.4byte	.LVL26
+ 3284 0072 0600     		.2byte	0x6
+ 3285 0074 9E       		.byte	0x9e
+ 3286 0075 04       		.uleb128 0x4
+ 3287 0076 00000000 		.4byte	0
+ 3288 007a E2010000 		.4byte	.LVL26
+ 3289 007e 26020000 		.4byte	.LVL35
+ 3290 0082 0300     		.2byte	0x3
+ 3291 0084 91       		.byte	0x91
+ 3292 0085 947F     		.sleb128 -108
+ 3293 0087 26020000 		.4byte	.LVL35
+ 3294 008b 2B020000 		.4byte	.LVL36-1
+ 3295 008f 0100     		.2byte	0x1
+ 3296 0091 50       		.byte	0x50
+ 3297 0092 2B020000 		.4byte	.LVL36-1
+ 3298 0096 94020000 		.4byte	.LVL61
+ 3299 009a 0100     		.2byte	0x1
+ 3300 009c 57       		.byte	0x57
+ 3301 009d 94020000 		.4byte	.LVL61
+ 3302 00a1 04030000 		.4byte	.LVL69
+ 3303 00a5 0300     		.2byte	0x3
+ 3304 00a7 91       		.byte	0x91
+ 3305 00a8 947F     		.sleb128 -108
+ 3306 00aa 04030000 		.4byte	.LVL69
+ 3307 00ae 0C030000 		.4byte	.LVL70
+ 3308 00b2 0600     		.2byte	0x6
+ 3309 00b4 9E       		.byte	0x9e
+ 3310 00b5 04       		.uleb128 0x4
+ 3311 00b6 00000000 		.4byte	0
+ 3312 00ba 0C030000 		.4byte	.LVL70
+ 3313 00be F6030000 		.4byte	.LVL96
+ 3314 00c2 0300     		.2byte	0x3
+ 3315 00c4 91       		.byte	0x91
+ 3316 00c5 947F     		.sleb128 -108
+ 3317 00c7 F6030000 		.4byte	.LVL96
+ 3318 00cb FB030000 		.4byte	.LVL97-1
+ 3319 00cf 0100     		.2byte	0x1
+ 3320 00d1 50       		.byte	0x50
+ 3321 00d2 FB030000 		.4byte	.LVL97-1
+ 3322 00d6 68040000 		.4byte	.LVL122
+ 3323 00da 0100     		.2byte	0x1
+ 3324 00dc 56       		.byte	0x56
+ 3325 00dd 68040000 		.4byte	.LVL122
+ 3326 00e1 06060000 		.4byte	.LVL158
+ 3327 00e5 0300     		.2byte	0x3
+ 3328 00e7 91       		.byte	0x91
+ 3329 00e8 947F     		.sleb128 -108
+ 3330 00ea 06060000 		.4byte	.LVL158
+ 3331 00ee 2C060000 		.4byte	.LFE63
+ 3332 00f2 0300     		.2byte	0x3
+ 3333 00f4 7D       		.byte	0x7d
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 73
+
+
+ 3334 00f5 947F     		.sleb128 -108
+ 3335 00f7 00000000 		.4byte	0
+ 3336 00fb 00000000 		.4byte	0
+ 3337              	.LLST3:
+ 3338 00ff 2E020000 		.4byte	.LVL37
+ 3339 0103 30020000 		.4byte	.LVL38
+ 3340 0107 0100     		.2byte	0x1
+ 3341 0109 50       		.byte	0x50
+ 3342 010a 30020000 		.4byte	.LVL38
+ 3343 010e 94020000 		.4byte	.LVL61
+ 3344 0112 0100     		.2byte	0x1
+ 3345 0114 5B       		.byte	0x5b
+ 3346 0115 FE030000 		.4byte	.LVL98
+ 3347 0119 00040000 		.4byte	.LVL99
+ 3348 011d 0100     		.2byte	0x1
+ 3349 011f 50       		.byte	0x50
+ 3350 0120 00040000 		.4byte	.LVL99
+ 3351 0124 68040000 		.4byte	.LVL122
+ 3352 0128 0300     		.2byte	0x3
+ 3353 012a 91       		.byte	0x91
+ 3354 012b 9C7F     		.sleb128 -100
+ 3355 012d 00000000 		.4byte	0
+ 3356 0131 00000000 		.4byte	0
+ 3357              	.LLST4:
+ 3358 0135 66020000 		.4byte	.LVL49
+ 3359 0139 68020000 		.4byte	.LVL50
+ 3360 013d 0100     		.2byte	0x1
+ 3361 013f 50       		.byte	0x50
+ 3362 0140 68020000 		.4byte	.LVL50
+ 3363 0144 90020000 		.4byte	.LVL59
+ 3364 0148 0100     		.2byte	0x1
+ 3365 014a 54       		.byte	0x54
+ 3366 014b 3A040000 		.4byte	.LVL110
+ 3367 014f 3C040000 		.4byte	.LVL111
+ 3368 0153 0100     		.2byte	0x1
+ 3369 0155 50       		.byte	0x50
+ 3370 0156 3C040000 		.4byte	.LVL111
+ 3371 015a 68040000 		.4byte	.LVL122
+ 3372 015e 0100     		.2byte	0x1
+ 3373 0160 55       		.byte	0x55
+ 3374 0161 00000000 		.4byte	0
+ 3375 0165 00000000 		.4byte	0
+ 3376              	.LLST5:
+ 3377 0169 06000000 		.4byte	.LVL0
+ 3378 016d E2010000 		.4byte	.LVL26
+ 3379 0171 0600     		.2byte	0x6
+ 3380 0173 9E       		.byte	0x9e
+ 3381 0174 04       		.uleb128 0x4
+ 3382 0175 00000000 		.4byte	0
+ 3383 0179 E2010000 		.4byte	.LVL26
+ 3384 017d 46020000 		.4byte	.LVL43
+ 3385 0181 0100     		.2byte	0x1
+ 3386 0183 56       		.byte	0x56
+ 3387 0184 46020000 		.4byte	.LVL43
+ 3388 0188 4B020000 		.4byte	.LVL44-1
+ 3389 018c 0100     		.2byte	0x1
+ 3390 018e 50       		.byte	0x50
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 74
+
+
+ 3391 018f 4B020000 		.4byte	.LVL44-1
+ 3392 0193 04030000 		.4byte	.LVL69
+ 3393 0197 0100     		.2byte	0x1
+ 3394 0199 56       		.byte	0x56
+ 3395 019a 04030000 		.4byte	.LVL69
+ 3396 019e 0C030000 		.4byte	.LVL70
+ 3397 01a2 0600     		.2byte	0x6
+ 3398 01a4 9E       		.byte	0x9e
+ 3399 01a5 04       		.uleb128 0x4
+ 3400 01a6 00000000 		.4byte	0
+ 3401 01aa 0C030000 		.4byte	.LVL70
+ 3402 01ae 34030000 		.4byte	.LVL71
+ 3403 01b2 0100     		.2byte	0x1
+ 3404 01b4 56       		.byte	0x56
+ 3405 01b5 34030000 		.4byte	.LVL71
+ 3406 01b9 66030000 		.4byte	.LVL77
+ 3407 01bd 0600     		.2byte	0x6
+ 3408 01bf 9E       		.byte	0x9e
+ 3409 01c0 04       		.uleb128 0x4
+ 3410 01c1 00000000 		.4byte	0
+ 3411 01c5 66030000 		.4byte	.LVL77
+ 3412 01c9 16040000 		.4byte	.LVL104
+ 3413 01cd 0300     		.2byte	0x3
+ 3414 01cf 91       		.byte	0x91
+ 3415 01d0 987F     		.sleb128 -104
+ 3416 01d2 16040000 		.4byte	.LVL104
+ 3417 01d6 1B040000 		.4byte	.LVL105-1
+ 3418 01da 0100     		.2byte	0x1
+ 3419 01dc 50       		.byte	0x50
+ 3420 01dd 1B040000 		.4byte	.LVL105-1
+ 3421 01e1 06060000 		.4byte	.LVL158
+ 3422 01e5 0300     		.2byte	0x3
+ 3423 01e7 91       		.byte	0x91
+ 3424 01e8 987F     		.sleb128 -104
+ 3425 01ea 06060000 		.4byte	.LVL158
+ 3426 01ee 2C060000 		.4byte	.LFE63
+ 3427 01f2 0300     		.2byte	0x3
+ 3428 01f4 7D       		.byte	0x7d
+ 3429 01f5 987F     		.sleb128 -104
+ 3430 01f7 00000000 		.4byte	0
+ 3431 01fb 00000000 		.4byte	0
+ 3432              	.LLST6:
+ 3433 01ff 74020000 		.4byte	.LVL52
+ 3434 0203 79020000 		.4byte	.LVL53-1
+ 3435 0207 0100     		.2byte	0x1
+ 3436 0209 50       		.byte	0x50
+ 3437 020a 7C020000 		.4byte	.LVL54
+ 3438 020e 7E020000 		.4byte	.LVL55
+ 3439 0212 0100     		.2byte	0x1
+ 3440 0214 50       		.byte	0x50
+ 3441 0215 7E020000 		.4byte	.LVL55
+ 3442 0219 94020000 		.4byte	.LVL61
+ 3443 021d 0100     		.2byte	0x1
+ 3444 021f 55       		.byte	0x55
+ 3445 0220 48040000 		.4byte	.LVL113
+ 3446 0224 4D040000 		.4byte	.LVL114-1
+ 3447 0228 0100     		.2byte	0x1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 75
+
+
+ 3448 022a 50       		.byte	0x50
+ 3449 022b 50040000 		.4byte	.LVL115
+ 3450 022f 52040000 		.4byte	.LVL116
+ 3451 0233 0100     		.2byte	0x1
+ 3452 0235 50       		.byte	0x50
+ 3453 0236 52040000 		.4byte	.LVL116
+ 3454 023a 64040000 		.4byte	.LVL120
+ 3455 023e 0100     		.2byte	0x1
+ 3456 0240 54       		.byte	0x54
+ 3457 0241 00000000 		.4byte	0
+ 3458 0245 00000000 		.4byte	0
+ 3459              	.LLST7:
+ 3460 0249 E2010000 		.4byte	.LVL26
+ 3461 024d 66020000 		.4byte	.LVL49
+ 3462 0251 0100     		.2byte	0x1
+ 3463 0253 54       		.byte	0x54
+ 3464 0254 90020000 		.4byte	.LVL59
+ 3465 0258 94020000 		.4byte	.LVL61
+ 3466 025c 0100     		.2byte	0x1
+ 3467 025e 50       		.byte	0x50
+ 3468 025f 94020000 		.4byte	.LVL61
+ 3469 0263 04030000 		.4byte	.LVL69
+ 3470 0267 0100     		.2byte	0x1
+ 3471 0269 54       		.byte	0x54
+ 3472 026a 0C030000 		.4byte	.LVL70
+ 3473 026e 06040000 		.4byte	.LVL101
+ 3474 0272 0100     		.2byte	0x1
+ 3475 0274 54       		.byte	0x54
+ 3476 0275 64040000 		.4byte	.LVL120
+ 3477 0279 68040000 		.4byte	.LVL122
+ 3478 027d 0100     		.2byte	0x1
+ 3479 027f 50       		.byte	0x50
+ 3480 0280 68040000 		.4byte	.LVL122
+ 3481 0284 06060000 		.4byte	.LVL158
+ 3482 0288 0100     		.2byte	0x1
+ 3483 028a 54       		.byte	0x54
+ 3484 028b 00000000 		.4byte	0
+ 3485 028f 00000000 		.4byte	0
+ 3486              	.LLST8:
+ 3487 0293 06000000 		.4byte	.LVL0
+ 3488 0297 66030000 		.4byte	.LVL77
+ 3489 029b 0200     		.2byte	0x2
+ 3490 029d 30       		.byte	0x30
+ 3491 029e 9F       		.byte	0x9f
+ 3492 029f 66030000 		.4byte	.LVL77
+ 3493 02a3 06060000 		.4byte	.LVL158
+ 3494 02a7 0100     		.2byte	0x1
+ 3495 02a9 57       		.byte	0x57
+ 3496 02aa 00000000 		.4byte	0
+ 3497 02ae 00000000 		.4byte	0
+ 3498              	.LLST9:
+ 3499 02b2 4A000000 		.4byte	.LVL10
+ 3500 02b6 4C000000 		.4byte	.LVL11
+ 3501 02ba 0200     		.2byte	0x2
+ 3502 02bc 30       		.byte	0x30
+ 3503 02bd 9F       		.byte	0x9f
+ 3504 02be 4C000000 		.4byte	.LVL11
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 76
+
+
+ 3505 02c2 18010000 		.4byte	.LVL18
+ 3506 02c6 0100     		.2byte	0x1
+ 3507 02c8 55       		.byte	0x55
+ 3508 02c9 F4010000 		.4byte	.LVL28
+ 3509 02cd 23020000 		.4byte	.LVL34-1
+ 3510 02d1 0100     		.2byte	0x1
+ 3511 02d3 53       		.byte	0x53
+ 3512 02d4 C4030000 		.4byte	.LVL89
+ 3513 02d8 F3030000 		.4byte	.LVL95-1
+ 3514 02dc 0100     		.2byte	0x1
+ 3515 02de 53       		.byte	0x53
+ 3516 02df EE040000 		.4byte	.LVL133
+ 3517 02e3 F2040000 		.4byte	.LVL134
+ 3518 02e7 0200     		.2byte	0x2
+ 3519 02e9 30       		.byte	0x30
+ 3520 02ea 9F       		.byte	0x9f
+ 3521 02eb F2040000 		.4byte	.LVL134
+ 3522 02ef 08050000 		.4byte	.LVL138
+ 3523 02f3 0100     		.2byte	0x1
+ 3524 02f5 56       		.byte	0x56
+ 3525 02f6 9A050000 		.4byte	.LVL147
+ 3526 02fa 9E050000 		.4byte	.LVL148
+ 3527 02fe 0200     		.2byte	0x2
+ 3528 0300 30       		.byte	0x30
+ 3529 0301 9F       		.byte	0x9f
+ 3530 0302 9E050000 		.4byte	.LVL148
+ 3531 0306 B4050000 		.4byte	.LVL152
+ 3532 030a 0100     		.2byte	0x1
+ 3533 030c 56       		.byte	0x56
+ 3534 030d 00000000 		.4byte	0
+ 3535 0311 00000000 		.4byte	0
+ 3536              	.LLST10:
+ 3537 0315 00020000 		.4byte	.LVL29
+ 3538 0319 20020000 		.4byte	.LVL33
+ 3539 031d 0100     		.2byte	0x1
+ 3540 031f 50       		.byte	0x50
+ 3541 0320 D0030000 		.4byte	.LVL90
+ 3542 0324 F0030000 		.4byte	.LVL94
+ 3543 0328 0100     		.2byte	0x1
+ 3544 032a 50       		.byte	0x50
+ 3545 032b 00000000 		.4byte	0
+ 3546 032f 00000000 		.4byte	0
+ 3547              	.LLST11:
+ 3548 0333 06000000 		.4byte	.LVL0
+ 3549 0337 BA010000 		.4byte	.LVL23
+ 3550 033b 0300     		.2byte	0x3
+ 3551 033d 08       		.byte	0x8
+ 3552 033e 50       		.byte	0x50
+ 3553 033f 9F       		.byte	0x9f
+ 3554 0340 BA010000 		.4byte	.LVL23
+ 3555 0344 06060000 		.4byte	.LVL158
+ 3556 0348 0100     		.2byte	0x1
+ 3557 034a 58       		.byte	0x58
+ 3558 034b 00000000 		.4byte	0
+ 3559 034f 00000000 		.4byte	0
+ 3560              	.LLST12:
+ 3561 0353 06000000 		.4byte	.LVL0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 77
+
+
+ 3562 0357 66030000 		.4byte	.LVL77
+ 3563 035b 0200     		.2byte	0x2
+ 3564 035d 30       		.byte	0x30
+ 3565 035e 9F       		.byte	0x9f
+ 3566 035f 66030000 		.4byte	.LVL77
+ 3567 0363 78030000 		.4byte	.LVL81
+ 3568 0367 0100     		.2byte	0x1
+ 3569 0369 5B       		.byte	0x5b
+ 3570 036a 78030000 		.4byte	.LVL81
+ 3571 036e 92030000 		.4byte	.LVL86
+ 3572 0372 0100     		.2byte	0x1
+ 3573 0374 56       		.byte	0x56
+ 3574 0375 92030000 		.4byte	.LVL86
+ 3575 0379 06060000 		.4byte	.LVL158
+ 3576 037d 0100     		.2byte	0x1
+ 3577 037f 5B       		.byte	0x5b
+ 3578 0380 00000000 		.4byte	0
+ 3579 0384 00000000 		.4byte	0
+ 3580              	.LLST13:
+ 3581 0388 1A000000 		.4byte	.LVL1
+ 3582 038c E2010000 		.4byte	.LVL26
+ 3583 0390 0300     		.2byte	0x3
+ 3584 0392 09       		.byte	0x9
+ 3585 0393 FF       		.byte	0xff
+ 3586 0394 9F       		.byte	0x9f
+ 3587 0395 E2010000 		.4byte	.LVL26
+ 3588 0399 36020000 		.4byte	.LVL40
+ 3589 039d 0100     		.2byte	0x1
+ 3590 039f 55       		.byte	0x55
+ 3591 03a0 90020000 		.4byte	.LVL59
+ 3592 03a4 94020000 		.4byte	.LVL61
+ 3593 03a8 0200     		.2byte	0x2
+ 3594 03aa 30       		.byte	0x30
+ 3595 03ab 9F       		.byte	0x9f
+ 3596 03ac 94020000 		.4byte	.LVL61
+ 3597 03b0 04030000 		.4byte	.LVL69
+ 3598 03b4 0100     		.2byte	0x1
+ 3599 03b6 55       		.byte	0x55
+ 3600 03b7 04030000 		.4byte	.LVL69
+ 3601 03bb 0C030000 		.4byte	.LVL70
+ 3602 03bf 0300     		.2byte	0x3
+ 3603 03c1 09       		.byte	0x9
+ 3604 03c2 FF       		.byte	0xff
+ 3605 03c3 9F       		.byte	0x9f
+ 3606 03c4 0C030000 		.4byte	.LVL70
+ 3607 03c8 3A040000 		.4byte	.LVL110
+ 3608 03cc 0100     		.2byte	0x1
+ 3609 03ce 55       		.byte	0x55
+ 3610 03cf 64040000 		.4byte	.LVL120
+ 3611 03d3 68040000 		.4byte	.LVL122
+ 3612 03d7 0200     		.2byte	0x2
+ 3613 03d9 30       		.byte	0x30
+ 3614 03da 9F       		.byte	0x9f
+ 3615 03db 68040000 		.4byte	.LVL122
+ 3616 03df 06060000 		.4byte	.LVL158
+ 3617 03e3 0100     		.2byte	0x1
+ 3618 03e5 55       		.byte	0x55
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 78
+
+
+ 3619 03e6 00000000 		.4byte	0
+ 3620 03ea 00000000 		.4byte	0
+ 3621              	.LLST14:
+ 3622 03ee 00000000 		.4byte	.LVL159
+ 3623 03f2 0A000000 		.4byte	.LVL161
+ 3624 03f6 0100     		.2byte	0x1
+ 3625 03f8 50       		.byte	0x50
+ 3626 03f9 0A000000 		.4byte	.LVL161
+ 3627 03fd 2A000000 		.4byte	.LFE64
+ 3628 0401 0400     		.2byte	0x4
+ 3629 0403 F3       		.byte	0xf3
+ 3630 0404 01       		.uleb128 0x1
+ 3631 0405 50       		.byte	0x50
+ 3632 0406 9F       		.byte	0x9f
+ 3633 0407 00000000 		.4byte	0
+ 3634 040b 00000000 		.4byte	0
+ 3635              	.LLST15:
+ 3636 040f 00000000 		.4byte	.LVL159
+ 3637 0413 0A000000 		.4byte	.LVL161
+ 3638 0417 0100     		.2byte	0x1
+ 3639 0419 51       		.byte	0x51
+ 3640 041a 0A000000 		.4byte	.LVL161
+ 3641 041e 18000000 		.4byte	.LVL163
+ 3642 0422 0100     		.2byte	0x1
+ 3643 0424 54       		.byte	0x54
+ 3644 0425 18000000 		.4byte	.LVL163
+ 3645 0429 22000000 		.4byte	.LVL166
+ 3646 042d 0100     		.2byte	0x1
+ 3647 042f 56       		.byte	0x56
+ 3648 0430 22000000 		.4byte	.LVL166
+ 3649 0434 2A000000 		.4byte	.LFE64
+ 3650 0438 0100     		.2byte	0x1
+ 3651 043a 54       		.byte	0x54
+ 3652 043b 00000000 		.4byte	0
+ 3653 043f 00000000 		.4byte	0
+ 3654              	.LLST16:
+ 3655 0443 00000000 		.4byte	.LVL159
+ 3656 0447 0A000000 		.4byte	.LVL161
+ 3657 044b 0100     		.2byte	0x1
+ 3658 044d 52       		.byte	0x52
+ 3659 044e 0A000000 		.4byte	.LVL161
+ 3660 0452 2A000000 		.4byte	.LFE64
+ 3661 0456 0100     		.2byte	0x1
+ 3662 0458 57       		.byte	0x57
+ 3663 0459 00000000 		.4byte	0
+ 3664 045d 00000000 		.4byte	0
+ 3665              	.LLST17:
+ 3666 0461 06000000 		.4byte	.LVL160
+ 3667 0465 0A000000 		.4byte	.LVL161
+ 3668 0469 0200     		.2byte	0x2
+ 3669 046b 30       		.byte	0x30
+ 3670 046c 9F       		.byte	0x9f
+ 3671 046d 0A000000 		.4byte	.LVL161
+ 3672 0471 2A000000 		.4byte	.LFE64
+ 3673 0475 0100     		.2byte	0x1
+ 3674 0477 55       		.byte	0x55
+ 3675 0478 00000000 		.4byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 79
+
+
+ 3676 047c 00000000 		.4byte	0
+ 3677              	.LLST18:
+ 3678 0480 00000000 		.4byte	.LVL167
+ 3679 0484 0A000000 		.4byte	.LVL169
+ 3680 0488 0100     		.2byte	0x1
+ 3681 048a 50       		.byte	0x50
+ 3682 048b 0A000000 		.4byte	.LVL169
+ 3683 048f 38000000 		.4byte	.LFE65
+ 3684 0493 0400     		.2byte	0x4
+ 3685 0495 F3       		.byte	0xf3
+ 3686 0496 01       		.uleb128 0x1
+ 3687 0497 50       		.byte	0x50
+ 3688 0498 9F       		.byte	0x9f
+ 3689 0499 00000000 		.4byte	0
+ 3690 049d 00000000 		.4byte	0
+ 3691              	.LLST19:
+ 3692 04a1 00000000 		.4byte	.LVL167
+ 3693 04a5 0A000000 		.4byte	.LVL169
+ 3694 04a9 0100     		.2byte	0x1
+ 3695 04ab 51       		.byte	0x51
+ 3696 04ac 0A000000 		.4byte	.LVL169
+ 3697 04b0 26000000 		.4byte	.LVL176
+ 3698 04b4 0100     		.2byte	0x1
+ 3699 04b6 57       		.byte	0x57
+ 3700 04b7 26000000 		.4byte	.LVL176
+ 3701 04bb 30000000 		.4byte	.LVL178
+ 3702 04bf 0100     		.2byte	0x1
+ 3703 04c1 53       		.byte	0x53
+ 3704 04c2 30000000 		.4byte	.LVL178
+ 3705 04c6 34000000 		.4byte	.LVL179
+ 3706 04ca 0100     		.2byte	0x1
+ 3707 04cc 57       		.byte	0x57
+ 3708 04cd 00000000 		.4byte	0
+ 3709 04d1 00000000 		.4byte	0
+ 3710              	.LLST20:
+ 3711 04d5 00000000 		.4byte	.LVL167
+ 3712 04d9 0A000000 		.4byte	.LVL169
+ 3713 04dd 0100     		.2byte	0x1
+ 3714 04df 52       		.byte	0x52
+ 3715 04e0 0A000000 		.4byte	.LVL169
+ 3716 04e4 38000000 		.4byte	.LFE65
+ 3717 04e8 0100     		.2byte	0x1
+ 3718 04ea 54       		.byte	0x54
+ 3719 04eb 00000000 		.4byte	0
+ 3720 04ef 00000000 		.4byte	0
+ 3721              	.LLST21:
+ 3722 04f3 06000000 		.4byte	.LVL168
+ 3723 04f7 0A000000 		.4byte	.LVL169
+ 3724 04fb 0200     		.2byte	0x2
+ 3725 04fd 30       		.byte	0x30
+ 3726 04fe 9F       		.byte	0x9f
+ 3727 04ff 0A000000 		.4byte	.LVL169
+ 3728 0503 38000000 		.4byte	.LFE65
+ 3729 0507 0100     		.2byte	0x1
+ 3730 0509 56       		.byte	0x56
+ 3731 050a 00000000 		.4byte	0
+ 3732 050e 00000000 		.4byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 80
+
+
+ 3733              	.LLST22:
+ 3734 0512 0E000000 		.4byte	.LVL170
+ 3735 0516 15000000 		.4byte	.LVL171-1
+ 3736 051a 0100     		.2byte	0x1
+ 3737 051c 50       		.byte	0x50
+ 3738 051d 1C000000 		.4byte	.LVL173
+ 3739 0521 24000000 		.4byte	.LVL175
+ 3740 0525 0200     		.2byte	0x2
+ 3741 0527 3A       		.byte	0x3a
+ 3742 0528 9F       		.byte	0x9f
+ 3743 0529 24000000 		.4byte	.LVL175
+ 3744 052d 30000000 		.4byte	.LVL178
+ 3745 0531 0100     		.2byte	0x1
+ 3746 0533 55       		.byte	0x55
+ 3747 0534 00000000 		.4byte	0
+ 3748 0538 00000000 		.4byte	0
+ 3749              		.section	.debug_aranges,"",%progbits
+ 3750 0000 2C000000 		.4byte	0x2c
+ 3751 0004 0200     		.2byte	0x2
+ 3752 0006 00000000 		.4byte	.Ldebug_info0
+ 3753 000a 04       		.byte	0x4
+ 3754 000b 00       		.byte	0
+ 3755 000c 0000     		.2byte	0
+ 3756 000e 0000     		.2byte	0
+ 3757 0010 00000000 		.4byte	.LFB63
+ 3758 0014 2C060000 		.4byte	.LFE63-.LFB63
+ 3759 0018 00000000 		.4byte	.LFB64
+ 3760 001c 2A000000 		.4byte	.LFE64-.LFB64
+ 3761 0020 00000000 		.4byte	.LFB65
+ 3762 0024 38000000 		.4byte	.LFE65-.LFB65
+ 3763 0028 00000000 		.4byte	0
+ 3764 002c 00000000 		.4byte	0
+ 3765              		.section	.debug_ranges,"",%progbits
+ 3766              	.Ldebug_ranges0:
+ 3767 0000 00000000 		.4byte	.LFB63
+ 3768 0004 2C060000 		.4byte	.LFE63
+ 3769 0008 00000000 		.4byte	.LFB64
+ 3770 000c 2A000000 		.4byte	.LFE64
+ 3771 0010 00000000 		.4byte	.LFB65
+ 3772 0014 38000000 		.4byte	.LFE65
+ 3773 0018 00000000 		.4byte	0
+ 3774 001c 00000000 		.4byte	0
+ 3775              		.section	.debug_line,"",%progbits
+ 3776              	.Ldebug_line0:
+ 3777 0000 22040000 		.section	.debug_str,"MS",%progbits,1
+ 3777      0200FB01 
+ 3777      00000201 
+ 3777      FB0E0D00 
+ 3777      01010101 
+ 3778              	.LASF33:
+ 3779 0000 6C696D69 		.ascii	"limit\000"
+ 3779      7400
+ 3780              	.LASF72:
+ 3781 0006 5F5F6275 		.ascii	"__builtin_puts\000"
+ 3781      696C7469 
+ 3781      6E5F7075 
+ 3781      747300
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 81
+
+
+ 3782              	.LASF65:
+ 3783 0015 55415254 		.ascii	"UART_1_GetChar\000"
+ 3783      5F315F47 
+ 3783      65744368 
+ 3783      617200
+ 3784              	.LASF62:
+ 3785 0024 42656570 		.ascii	"Beep\000"
+ 3785      00
+ 3786              	.LASF16:
+ 3787 0029 666C6F61 		.ascii	"float32\000"
+ 3787      74333200 
+ 3788              	.LASF56:
+ 3789 0031 6D6F746F 		.ascii	"motor_stop\000"
+ 3789      725F7374 
+ 3789      6F7000
+ 3790              	.LASF4:
+ 3791 003c 73686F72 		.ascii	"short int\000"
+ 3791      7420696E 
+ 3791      7400
+ 3792              	.LASF21:
+ 3793 0046 73697A65 		.ascii	"sizetype\000"
+ 3793      74797065 
+ 3793      00
+ 3794              	.LASF45:
+ 3795 004f 4144435F 		.ascii	"ADC_Battery_Start\000"
+ 3795      42617474 
+ 3795      6572795F 
+ 3795      53746172 
+ 3795      7400
+ 3796              	.LASF58:
+ 3797 0061 4144435F 		.ascii	"ADC_Battery_StartConvert\000"
+ 3797      42617474 
+ 3797      6572795F 
+ 3797      53746172 
+ 3797      74436F6E 
+ 3798              	.LASF70:
+ 3799 007a 6D61696E 		.ascii	"main\000"
+ 3799      00
+ 3800              	.LASF39:
+ 3801 007f 5F777269 		.ascii	"_write\000"
+ 3801      746500
+ 3802              	.LASF6:
+ 3803 0086 5F5F7569 		.ascii	"__uint16_t\000"
+ 3803      6E743136 
+ 3803      5F7400
+ 3804              	.LASF38:
+ 3805 0091 66696C65 		.ascii	"file\000"
+ 3805      00
+ 3806              	.LASF69:
+ 3807 0096 73656E73 		.ascii	"sensors_\000"
+ 3807      6F72735F 
+ 3807      00
+ 3808              	.LASF15:
+ 3809 009f 696E7431 		.ascii	"int16\000"
+ 3809      3600
+ 3810              	.LASF50:
+ 3811 00a5 6D6F746F 		.ascii	"motor_turn\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 82
+
+
+ 3811      725F7475 
+ 3811      726E00
+ 3812              	.LASF13:
+ 3813 00b0 75696E74 		.ascii	"uint8\000"
+ 3813      3800
+ 3814              	.LASF34:
+ 3815 00b6 62726561 		.ascii	"breaking_point\000"
+ 3815      6B696E67 
+ 3815      5F706F69 
+ 3815      6E7400
+ 3816              	.LASF42:
+ 3817 00c5 7265666C 		.ascii	"reflectance_start\000"
+ 3817      65637461 
+ 3817      6E63655F 
+ 3817      73746172 
+ 3817      7400
+ 3818              	.LASF41:
+ 3819 00d7 55415254 		.ascii	"UART_1_Start\000"
+ 3819      5F315F53 
+ 3819      74617274 
+ 3819      00
+ 3820              	.LASF63:
+ 3821 00e4 55415254 		.ascii	"UART_1_PutChar\000"
+ 3821      5F315F50 
+ 3821      75744368 
+ 3821      617200
+ 3822              	.LASF17:
+ 3823 00f3 666C6F61 		.ascii	"float\000"
+ 3823      7400
+ 3824              	.LASF10:
+ 3825 00f9 6C6F6E67 		.ascii	"long long int\000"
+ 3825      206C6F6E 
+ 3825      6720696E 
+ 3825      7400
+ 3826              	.LASF54:
+ 3827 0107 7265666C 		.ascii	"reflectance_digital\000"
+ 3827      65637461 
+ 3827      6E63655F 
+ 3827      64696769 
+ 3827      74616C00 
+ 3828              	.LASF19:
+ 3829 011b 63686172 		.ascii	"char\000"
+ 3829      00
+ 3830              	.LASF8:
+ 3831 0120 6C6F6E67 		.ascii	"long int\000"
+ 3831      20696E74 
+ 3831      00
+ 3832              	.LASF59:
+ 3833 0129 7072696E 		.ascii	"printf\000"
+ 3833      746600
+ 3834              	.LASF26:
+ 3835 0130 696E7465 		.ascii	"integral\000"
+ 3835      6772616C 
+ 3835      00
+ 3836              	.LASF3:
+ 3837 0139 756E7369 		.ascii	"unsigned char\000"
+ 3837      676E6564 
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 83
+
+
+ 3837      20636861 
+ 3837      7200
+ 3838              	.LASF22:
+ 3839 0147 6C6F6E67 		.ascii	"long double\000"
+ 3839      20646F75 
+ 3839      626C6500 
+ 3840              	.LASF48:
+ 3841 0153 556C7472 		.ascii	"Ultra_Start\000"
+ 3841      615F5374 
+ 3841      61727400 
+ 3842              	.LASF20:
+ 3843 015f 63796973 		.ascii	"cyisraddress\000"
+ 3843      72616464 
+ 3843      72657373 
+ 3843      00
+ 3844              	.LASF52:
+ 3845 016c 7265666C 		.ascii	"reflectance_set_threshold\000"
+ 3845      65637461 
+ 3845      6E63655F 
+ 3845      7365745F 
+ 3845      74687265 
+ 3846              	.LASF40:
+ 3847 0186 5F726561 		.ascii	"_read\000"
+ 3847      6400
+ 3848              	.LASF32:
+ 3849 018c 6D696E61 		.ascii	"mina\000"
+ 3849      00
+ 3850              	.LASF2:
+ 3851 0191 7369676E 		.ascii	"signed char\000"
+ 3851      65642063 
+ 3851      68617200 
+ 3852              	.LASF0:
+ 3853 019d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 3853      206C6F6E 
+ 3853      6720756E 
+ 3853      7369676E 
+ 3853      65642069 
+ 3854              	.LASF1:
+ 3855 01b4 756E7369 		.ascii	"unsigned int\000"
+ 3855      676E6564 
+ 3855      20696E74 
+ 3855      00
+ 3856              	.LASF11:
+ 3857 01c1 75696E74 		.ascii	"uint16_t\000"
+ 3857      31365F74 
+ 3857      00
+ 3858              	.LASF60:
+ 3859 01ca 4144435F 		.ascii	"ADC_Battery_IsEndConversion\000"
+ 3859      42617474 
+ 3859      6572795F 
+ 3859      4973456E 
+ 3859      64436F6E 
+ 3860              	.LASF73:
+ 3861 01e6 70757473 		.ascii	"puts\000"
+ 3861      00
+ 3862              	.LASF29:
+ 3863 01eb 64726976 		.ascii	"driver\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 84
+
+
+ 3863      657200
+ 3864              	.LASF36:
+ 3865 01f2 74696D65 		.ascii	"time\000"
+ 3865      00
+ 3866              	.LASF5:
+ 3867 01f7 73686F72 		.ascii	"short unsigned int\000"
+ 3867      7420756E 
+ 3867      7369676E 
+ 3867      65642069 
+ 3867      6E7400
+ 3868              	.LASF23:
+ 3869 020a 766F6C74 		.ascii	"volts\000"
+ 3869      7300
+ 3870              	.LASF55:
+ 3871 0210 6D6F746F 		.ascii	"motor_forward\000"
+ 3871      725F666F 
+ 3871      72776172 
+ 3871      6400
+ 3872              	.LASF66:
+ 3873 021e 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 3873      4320342E 
+ 3873      392E3320 
+ 3873      32303135 
+ 3873      30333033 
+ 3874 0251 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 3874      20726576 
+ 3874      6973696F 
+ 3874      6E203232 
+ 3874      31323230 
+ 3875 0284 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 3875      66756E63 
+ 3875      74696F6E 
+ 3875      2D736563 
+ 3875      74696F6E 
+ 3876              	.LASF12:
+ 3877 02ac 696E7433 		.ascii	"int32_t\000"
+ 3877      325F7400 
+ 3878              	.LASF53:
+ 3879 02b4 6D6F746F 		.ascii	"motor_static_turn_l\000"
+ 3879      725F7374 
+ 3879      61746963 
+ 3879      5F747572 
+ 3879      6E5F6C00 
+ 3880              	.LASF47:
+ 3881 02c8 42617474 		.ascii	"BatteryLed_Write\000"
+ 3881      6572794C 
+ 3881      65645F57 
+ 3881      72697465 
+ 3881      00
+ 3882              	.LASF14:
+ 3883 02d9 75696E74 		.ascii	"uint32\000"
+ 3883      333200
+ 3884              	.LASF67:
+ 3885 02e0 6D61696E 		.ascii	"main.c\000"
+ 3885      2E6300
+ 3886              	.LASF9:
+ 3887 02e7 6C6F6E67 		.ascii	"long unsigned int\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 85
+
+
+ 3887      20756E73 
+ 3887      69676E65 
+ 3887      6420696E 
+ 3887      7400
+ 3888              	.LASF43:
+ 3889 02f9 73656E73 		.ascii	"sensor_isr_StartEx\000"
+ 3889      6F725F69 
+ 3889      73725F53 
+ 3889      74617274 
+ 3889      457800
+ 3890              	.LASF49:
+ 3891 030c 6D6F746F 		.ascii	"motor_start\000"
+ 3891      725F7374 
+ 3891      61727400 
+ 3892              	.LASF28:
+ 3893 0318 64657276 		.ascii	"derv\000"
+ 3893      00
+ 3894              	.LASF27:
+ 3895 031d 6176616C 		.ascii	"aval\000"
+ 3895      00
+ 3896              	.LASF30:
+ 3897 0322 636F756E 		.ascii	"count\000"
+ 3897      7400
+ 3898              	.LASF68:
+ 3899 0328 453A5C41 		.ascii	"E:\\Ardibot\\Zumo.release03\\Zumo01\\ZumoBot.cydsn\000"
+ 3899      72646962 
+ 3899      6F745C5A 
+ 3899      756D6F2E 
+ 3899      72656C65 
+ 3900              	.LASF7:
+ 3901 0357 5F5F696E 		.ascii	"__int32_t\000"
+ 3901      7433325F 
+ 3901      7400
+ 3902              	.LASF51:
+ 3903 0361 7265666C 		.ascii	"reflectance_read\000"
+ 3903      65637461 
+ 3903      6E63655F 
+ 3903      72656164 
+ 3903      00
+ 3904              	.LASF64:
+ 3905 0372 4144435F 		.ascii	"ADC_Battery_GetResult16\000"
+ 3905      42617474 
+ 3905      6572795F 
+ 3905      47657452 
+ 3905      6573756C 
+ 3906              	.LASF31:
+ 3907 038a 6D61785F 		.ascii	"max_speed\000"
+ 3907      73706565 
+ 3907      6400
+ 3908              	.LASF24:
+ 3909 0394 70726564 		.ascii	"pred\000"
+ 3909      00
+ 3910              	.LASF35:
+ 3911 0399 61646372 		.ascii	"adcresult\000"
+ 3911      6573756C 
+ 3911      7400
+ 3912              	.LASF18:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccmugB4z.s 			page 86
+
+
+ 3913 03a3 646F7562 		.ascii	"double\000"
+ 3913      6C6500
+ 3914              	.LASF57:
+ 3915 03aa 6765745F 		.ascii	"get_IR\000"
+ 3915      495200
+ 3916              	.LASF71:
+ 3917 03b1 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 3917      52784275 
+ 3917      66666572 
+ 3917      00
+ 3918              	.LASF46:
+ 3919 03be 43794465 		.ascii	"CyDelay\000"
+ 3919      6C617900 
+ 3920              	.LASF61:
+ 3921 03c6 4144435F 		.ascii	"ADC_Battery_CountsTo_Volts\000"
+ 3921      42617474 
+ 3921      6572795F 
+ 3921      436F756E 
+ 3921      7473546F 
+ 3922              	.LASF37:
+ 3923 03e1 74696D65 		.ascii	"time1\000"
+ 3923      3100
+ 3924              	.LASF25:
+ 3925 03e7 64696666 		.ascii	"diff\000"
+ 3925      00
+ 3926              	.LASF44:
+ 3927 03ec 49525F6C 		.ascii	"IR_led_Write\000"
+ 3927      65645F57 
+ 3927      72697465 
+ 3927      00
+ 3928              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

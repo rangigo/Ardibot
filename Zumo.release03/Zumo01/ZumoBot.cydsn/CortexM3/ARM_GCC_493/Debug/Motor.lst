@@ -1,0 +1,1901 @@
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Motor.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.motor_start,"ax",%progbits
+  19              		.align	2
+  20              		.global	motor_start
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	motor_start, %function
+  24              	motor_start:
+  25              	.LFB63:
+  26              		.file 1 "ZumoLibrary\\Motor.c"
+   1:ZumoLibrary/Motor.c **** /**
+   2:ZumoLibrary/Motor.c ****  * @file    Motor.c
+   3:ZumoLibrary/Motor.c ****  * @brief   Basic methods for operating motor sensor. For more details, please refer to Motor.h fil
+   4:ZumoLibrary/Motor.c ****  * @details included in Zumo shield
+   5:ZumoLibrary/Motor.c **** */
+   6:ZumoLibrary/Motor.c **** #include "Motor.h"
+   7:ZumoLibrary/Motor.c **** 
+   8:ZumoLibrary/Motor.c **** 
+   9:ZumoLibrary/Motor.c **** /**
+  10:ZumoLibrary/Motor.c **** * @brief    Starting motor sensors
+  11:ZumoLibrary/Motor.c **** * @details  
+  12:ZumoLibrary/Motor.c **** */
+  13:ZumoLibrary/Motor.c **** void motor_start()
+  14:ZumoLibrary/Motor.c **** {
+  27              		.loc 1 14 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31 0000 08B5     		push	{r3, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 3, -8
+  34              		.cfi_offset 14, -4
+  15:ZumoLibrary/Motor.c ****     PWM_Start();
+  35              		.loc 1 15 0
+  36 0002 FFF7FEFF 		bl	PWM_Start
+  37              	.LVL0:
+  38 0006 08BD     		pop	{r3, pc}
+  39              		.cfi_endproc
+  40              	.LFE63:
+  41              		.size	motor_start, .-motor_start
+  42              		.section	.text.motor_stop,"ax",%progbits
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 2
+
+
+  43              		.align	2
+  44              		.global	motor_stop
+  45              		.thumb
+  46              		.thumb_func
+  47              		.type	motor_stop, %function
+  48              	motor_stop:
+  49              	.LFB64:
+  16:ZumoLibrary/Motor.c **** }
+  17:ZumoLibrary/Motor.c **** 
+  18:ZumoLibrary/Motor.c **** 
+  19:ZumoLibrary/Motor.c **** /**
+  20:ZumoLibrary/Motor.c **** * @brief    Stopping motor sensors
+  21:ZumoLibrary/Motor.c **** * @details
+  22:ZumoLibrary/Motor.c **** */
+  23:ZumoLibrary/Motor.c **** void motor_stop()
+  24:ZumoLibrary/Motor.c **** {
+  50              		.loc 1 24 0
+  51              		.cfi_startproc
+  52              		@ args = 0, pretend = 0, frame = 0
+  53              		@ frame_needed = 0, uses_anonymous_args = 0
+  54 0000 08B5     		push	{r3, lr}
+  55              		.cfi_def_cfa_offset 8
+  56              		.cfi_offset 3, -8
+  57              		.cfi_offset 14, -4
+  25:ZumoLibrary/Motor.c ****     PWM_Stop();
+  58              		.loc 1 25 0
+  59 0002 FFF7FEFF 		bl	PWM_Stop
+  60              	.LVL1:
+  61 0006 08BD     		pop	{r3, pc}
+  62              		.cfi_endproc
+  63              	.LFE64:
+  64              		.size	motor_stop, .-motor_stop
+  65              		.section	.text.motor_forward,"ax",%progbits
+  66              		.align	2
+  67              		.global	motor_forward
+  68              		.thumb
+  69              		.thumb_func
+  70              		.type	motor_forward, %function
+  71              	motor_forward:
+  72              	.LFB65:
+  26:ZumoLibrary/Motor.c **** }
+  27:ZumoLibrary/Motor.c **** 
+  28:ZumoLibrary/Motor.c **** 
+  29:ZumoLibrary/Motor.c **** /**
+  30:ZumoLibrary/Motor.c **** * @brief    Moving motors forward
+  31:ZumoLibrary/Motor.c **** * @details  giveing same speed to each side of PWM to make motors go forward
+  32:ZumoLibrary/Motor.c **** * @param    uint8 speed : speed value
+  33:ZumoLibrary/Motor.c **** * @param    uint32 delay : delay time
+  34:ZumoLibrary/Motor.c **** */
+  35:ZumoLibrary/Motor.c **** void motor_forward(uint8 speed,uint32 delay)
+  36:ZumoLibrary/Motor.c **** {
+  73              		.loc 1 36 0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77              	.LVL2:
+  78 0000 38B5     		push	{r3, r4, r5, lr}
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 3
+
+
+  79              		.cfi_def_cfa_offset 16
+  80              		.cfi_offset 3, -16
+  81              		.cfi_offset 4, -12
+  82              		.cfi_offset 5, -8
+  83              		.cfi_offset 14, -4
+  84 0002 0446     		mov	r4, r0
+  85 0004 0D46     		mov	r5, r1
+  37:ZumoLibrary/Motor.c ****     MotorDirLeft_Write(0);      // set LeftMotor forward mode
+  86              		.loc 1 37 0
+  87 0006 0020     		movs	r0, #0
+  88              	.LVL3:
+  89 0008 FFF7FEFF 		bl	MotorDirLeft_Write
+  90              	.LVL4:
+  38:ZumoLibrary/Motor.c ****     MotorDirRight_Write(0);     // set RightMotor forward mode
+  91              		.loc 1 38 0
+  92 000c 0020     		movs	r0, #0
+  93 000e FFF7FEFF 		bl	MotorDirRight_Write
+  94              	.LVL5:
+  39:ZumoLibrary/Motor.c ****     PWM_WriteCompare1(speed); 
+  95              		.loc 1 39 0
+  96 0012 2046     		mov	r0, r4
+  97 0014 FFF7FEFF 		bl	PWM_WriteCompare1
+  98              	.LVL6:
+  40:ZumoLibrary/Motor.c ****     PWM_WriteCompare2(speed); 
+  99              		.loc 1 40 0
+ 100 0018 2046     		mov	r0, r4
+ 101 001a FFF7FEFF 		bl	PWM_WriteCompare2
+ 102              	.LVL7:
+  41:ZumoLibrary/Motor.c ****     CyDelay(delay);
+ 103              		.loc 1 41 0
+ 104 001e 2846     		mov	r0, r5
+ 105 0020 FFF7FEFF 		bl	CyDelay
+ 106              	.LVL8:
+ 107 0024 38BD     		pop	{r3, r4, r5, pc}
+ 108              		.cfi_endproc
+ 109              	.LFE65:
+ 110              		.size	motor_forward, .-motor_forward
+ 111 0026 00BF     		.section	.text.motor_turn,"ax",%progbits
+ 112              		.align	2
+ 113              		.global	motor_turn
+ 114              		.thumb
+ 115              		.thumb_func
+ 116              		.type	motor_turn, %function
+ 117              	motor_turn:
+ 118              	.LFB66:
+  42:ZumoLibrary/Motor.c **** }
+  43:ZumoLibrary/Motor.c **** 
+  44:ZumoLibrary/Motor.c **** 
+  45:ZumoLibrary/Motor.c **** /**
+  46:ZumoLibrary/Motor.c **** * @brief    Moving motors to make a turn 
+  47:ZumoLibrary/Motor.c **** * @details  moving left when l_speed < r_speed or moving right when l_speed > r_speed
+  48:ZumoLibrary/Motor.c **** * @param    uint8 l_speed : left motor speed value
+  49:ZumoLibrary/Motor.c **** * @param    uint8 r_speed : right motor speed value
+  50:ZumoLibrary/Motor.c **** * @param    uint32 delay : delay time
+  51:ZumoLibrary/Motor.c **** */
+  52:ZumoLibrary/Motor.c **** void motor_turn(int l_speed, int r_speed, uint32 delay)
+  53:ZumoLibrary/Motor.c **** {
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 4
+
+
+ 119              		.loc 1 53 0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123              	.LVL9:
+ 124 0000 70B5     		push	{r4, r5, r6, lr}
+ 125              		.cfi_def_cfa_offset 16
+ 126              		.cfi_offset 4, -16
+ 127              		.cfi_offset 5, -12
+ 128              		.cfi_offset 6, -8
+ 129              		.cfi_offset 14, -4
+ 130 0002 0C46     		mov	r4, r1
+ 131 0004 1646     		mov	r6, r2
+  54:ZumoLibrary/Motor.c ****     if (l_speed >= 0) MotorDirLeft_Write(0); else {MotorDirLeft_Write(1); l_speed = -l_speed;}
+ 132              		.loc 1 54 0
+ 133 0006 051E     		subs	r5, r0, #0
+ 134 0008 03DB     		blt	.L8
+ 135              		.loc 1 54 0 is_stmt 0 discriminator 1
+ 136 000a 0020     		movs	r0, #0
+ 137              	.LVL10:
+ 138 000c FFF7FEFF 		bl	MotorDirLeft_Write
+ 139              	.LVL11:
+ 140 0010 03E0     		b	.L9
+ 141              	.LVL12:
+ 142              	.L8:
+ 143              		.loc 1 54 0 discriminator 2
+ 144 0012 0120     		movs	r0, #1
+ 145              	.LVL13:
+ 146 0014 FFF7FEFF 		bl	MotorDirLeft_Write
+ 147              	.LVL14:
+ 148 0018 6D42     		negs	r5, r5
+ 149              	.LVL15:
+ 150              	.L9:
+  55:ZumoLibrary/Motor.c ****     if (r_speed >= 0) MotorDirRight_Write(0); else {MotorDirRight_Write(1); r_speed = -r_speed;}
+ 151              		.loc 1 55 0 is_stmt 1
+ 152 001a 002C     		cmp	r4, #0
+ 153 001c 03DB     		blt	.L10
+ 154              		.loc 1 55 0 is_stmt 0 discriminator 1
+ 155 001e 0020     		movs	r0, #0
+ 156 0020 FFF7FEFF 		bl	MotorDirRight_Write
+ 157              	.LVL16:
+ 158 0024 03E0     		b	.L11
+ 159              	.L10:
+ 160              		.loc 1 55 0 discriminator 2
+ 161 0026 0120     		movs	r0, #1
+ 162 0028 FFF7FEFF 		bl	MotorDirRight_Write
+ 163              	.LVL17:
+ 164 002c 6442     		negs	r4, r4
+ 165              	.LVL18:
+ 166              	.L11:
+  56:ZumoLibrary/Motor.c ****     PWM_WriteCompare1(l_speed); 
+ 167              		.loc 1 56 0 is_stmt 1
+ 168 002e E8B2     		uxtb	r0, r5
+ 169 0030 FFF7FEFF 		bl	PWM_WriteCompare1
+ 170              	.LVL19:
+  57:ZumoLibrary/Motor.c ****     PWM_WriteCompare2(r_speed); 
+ 171              		.loc 1 57 0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 5
+
+
+ 172 0034 E0B2     		uxtb	r0, r4
+ 173 0036 FFF7FEFF 		bl	PWM_WriteCompare2
+ 174              	.LVL20:
+  58:ZumoLibrary/Motor.c ****     CyDelay(delay);
+ 175              		.loc 1 58 0
+ 176 003a 3046     		mov	r0, r6
+ 177 003c FFF7FEFF 		bl	CyDelay
+ 178              	.LVL21:
+ 179 0040 70BD     		pop	{r4, r5, r6, pc}
+ 180              		.cfi_endproc
+ 181              	.LFE66:
+ 182              		.size	motor_turn, .-motor_turn
+ 183              		.section	.text.motor_backward,"ax",%progbits
+ 184              		.align	2
+ 185              		.global	motor_backward
+ 186              		.thumb
+ 187              		.thumb_func
+ 188              		.type	motor_backward, %function
+ 189              	motor_backward:
+ 190              	.LFB67:
+  59:ZumoLibrary/Motor.c **** }
+  60:ZumoLibrary/Motor.c **** 
+  61:ZumoLibrary/Motor.c **** 
+  62:ZumoLibrary/Motor.c **** /**
+  63:ZumoLibrary/Motor.c **** * @brief    Moving motors backward
+  64:ZumoLibrary/Motor.c **** * @details  setting backward mode to each motors and gives same speed to each side of PWM
+  65:ZumoLibrary/Motor.c **** * @param    uint8 speed : speed value
+  66:ZumoLibrary/Motor.c **** * @param    uint32 delay : delay time
+  67:ZumoLibrary/Motor.c **** */
+  68:ZumoLibrary/Motor.c **** void motor_backward(uint8 speed,uint32 delay)
+  69:ZumoLibrary/Motor.c **** {
+ 191              		.loc 1 69 0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195              	.LVL22:
+ 196 0000 38B5     		push	{r3, r4, r5, lr}
+ 197              		.cfi_def_cfa_offset 16
+ 198              		.cfi_offset 3, -16
+ 199              		.cfi_offset 4, -12
+ 200              		.cfi_offset 5, -8
+ 201              		.cfi_offset 14, -4
+ 202 0002 0446     		mov	r4, r0
+ 203 0004 0D46     		mov	r5, r1
+  70:ZumoLibrary/Motor.c ****     MotorDirLeft_Write(1);      // set LeftMotor backward mode
+ 204              		.loc 1 70 0
+ 205 0006 0120     		movs	r0, #1
+ 206              	.LVL23:
+ 207 0008 FFF7FEFF 		bl	MotorDirLeft_Write
+ 208              	.LVL24:
+  71:ZumoLibrary/Motor.c ****     MotorDirRight_Write(1);     // set RightMotor backward mode
+ 209              		.loc 1 71 0
+ 210 000c 0120     		movs	r0, #1
+ 211 000e FFF7FEFF 		bl	MotorDirRight_Write
+ 212              	.LVL25:
+  72:ZumoLibrary/Motor.c ****     PWM_WriteCompare1(speed); 
+ 213              		.loc 1 72 0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 6
+
+
+ 214 0012 2046     		mov	r0, r4
+ 215 0014 FFF7FEFF 		bl	PWM_WriteCompare1
+ 216              	.LVL26:
+  73:ZumoLibrary/Motor.c ****     PWM_WriteCompare2(speed); 
+ 217              		.loc 1 73 0
+ 218 0018 2046     		mov	r0, r4
+ 219 001a FFF7FEFF 		bl	PWM_WriteCompare2
+ 220              	.LVL27:
+  74:ZumoLibrary/Motor.c ****     CyDelay(delay);
+ 221              		.loc 1 74 0
+ 222 001e 2846     		mov	r0, r5
+ 223 0020 FFF7FEFF 		bl	CyDelay
+ 224              	.LVL28:
+ 225 0024 38BD     		pop	{r3, r4, r5, pc}
+ 226              		.cfi_endproc
+ 227              	.LFE67:
+ 228              		.size	motor_backward, .-motor_backward
+ 229 0026 00BF     		.section	.text.motor_static_turn_r,"ax",%progbits
+ 230              		.align	2
+ 231              		.global	motor_static_turn_r
+ 232              		.thumb
+ 233              		.thumb_func
+ 234              		.type	motor_static_turn_r, %function
+ 235              	motor_static_turn_r:
+ 236              	.LFB68:
+  75:ZumoLibrary/Motor.c **** }
+  76:ZumoLibrary/Motor.c **** 
+  77:ZumoLibrary/Motor.c **** void motor_static_turn_r(uint32 delay) {
+ 237              		.loc 1 77 0
+ 238              		.cfi_startproc
+ 239              		@ args = 0, pretend = 0, frame = 0
+ 240              		@ frame_needed = 0, uses_anonymous_args = 0
+ 241              	.LVL29:
+ 242 0000 10B5     		push	{r4, lr}
+ 243              		.cfi_def_cfa_offset 8
+ 244              		.cfi_offset 4, -8
+ 245              		.cfi_offset 14, -4
+ 246 0002 0446     		mov	r4, r0
+ 247              	.LVL30:
+  78:ZumoLibrary/Motor.c ****     uint8 static_speed = 100;
+  79:ZumoLibrary/Motor.c ****     MotorDirLeft_Write(0);
+ 248              		.loc 1 79 0
+ 249 0004 0020     		movs	r0, #0
+ 250              	.LVL31:
+ 251 0006 FFF7FEFF 		bl	MotorDirLeft_Write
+ 252              	.LVL32:
+  80:ZumoLibrary/Motor.c ****     MotorDirRight_Write(1);
+ 253              		.loc 1 80 0
+ 254 000a 0120     		movs	r0, #1
+ 255 000c FFF7FEFF 		bl	MotorDirRight_Write
+ 256              	.LVL33:
+  81:ZumoLibrary/Motor.c ****     PWM_WriteCompare1(static_speed);
+ 257              		.loc 1 81 0
+ 258 0010 6420     		movs	r0, #100
+ 259 0012 FFF7FEFF 		bl	PWM_WriteCompare1
+ 260              	.LVL34:
+  82:ZumoLibrary/Motor.c ****     PWM_WriteCompare2(static_speed);
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 7
+
+
+ 261              		.loc 1 82 0
+ 262 0016 6420     		movs	r0, #100
+ 263 0018 FFF7FEFF 		bl	PWM_WriteCompare2
+ 264              	.LVL35:
+  83:ZumoLibrary/Motor.c ****     CyDelay(delay);
+ 265              		.loc 1 83 0
+ 266 001c 2046     		mov	r0, r4
+ 267 001e FFF7FEFF 		bl	CyDelay
+ 268              	.LVL36:
+ 269 0022 10BD     		pop	{r4, pc}
+ 270              		.cfi_endproc
+ 271              	.LFE68:
+ 272              		.size	motor_static_turn_r, .-motor_static_turn_r
+ 273              		.section	.text.motor_static_turn_l,"ax",%progbits
+ 274              		.align	2
+ 275              		.global	motor_static_turn_l
+ 276              		.thumb
+ 277              		.thumb_func
+ 278              		.type	motor_static_turn_l, %function
+ 279              	motor_static_turn_l:
+ 280              	.LFB69:
+  84:ZumoLibrary/Motor.c **** }
+  85:ZumoLibrary/Motor.c **** 
+  86:ZumoLibrary/Motor.c **** void motor_static_turn_l(uint32 delay) {
+ 281              		.loc 1 86 0
+ 282              		.cfi_startproc
+ 283              		@ args = 0, pretend = 0, frame = 0
+ 284              		@ frame_needed = 0, uses_anonymous_args = 0
+ 285              	.LVL37:
+ 286 0000 10B5     		push	{r4, lr}
+ 287              		.cfi_def_cfa_offset 8
+ 288              		.cfi_offset 4, -8
+ 289              		.cfi_offset 14, -4
+ 290 0002 0446     		mov	r4, r0
+ 291              	.LVL38:
+  87:ZumoLibrary/Motor.c ****     uint8 static_speed = 100;
+  88:ZumoLibrary/Motor.c ****     MotorDirLeft_Write(1);
+ 292              		.loc 1 88 0
+ 293 0004 0120     		movs	r0, #1
+ 294              	.LVL39:
+ 295 0006 FFF7FEFF 		bl	MotorDirLeft_Write
+ 296              	.LVL40:
+  89:ZumoLibrary/Motor.c ****     MotorDirRight_Write(0);
+ 297              		.loc 1 89 0
+ 298 000a 0020     		movs	r0, #0
+ 299 000c FFF7FEFF 		bl	MotorDirRight_Write
+ 300              	.LVL41:
+  90:ZumoLibrary/Motor.c ****     PWM_WriteCompare1(static_speed);
+ 301              		.loc 1 90 0
+ 302 0010 6420     		movs	r0, #100
+ 303 0012 FFF7FEFF 		bl	PWM_WriteCompare1
+ 304              	.LVL42:
+  91:ZumoLibrary/Motor.c ****     PWM_WriteCompare2(static_speed);
+ 305              		.loc 1 91 0
+ 306 0016 6420     		movs	r0, #100
+ 307 0018 FFF7FEFF 		bl	PWM_WriteCompare2
+ 308              	.LVL43:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 8
+
+
+  92:ZumoLibrary/Motor.c ****     CyDelay(delay);
+ 309              		.loc 1 92 0
+ 310 001c 2046     		mov	r0, r4
+ 311 001e FFF7FEFF 		bl	CyDelay
+ 312              	.LVL44:
+ 313 0022 10BD     		pop	{r4, pc}
+ 314              		.cfi_endproc
+ 315              	.LFE69:
+ 316              		.size	motor_static_turn_l, .-motor_static_turn_l
+ 317              		.section	.text.motor_forward_distance,"ax",%progbits
+ 318              		.align	2
+ 319              		.global	motor_forward_distance
+ 320              		.thumb
+ 321              		.thumb_func
+ 322              		.type	motor_forward_distance, %function
+ 323              	motor_forward_distance:
+ 324              	.LFB70:
+  93:ZumoLibrary/Motor.c **** }
+  94:ZumoLibrary/Motor.c **** 
+  95:ZumoLibrary/Motor.c **** void motor_forward_distance(uint32 delay)
+  96:ZumoLibrary/Motor.c **** {
+ 325              		.loc 1 96 0
+ 326              		.cfi_startproc
+ 327              		@ args = 0, pretend = 0, frame = 0
+ 328              		@ frame_needed = 0, uses_anonymous_args = 0
+ 329              	.LVL45:
+ 330 0000 10B5     		push	{r4, lr}
+ 331              		.cfi_def_cfa_offset 8
+ 332              		.cfi_offset 4, -8
+ 333              		.cfi_offset 14, -4
+ 334 0002 0446     		mov	r4, r0
+  97:ZumoLibrary/Motor.c ****     MotorDirLeft_Write(0);      // set LeftMotor forward mode
+ 335              		.loc 1 97 0
+ 336 0004 0020     		movs	r0, #0
+ 337              	.LVL46:
+ 338 0006 FFF7FEFF 		bl	MotorDirLeft_Write
+ 339              	.LVL47:
+  98:ZumoLibrary/Motor.c ****     MotorDirRight_Write(0);     // set RightMotor forward mode
+ 340              		.loc 1 98 0
+ 341 000a 0020     		movs	r0, #0
+ 342 000c FFF7FEFF 		bl	MotorDirRight_Write
+ 343              	.LVL48:
+  99:ZumoLibrary/Motor.c ****     PWM_WriteCompare1(200); 
+ 344              		.loc 1 99 0
+ 345 0010 C820     		movs	r0, #200
+ 346 0012 FFF7FEFF 		bl	PWM_WriteCompare1
+ 347              	.LVL49:
+ 100:ZumoLibrary/Motor.c ****     PWM_WriteCompare2(200); 
+ 348              		.loc 1 100 0
+ 349 0016 C820     		movs	r0, #200
+ 350 0018 FFF7FEFF 		bl	PWM_WriteCompare2
+ 351              	.LVL50:
+ 101:ZumoLibrary/Motor.c ****     CyDelay(delay*1000/48);
+ 352              		.loc 1 101 0
+ 353 001c 4FF47A70 		mov	r0, #1000
+ 354 0020 00FB04F0 		mul	r0, r0, r4
+ 355 0024 034B     		ldr	r3, .L21
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 9
+
+
+ 356 0026 A3FB0030 		umull	r3, r0, r3, r0
+ 357 002a 4009     		lsrs	r0, r0, #5
+ 358 002c FFF7FEFF 		bl	CyDelay
+ 359              	.LVL51:
+ 360 0030 10BD     		pop	{r4, pc}
+ 361              	.LVL52:
+ 362              	.L22:
+ 363 0032 00BF     		.align	2
+ 364              	.L21:
+ 365 0034 ABAAAAAA 		.word	-1431655765
+ 366              		.cfi_endproc
+ 367              	.LFE70:
+ 368              		.size	motor_forward_distance, .-motor_forward_distance
+ 369              		.text
+ 370              	.Letext0:
+ 371              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 372              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.0\\psoc creator\\import\\gnu\\arm\\4.9.
+ 373              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 374              		.file 5 "Generated_Source\\PSoC5/PWM.h"
+ 375              		.file 6 "Generated_Source\\PSoC5/MotorDirLeft.h"
+ 376              		.file 7 "Generated_Source\\PSoC5/MotorDirRight.h"
+ 377              		.file 8 "Generated_Source\\PSoC5/core_cm3.h"
+ 378              		.file 9 "Generated_Source\\PSoC5/CyLib.h"
+ 379              		.section	.debug_info,"",%progbits
+ 380              	.Ldebug_info0:
+ 381 0000 09050000 		.4byte	0x509
+ 382 0004 0400     		.2byte	0x4
+ 383 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 384 000a 04       		.byte	0x4
+ 385 000b 01       		.uleb128 0x1
+ 386 000c 80010000 		.4byte	.LASF36
+ 387 0010 01       		.byte	0x1
+ 388 0011 D2000000 		.4byte	.LASF37
+ 389 0015 29020000 		.4byte	.LASF38
+ 390 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 391 001d 00000000 		.4byte	0
+ 392 0021 00000000 		.4byte	.Ldebug_line0
+ 393 0025 02       		.uleb128 0x2
+ 394 0026 08       		.byte	0x8
+ 395 0027 07       		.byte	0x7
+ 396 0028 22010000 		.4byte	.LASF0
+ 397 002c 02       		.uleb128 0x2
+ 398 002d 04       		.byte	0x4
+ 399 002e 07       		.byte	0x7
+ 400 002f 01010000 		.4byte	.LASF1
+ 401 0033 02       		.uleb128 0x2
+ 402 0034 01       		.byte	0x1
+ 403 0035 06       		.byte	0x6
+ 404 0036 49000000 		.4byte	.LASF2
+ 405 003a 02       		.uleb128 0x2
+ 406 003b 01       		.byte	0x1
+ 407 003c 08       		.byte	0x8
+ 408 003d 5B000000 		.4byte	.LASF3
+ 409 0041 02       		.uleb128 0x2
+ 410 0042 02       		.byte	0x2
+ 411 0043 05       		.byte	0x5
+ 412 0044 5D020000 		.4byte	.LASF4
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 10
+
+
+ 413 0048 02       		.uleb128 0x2
+ 414 0049 02       		.byte	0x2
+ 415 004a 07       		.byte	0x7
+ 416 004b 8E020000 		.4byte	.LASF5
+ 417 004f 03       		.uleb128 0x3
+ 418 0050 00000000 		.4byte	.LASF9
+ 419 0054 02       		.byte	0x2
+ 420 0055 3F       		.byte	0x3f
+ 421 0056 5A000000 		.4byte	0x5a
+ 422 005a 02       		.uleb128 0x2
+ 423 005b 04       		.byte	0x4
+ 424 005c 05       		.byte	0x5
+ 425 005d 7A020000 		.4byte	.LASF6
+ 426 0061 02       		.uleb128 0x2
+ 427 0062 04       		.byte	0x4
+ 428 0063 07       		.byte	0x7
+ 429 0064 69000000 		.4byte	.LASF7
+ 430 0068 02       		.uleb128 0x2
+ 431 0069 08       		.byte	0x8
+ 432 006a 05       		.byte	0x5
+ 433 006b 1B020000 		.4byte	.LASF8
+ 434 006f 04       		.uleb128 0x4
+ 435 0070 04       		.byte	0x4
+ 436 0071 05       		.byte	0x5
+ 437 0072 696E7400 		.ascii	"int\000"
+ 438 0076 03       		.uleb128 0x3
+ 439 0077 3B000000 		.4byte	.LASF10
+ 440 007b 03       		.byte	0x3
+ 441 007c 2C       		.byte	0x2c
+ 442 007d 4F000000 		.4byte	0x4f
+ 443 0081 05       		.uleb128 0x5
+ 444 0082 35000000 		.4byte	.LASF11
+ 445 0086 04       		.byte	0x4
+ 446 0087 9201     		.2byte	0x192
+ 447 0089 3A000000 		.4byte	0x3a
+ 448 008d 05       		.uleb128 0x5
+ 449 008e E6000000 		.4byte	.LASF12
+ 450 0092 04       		.byte	0x4
+ 451 0093 9401     		.2byte	0x194
+ 452 0095 61000000 		.4byte	0x61
+ 453 0099 02       		.uleb128 0x2
+ 454 009a 04       		.byte	0x4
+ 455 009b 04       		.byte	0x4
+ 456 009c 43000000 		.4byte	.LASF13
+ 457 00a0 02       		.uleb128 0x2
+ 458 00a1 08       		.byte	0x8
+ 459 00a2 04       		.byte	0x4
+ 460 00a3 A9000000 		.4byte	.LASF14
+ 461 00a7 02       		.uleb128 0x2
+ 462 00a8 01       		.byte	0x1
+ 463 00a9 08       		.byte	0x8
+ 464 00aa 58020000 		.4byte	.LASF15
+ 465 00ae 02       		.uleb128 0x2
+ 466 00af 04       		.byte	0x4
+ 467 00b0 07       		.byte	0x7
+ 468 00b1 77010000 		.4byte	.LASF16
+ 469 00b5 06       		.uleb128 0x6
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 11
+
+
+ 470 00b6 39010000 		.4byte	.LASF17
+ 471 00ba 01       		.byte	0x1
+ 472 00bb 0D       		.byte	0xd
+ 473 00bc 00000000 		.4byte	.LFB63
+ 474 00c0 08000000 		.4byte	.LFE63-.LFB63
+ 475 00c4 01       		.uleb128 0x1
+ 476 00c5 9C       		.byte	0x9c
+ 477 00c6 D4000000 		.4byte	0xd4
+ 478 00ca 07       		.uleb128 0x7
+ 479 00cb 06000000 		.4byte	.LVL0
+ 480 00cf AD040000 		.4byte	0x4ad
+ 481 00d3 00       		.byte	0
+ 482 00d4 06       		.uleb128 0x6
+ 483 00d5 C7000000 		.4byte	.LASF18
+ 484 00d9 01       		.byte	0x1
+ 485 00da 17       		.byte	0x17
+ 486 00db 00000000 		.4byte	.LFB64
+ 487 00df 08000000 		.4byte	.LFE64-.LFB64
+ 488 00e3 01       		.uleb128 0x1
+ 489 00e4 9C       		.byte	0x9c
+ 490 00e5 F3000000 		.4byte	0xf3
+ 491 00e9 07       		.uleb128 0x7
+ 492 00ea 06000000 		.4byte	.LVL1
+ 493 00ee B4040000 		.4byte	0x4b4
+ 494 00f2 00       		.byte	0
+ 495 00f3 08       		.uleb128 0x8
+ 496 00f4 9B000000 		.4byte	.LASF21
+ 497 00f8 01       		.byte	0x1
+ 498 00f9 23       		.byte	0x23
+ 499 00fa 00000000 		.4byte	.LFB65
+ 500 00fe 26000000 		.4byte	.LFE65-.LFB65
+ 501 0102 01       		.uleb128 0x1
+ 502 0103 9C       		.byte	0x9c
+ 503 0104 85010000 		.4byte	0x185
+ 504 0108 09       		.uleb128 0x9
+ 505 0109 71010000 		.4byte	.LASF19
+ 506 010d 01       		.byte	0x1
+ 507 010e 23       		.byte	0x23
+ 508 010f 81000000 		.4byte	0x81
+ 509 0113 00000000 		.4byte	.LLST0
+ 510 0117 09       		.uleb128 0x9
+ 511 0118 55000000 		.4byte	.LASF20
+ 512 011c 01       		.byte	0x1
+ 513 011d 23       		.byte	0x23
+ 514 011e 8D000000 		.4byte	0x8d
+ 515 0122 21000000 		.4byte	.LLST1
+ 516 0126 0A       		.uleb128 0xa
+ 517 0127 0C000000 		.4byte	.LVL4
+ 518 012b BB040000 		.4byte	0x4bb
+ 519 012f 39010000 		.4byte	0x139
+ 520 0133 0B       		.uleb128 0xb
+ 521 0134 01       		.uleb128 0x1
+ 522 0135 50       		.byte	0x50
+ 523 0136 01       		.uleb128 0x1
+ 524 0137 30       		.byte	0x30
+ 525 0138 00       		.byte	0
+ 526 0139 0A       		.uleb128 0xa
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 12
+
+
+ 527 013a 12000000 		.4byte	.LVL5
+ 528 013e CC040000 		.4byte	0x4cc
+ 529 0142 4C010000 		.4byte	0x14c
+ 530 0146 0B       		.uleb128 0xb
+ 531 0147 01       		.uleb128 0x1
+ 532 0148 50       		.byte	0x50
+ 533 0149 01       		.uleb128 0x1
+ 534 014a 30       		.byte	0x30
+ 535 014b 00       		.byte	0
+ 536 014c 0A       		.uleb128 0xa
+ 537 014d 18000000 		.4byte	.LVL6
+ 538 0151 DD040000 		.4byte	0x4dd
+ 539 0155 60010000 		.4byte	0x160
+ 540 0159 0B       		.uleb128 0xb
+ 541 015a 01       		.uleb128 0x1
+ 542 015b 50       		.byte	0x50
+ 543 015c 02       		.uleb128 0x2
+ 544 015d 74       		.byte	0x74
+ 545 015e 00       		.sleb128 0
+ 546 015f 00       		.byte	0
+ 547 0160 0A       		.uleb128 0xa
+ 548 0161 1E000000 		.4byte	.LVL7
+ 549 0165 EE040000 		.4byte	0x4ee
+ 550 0169 74010000 		.4byte	0x174
+ 551 016d 0B       		.uleb128 0xb
+ 552 016e 01       		.uleb128 0x1
+ 553 016f 50       		.byte	0x50
+ 554 0170 02       		.uleb128 0x2
+ 555 0171 74       		.byte	0x74
+ 556 0172 00       		.sleb128 0
+ 557 0173 00       		.byte	0
+ 558 0174 0C       		.uleb128 0xc
+ 559 0175 24000000 		.4byte	.LVL8
+ 560 0179 FF040000 		.4byte	0x4ff
+ 561 017d 0B       		.uleb128 0xb
+ 562 017e 01       		.uleb128 0x1
+ 563 017f 50       		.byte	0x50
+ 564 0180 02       		.uleb128 0x2
+ 565 0181 75       		.byte	0x75
+ 566 0182 00       		.sleb128 0
+ 567 0183 00       		.byte	0
+ 568 0184 00       		.byte	0
+ 569 0185 08       		.uleb128 0x8
+ 570 0186 83020000 		.4byte	.LASF22
+ 571 018a 01       		.byte	0x1
+ 572 018b 34       		.byte	0x34
+ 573 018c 00000000 		.4byte	.LFB66
+ 574 0190 42000000 		.4byte	.LFE66-.LFB66
+ 575 0194 01       		.uleb128 0x1
+ 576 0195 9C       		.byte	0x9c
+ 577 0196 4C020000 		.4byte	0x24c
+ 578 019a 09       		.uleb128 0x9
+ 579 019b 69010000 		.4byte	.LASF23
+ 580 019f 01       		.byte	0x1
+ 581 01a0 34       		.byte	0x34
+ 582 01a1 6F000000 		.4byte	0x6f
+ 583 01a5 3F000000 		.4byte	.LLST2
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 13
+
+
+ 584 01a9 09       		.uleb128 0x9
+ 585 01aa 19000000 		.4byte	.LASF24
+ 586 01ae 01       		.byte	0x1
+ 587 01af 34       		.byte	0x34
+ 588 01b0 6F000000 		.4byte	0x6f
+ 589 01b4 73000000 		.4byte	.LLST3
+ 590 01b8 09       		.uleb128 0x9
+ 591 01b9 55000000 		.4byte	.LASF20
+ 592 01bd 01       		.byte	0x1
+ 593 01be 34       		.byte	0x34
+ 594 01bf 8D000000 		.4byte	0x8d
+ 595 01c3 A7000000 		.4byte	.LLST4
+ 596 01c7 0A       		.uleb128 0xa
+ 597 01c8 10000000 		.4byte	.LVL11
+ 598 01cc BB040000 		.4byte	0x4bb
+ 599 01d0 DA010000 		.4byte	0x1da
+ 600 01d4 0B       		.uleb128 0xb
+ 601 01d5 01       		.uleb128 0x1
+ 602 01d6 50       		.byte	0x50
+ 603 01d7 01       		.uleb128 0x1
+ 604 01d8 30       		.byte	0x30
+ 605 01d9 00       		.byte	0
+ 606 01da 0A       		.uleb128 0xa
+ 607 01db 18000000 		.4byte	.LVL14
+ 608 01df BB040000 		.4byte	0x4bb
+ 609 01e3 ED010000 		.4byte	0x1ed
+ 610 01e7 0B       		.uleb128 0xb
+ 611 01e8 01       		.uleb128 0x1
+ 612 01e9 50       		.byte	0x50
+ 613 01ea 01       		.uleb128 0x1
+ 614 01eb 31       		.byte	0x31
+ 615 01ec 00       		.byte	0
+ 616 01ed 0A       		.uleb128 0xa
+ 617 01ee 24000000 		.4byte	.LVL16
+ 618 01f2 CC040000 		.4byte	0x4cc
+ 619 01f6 00020000 		.4byte	0x200
+ 620 01fa 0B       		.uleb128 0xb
+ 621 01fb 01       		.uleb128 0x1
+ 622 01fc 50       		.byte	0x50
+ 623 01fd 01       		.uleb128 0x1
+ 624 01fe 30       		.byte	0x30
+ 625 01ff 00       		.byte	0
+ 626 0200 0A       		.uleb128 0xa
+ 627 0201 2C000000 		.4byte	.LVL17
+ 628 0205 CC040000 		.4byte	0x4cc
+ 629 0209 13020000 		.4byte	0x213
+ 630 020d 0B       		.uleb128 0xb
+ 631 020e 01       		.uleb128 0x1
+ 632 020f 50       		.byte	0x50
+ 633 0210 01       		.uleb128 0x1
+ 634 0211 31       		.byte	0x31
+ 635 0212 00       		.byte	0
+ 636 0213 0A       		.uleb128 0xa
+ 637 0214 34000000 		.4byte	.LVL19
+ 638 0218 DD040000 		.4byte	0x4dd
+ 639 021c 27020000 		.4byte	0x227
+ 640 0220 0B       		.uleb128 0xb
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 14
+
+
+ 641 0221 01       		.uleb128 0x1
+ 642 0222 50       		.byte	0x50
+ 643 0223 02       		.uleb128 0x2
+ 644 0224 75       		.byte	0x75
+ 645 0225 00       		.sleb128 0
+ 646 0226 00       		.byte	0
+ 647 0227 0A       		.uleb128 0xa
+ 648 0228 3A000000 		.4byte	.LVL20
+ 649 022c EE040000 		.4byte	0x4ee
+ 650 0230 3B020000 		.4byte	0x23b
+ 651 0234 0B       		.uleb128 0xb
+ 652 0235 01       		.uleb128 0x1
+ 653 0236 50       		.byte	0x50
+ 654 0237 02       		.uleb128 0x2
+ 655 0238 74       		.byte	0x74
+ 656 0239 00       		.sleb128 0
+ 657 023a 00       		.byte	0
+ 658 023b 0C       		.uleb128 0xc
+ 659 023c 40000000 		.4byte	.LVL21
+ 660 0240 FF040000 		.4byte	0x4ff
+ 661 0244 0B       		.uleb128 0xb
+ 662 0245 01       		.uleb128 0x1
+ 663 0246 50       		.byte	0x50
+ 664 0247 02       		.uleb128 0x2
+ 665 0248 76       		.byte	0x76
+ 666 0249 00       		.sleb128 0
+ 667 024a 00       		.byte	0
+ 668 024b 00       		.byte	0
+ 669 024c 08       		.uleb128 0x8
+ 670 024d 0A000000 		.4byte	.LASF25
+ 671 0251 01       		.byte	0x1
+ 672 0252 44       		.byte	0x44
+ 673 0253 00000000 		.4byte	.LFB67
+ 674 0257 26000000 		.4byte	.LFE67-.LFB67
+ 675 025b 01       		.uleb128 0x1
+ 676 025c 9C       		.byte	0x9c
+ 677 025d DE020000 		.4byte	0x2de
+ 678 0261 09       		.uleb128 0x9
+ 679 0262 71010000 		.4byte	.LASF19
+ 680 0266 01       		.byte	0x1
+ 681 0267 44       		.byte	0x44
+ 682 0268 81000000 		.4byte	0x81
+ 683 026c DB000000 		.4byte	.LLST5
+ 684 0270 09       		.uleb128 0x9
+ 685 0271 55000000 		.4byte	.LASF20
+ 686 0275 01       		.byte	0x1
+ 687 0276 44       		.byte	0x44
+ 688 0277 8D000000 		.4byte	0x8d
+ 689 027b FC000000 		.4byte	.LLST6
+ 690 027f 0A       		.uleb128 0xa
+ 691 0280 0C000000 		.4byte	.LVL24
+ 692 0284 BB040000 		.4byte	0x4bb
+ 693 0288 92020000 		.4byte	0x292
+ 694 028c 0B       		.uleb128 0xb
+ 695 028d 01       		.uleb128 0x1
+ 696 028e 50       		.byte	0x50
+ 697 028f 01       		.uleb128 0x1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 15
+
+
+ 698 0290 31       		.byte	0x31
+ 699 0291 00       		.byte	0
+ 700 0292 0A       		.uleb128 0xa
+ 701 0293 12000000 		.4byte	.LVL25
+ 702 0297 CC040000 		.4byte	0x4cc
+ 703 029b A5020000 		.4byte	0x2a5
+ 704 029f 0B       		.uleb128 0xb
+ 705 02a0 01       		.uleb128 0x1
+ 706 02a1 50       		.byte	0x50
+ 707 02a2 01       		.uleb128 0x1
+ 708 02a3 31       		.byte	0x31
+ 709 02a4 00       		.byte	0
+ 710 02a5 0A       		.uleb128 0xa
+ 711 02a6 18000000 		.4byte	.LVL26
+ 712 02aa DD040000 		.4byte	0x4dd
+ 713 02ae B9020000 		.4byte	0x2b9
+ 714 02b2 0B       		.uleb128 0xb
+ 715 02b3 01       		.uleb128 0x1
+ 716 02b4 50       		.byte	0x50
+ 717 02b5 02       		.uleb128 0x2
+ 718 02b6 74       		.byte	0x74
+ 719 02b7 00       		.sleb128 0
+ 720 02b8 00       		.byte	0
+ 721 02b9 0A       		.uleb128 0xa
+ 722 02ba 1E000000 		.4byte	.LVL27
+ 723 02be EE040000 		.4byte	0x4ee
+ 724 02c2 CD020000 		.4byte	0x2cd
+ 725 02c6 0B       		.uleb128 0xb
+ 726 02c7 01       		.uleb128 0x1
+ 727 02c8 50       		.byte	0x50
+ 728 02c9 02       		.uleb128 0x2
+ 729 02ca 74       		.byte	0x74
+ 730 02cb 00       		.sleb128 0
+ 731 02cc 00       		.byte	0
+ 732 02cd 0C       		.uleb128 0xc
+ 733 02ce 24000000 		.4byte	.LVL28
+ 734 02d2 FF040000 		.4byte	0x4ff
+ 735 02d6 0B       		.uleb128 0xb
+ 736 02d7 01       		.uleb128 0x1
+ 737 02d8 50       		.byte	0x50
+ 738 02d9 02       		.uleb128 0x2
+ 739 02da 75       		.byte	0x75
+ 740 02db 00       		.sleb128 0
+ 741 02dc 00       		.byte	0
+ 742 02dd 00       		.byte	0
+ 743 02de 08       		.uleb128 0x8
+ 744 02df 0E010000 		.4byte	.LASF26
+ 745 02e3 01       		.byte	0x1
+ 746 02e4 4D       		.byte	0x4d
+ 747 02e5 00000000 		.4byte	.LFB68
+ 748 02e9 24000000 		.4byte	.LFE68-.LFB68
+ 749 02ed 01       		.uleb128 0x1
+ 750 02ee 9C       		.byte	0x9c
+ 751 02ef 6D030000 		.4byte	0x36d
+ 752 02f3 09       		.uleb128 0x9
+ 753 02f4 55000000 		.4byte	.LASF20
+ 754 02f8 01       		.byte	0x1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 16
+
+
+ 755 02f9 4D       		.byte	0x4d
+ 756 02fa 8D000000 		.4byte	0x8d
+ 757 02fe 1A010000 		.4byte	.LLST7
+ 758 0302 0D       		.uleb128 0xd
+ 759 0303 0E020000 		.4byte	.LASF28
+ 760 0307 01       		.byte	0x1
+ 761 0308 4E       		.byte	0x4e
+ 762 0309 81000000 		.4byte	0x81
+ 763 030d 64       		.byte	0x64
+ 764 030e 0A       		.uleb128 0xa
+ 765 030f 0A000000 		.4byte	.LVL32
+ 766 0313 BB040000 		.4byte	0x4bb
+ 767 0317 21030000 		.4byte	0x321
+ 768 031b 0B       		.uleb128 0xb
+ 769 031c 01       		.uleb128 0x1
+ 770 031d 50       		.byte	0x50
+ 771 031e 01       		.uleb128 0x1
+ 772 031f 30       		.byte	0x30
+ 773 0320 00       		.byte	0
+ 774 0321 0A       		.uleb128 0xa
+ 775 0322 10000000 		.4byte	.LVL33
+ 776 0326 CC040000 		.4byte	0x4cc
+ 777 032a 34030000 		.4byte	0x334
+ 778 032e 0B       		.uleb128 0xb
+ 779 032f 01       		.uleb128 0x1
+ 780 0330 50       		.byte	0x50
+ 781 0331 01       		.uleb128 0x1
+ 782 0332 31       		.byte	0x31
+ 783 0333 00       		.byte	0
+ 784 0334 0A       		.uleb128 0xa
+ 785 0335 16000000 		.4byte	.LVL34
+ 786 0339 DD040000 		.4byte	0x4dd
+ 787 033d 48030000 		.4byte	0x348
+ 788 0341 0B       		.uleb128 0xb
+ 789 0342 01       		.uleb128 0x1
+ 790 0343 50       		.byte	0x50
+ 791 0344 02       		.uleb128 0x2
+ 792 0345 08       		.byte	0x8
+ 793 0346 64       		.byte	0x64
+ 794 0347 00       		.byte	0
+ 795 0348 0A       		.uleb128 0xa
+ 796 0349 1C000000 		.4byte	.LVL35
+ 797 034d EE040000 		.4byte	0x4ee
+ 798 0351 5C030000 		.4byte	0x35c
+ 799 0355 0B       		.uleb128 0xb
+ 800 0356 01       		.uleb128 0x1
+ 801 0357 50       		.byte	0x50
+ 802 0358 02       		.uleb128 0x2
+ 803 0359 08       		.byte	0x8
+ 804 035a 64       		.byte	0x64
+ 805 035b 00       		.byte	0
+ 806 035c 0C       		.uleb128 0xc
+ 807 035d 22000000 		.4byte	.LVL36
+ 808 0361 FF040000 		.4byte	0x4ff
+ 809 0365 0B       		.uleb128 0xb
+ 810 0366 01       		.uleb128 0x1
+ 811 0367 50       		.byte	0x50
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 17
+
+
+ 812 0368 02       		.uleb128 0x2
+ 813 0369 74       		.byte	0x74
+ 814 036a 00       		.sleb128 0
+ 815 036b 00       		.byte	0
+ 816 036c 00       		.byte	0
+ 817 036d 08       		.uleb128 0x8
+ 818 036e ED000000 		.4byte	.LASF27
+ 819 0372 01       		.byte	0x1
+ 820 0373 56       		.byte	0x56
+ 821 0374 00000000 		.4byte	.LFB69
+ 822 0378 24000000 		.4byte	.LFE69-.LFB69
+ 823 037c 01       		.uleb128 0x1
+ 824 037d 9C       		.byte	0x9c
+ 825 037e FC030000 		.4byte	0x3fc
+ 826 0382 09       		.uleb128 0x9
+ 827 0383 55000000 		.4byte	.LASF20
+ 828 0387 01       		.byte	0x1
+ 829 0388 56       		.byte	0x56
+ 830 0389 8D000000 		.4byte	0x8d
+ 831 038d 38010000 		.4byte	.LLST8
+ 832 0391 0D       		.uleb128 0xd
+ 833 0392 0E020000 		.4byte	.LASF28
+ 834 0396 01       		.byte	0x1
+ 835 0397 57       		.byte	0x57
+ 836 0398 81000000 		.4byte	0x81
+ 837 039c 64       		.byte	0x64
+ 838 039d 0A       		.uleb128 0xa
+ 839 039e 0A000000 		.4byte	.LVL40
+ 840 03a2 BB040000 		.4byte	0x4bb
+ 841 03a6 B0030000 		.4byte	0x3b0
+ 842 03aa 0B       		.uleb128 0xb
+ 843 03ab 01       		.uleb128 0x1
+ 844 03ac 50       		.byte	0x50
+ 845 03ad 01       		.uleb128 0x1
+ 846 03ae 31       		.byte	0x31
+ 847 03af 00       		.byte	0
+ 848 03b0 0A       		.uleb128 0xa
+ 849 03b1 10000000 		.4byte	.LVL41
+ 850 03b5 CC040000 		.4byte	0x4cc
+ 851 03b9 C3030000 		.4byte	0x3c3
+ 852 03bd 0B       		.uleb128 0xb
+ 853 03be 01       		.uleb128 0x1
+ 854 03bf 50       		.byte	0x50
+ 855 03c0 01       		.uleb128 0x1
+ 856 03c1 30       		.byte	0x30
+ 857 03c2 00       		.byte	0
+ 858 03c3 0A       		.uleb128 0xa
+ 859 03c4 16000000 		.4byte	.LVL42
+ 860 03c8 DD040000 		.4byte	0x4dd
+ 861 03cc D7030000 		.4byte	0x3d7
+ 862 03d0 0B       		.uleb128 0xb
+ 863 03d1 01       		.uleb128 0x1
+ 864 03d2 50       		.byte	0x50
+ 865 03d3 02       		.uleb128 0x2
+ 866 03d4 08       		.byte	0x8
+ 867 03d5 64       		.byte	0x64
+ 868 03d6 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 18
+
+
+ 869 03d7 0A       		.uleb128 0xa
+ 870 03d8 1C000000 		.4byte	.LVL43
+ 871 03dc EE040000 		.4byte	0x4ee
+ 872 03e0 EB030000 		.4byte	0x3eb
+ 873 03e4 0B       		.uleb128 0xb
+ 874 03e5 01       		.uleb128 0x1
+ 875 03e6 50       		.byte	0x50
+ 876 03e7 02       		.uleb128 0x2
+ 877 03e8 08       		.byte	0x8
+ 878 03e9 64       		.byte	0x64
+ 879 03ea 00       		.byte	0
+ 880 03eb 0C       		.uleb128 0xc
+ 881 03ec 22000000 		.4byte	.LVL44
+ 882 03f0 FF040000 		.4byte	0x4ff
+ 883 03f4 0B       		.uleb128 0xb
+ 884 03f5 01       		.uleb128 0x1
+ 885 03f6 50       		.byte	0x50
+ 886 03f7 02       		.uleb128 0x2
+ 887 03f8 74       		.byte	0x74
+ 888 03f9 00       		.sleb128 0
+ 889 03fa 00       		.byte	0
+ 890 03fb 00       		.byte	0
+ 891 03fc 08       		.uleb128 0x8
+ 892 03fd B0000000 		.4byte	.LASF29
+ 893 0401 01       		.byte	0x1
+ 894 0402 5F       		.byte	0x5f
+ 895 0403 00000000 		.4byte	.LFB70
+ 896 0407 38000000 		.4byte	.LFE70-.LFB70
+ 897 040b 01       		.uleb128 0x1
+ 898 040c 9C       		.byte	0x9c
+ 899 040d 9C040000 		.4byte	0x49c
+ 900 0411 09       		.uleb128 0x9
+ 901 0412 55000000 		.4byte	.LASF20
+ 902 0416 01       		.byte	0x1
+ 903 0417 5F       		.byte	0x5f
+ 904 0418 8D000000 		.4byte	0x8d
+ 905 041c 56010000 		.4byte	.LLST9
+ 906 0420 0A       		.uleb128 0xa
+ 907 0421 0A000000 		.4byte	.LVL47
+ 908 0425 BB040000 		.4byte	0x4bb
+ 909 0429 33040000 		.4byte	0x433
+ 910 042d 0B       		.uleb128 0xb
+ 911 042e 01       		.uleb128 0x1
+ 912 042f 50       		.byte	0x50
+ 913 0430 01       		.uleb128 0x1
+ 914 0431 30       		.byte	0x30
+ 915 0432 00       		.byte	0
+ 916 0433 0A       		.uleb128 0xa
+ 917 0434 10000000 		.4byte	.LVL48
+ 918 0438 CC040000 		.4byte	0x4cc
+ 919 043c 46040000 		.4byte	0x446
+ 920 0440 0B       		.uleb128 0xb
+ 921 0441 01       		.uleb128 0x1
+ 922 0442 50       		.byte	0x50
+ 923 0443 01       		.uleb128 0x1
+ 924 0444 30       		.byte	0x30
+ 925 0445 00       		.byte	0
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 19
+
+
+ 926 0446 0A       		.uleb128 0xa
+ 927 0447 16000000 		.4byte	.LVL49
+ 928 044b DD040000 		.4byte	0x4dd
+ 929 044f 5A040000 		.4byte	0x45a
+ 930 0453 0B       		.uleb128 0xb
+ 931 0454 01       		.uleb128 0x1
+ 932 0455 50       		.byte	0x50
+ 933 0456 02       		.uleb128 0x2
+ 934 0457 09       		.byte	0x9
+ 935 0458 C8       		.byte	0xc8
+ 936 0459 00       		.byte	0
+ 937 045a 0A       		.uleb128 0xa
+ 938 045b 1C000000 		.4byte	.LVL50
+ 939 045f EE040000 		.4byte	0x4ee
+ 940 0463 6E040000 		.4byte	0x46e
+ 941 0467 0B       		.uleb128 0xb
+ 942 0468 01       		.uleb128 0x1
+ 943 0469 50       		.byte	0x50
+ 944 046a 02       		.uleb128 0x2
+ 945 046b 09       		.byte	0x9
+ 946 046c C8       		.byte	0xc8
+ 947 046d 00       		.byte	0
+ 948 046e 0C       		.uleb128 0xc
+ 949 046f 30000000 		.4byte	.LVL51
+ 950 0473 FF040000 		.4byte	0x4ff
+ 951 0477 0B       		.uleb128 0xb
+ 952 0478 01       		.uleb128 0x1
+ 953 0479 50       		.byte	0x50
+ 954 047a 1F       		.uleb128 0x1f
+ 955 047b 74       		.byte	0x74
+ 956 047c 00       		.sleb128 0
+ 957 047d 0A       		.byte	0xa
+ 958 047e E803     		.2byte	0x3e8
+ 959 0480 1E       		.byte	0x1e
+ 960 0481 F7       		.byte	0xf7
+ 961 0482 2C       		.uleb128 0x2c
+ 962 0483 F7       		.byte	0xf7
+ 963 0484 25       		.uleb128 0x25
+ 964 0485 F4       		.byte	0xf4
+ 965 0486 25       		.uleb128 0x25
+ 966 0487 08       		.byte	0x8
+ 967 0488 ABAAAAAA 		.8byte	0xaaaaaaab
+ 967      00000000 
+ 968 0490 1E       		.byte	0x1e
+ 969 0491 08       		.byte	0x8
+ 970 0492 20       		.byte	0x20
+ 971 0493 F7       		.byte	0xf7
+ 972 0494 25       		.uleb128 0x25
+ 973 0495 25       		.byte	0x25
+ 974 0496 F7       		.byte	0xf7
+ 975 0497 2C       		.uleb128 0x2c
+ 976 0498 35       		.byte	0x35
+ 977 0499 25       		.byte	0x25
+ 978 049a 00       		.byte	0
+ 979 049b 00       		.byte	0
+ 980 049c 0E       		.uleb128 0xe
+ 981 049d 8E000000 		.4byte	.LASF39
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 20
+
+
+ 982 04a1 08       		.byte	0x8
+ 983 04a2 9606     		.2byte	0x696
+ 984 04a4 A8040000 		.4byte	0x4a8
+ 985 04a8 0F       		.uleb128 0xf
+ 986 04a9 76000000 		.4byte	0x76
+ 987 04ad 10       		.uleb128 0x10
+ 988 04ae 67020000 		.4byte	.LASF30
+ 989 04b2 05       		.byte	0x5
+ 990 04b3 92       		.byte	0x92
+ 991 04b4 10       		.uleb128 0x10
+ 992 04b5 71020000 		.4byte	.LASF31
+ 993 04b9 05       		.byte	0x5
+ 994 04ba 93       		.byte	0x93
+ 995 04bb 11       		.uleb128 0x11
+ 996 04bc 7B000000 		.4byte	.LASF32
+ 997 04c0 06       		.byte	0x6
+ 998 04c1 26       		.byte	0x26
+ 999 04c2 CC040000 		.4byte	0x4cc
+ 1000 04c6 12       		.uleb128 0x12
+ 1001 04c7 81000000 		.4byte	0x81
+ 1002 04cb 00       		.byte	0
+ 1003 04cc 11       		.uleb128 0x11
+ 1004 04cd 21000000 		.4byte	.LASF33
+ 1005 04d1 07       		.byte	0x7
+ 1006 04d2 26       		.byte	0x26
+ 1007 04d3 DD040000 		.4byte	0x4dd
+ 1008 04d7 12       		.uleb128 0x12
+ 1009 04d8 81000000 		.4byte	0x81
+ 1010 04dc 00       		.byte	0
+ 1011 04dd 11       		.uleb128 0x11
+ 1012 04de 45010000 		.4byte	.LASF34
+ 1013 04e2 05       		.byte	0x5
+ 1014 04e3 C7       		.byte	0xc7
+ 1015 04e4 EE040000 		.4byte	0x4ee
+ 1016 04e8 12       		.uleb128 0x12
+ 1017 04e9 81000000 		.4byte	0x81
+ 1018 04ed 00       		.byte	0
+ 1019 04ee 11       		.uleb128 0x11
+ 1020 04ef 57010000 		.4byte	.LASF35
+ 1021 04f3 05       		.byte	0x5
+ 1022 04f4 CA       		.byte	0xca
+ 1023 04f5 FF040000 		.4byte	0x4ff
+ 1024 04f9 12       		.uleb128 0x12
+ 1025 04fa 81000000 		.4byte	0x81
+ 1026 04fe 00       		.byte	0
+ 1027 04ff 13       		.uleb128 0x13
+ 1028 0500 A1020000 		.4byte	.LASF40
+ 1029 0504 09       		.byte	0x9
+ 1030 0505 76       		.byte	0x76
+ 1031 0506 12       		.uleb128 0x12
+ 1032 0507 8D000000 		.4byte	0x8d
+ 1033 050b 00       		.byte	0
+ 1034 050c 00       		.byte	0
+ 1035              		.section	.debug_abbrev,"",%progbits
+ 1036              	.Ldebug_abbrev0:
+ 1037 0000 01       		.uleb128 0x1
+ 1038 0001 11       		.uleb128 0x11
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 21
+
+
+ 1039 0002 01       		.byte	0x1
+ 1040 0003 25       		.uleb128 0x25
+ 1041 0004 0E       		.uleb128 0xe
+ 1042 0005 13       		.uleb128 0x13
+ 1043 0006 0B       		.uleb128 0xb
+ 1044 0007 03       		.uleb128 0x3
+ 1045 0008 0E       		.uleb128 0xe
+ 1046 0009 1B       		.uleb128 0x1b
+ 1047 000a 0E       		.uleb128 0xe
+ 1048 000b 55       		.uleb128 0x55
+ 1049 000c 17       		.uleb128 0x17
+ 1050 000d 11       		.uleb128 0x11
+ 1051 000e 01       		.uleb128 0x1
+ 1052 000f 10       		.uleb128 0x10
+ 1053 0010 17       		.uleb128 0x17
+ 1054 0011 00       		.byte	0
+ 1055 0012 00       		.byte	0
+ 1056 0013 02       		.uleb128 0x2
+ 1057 0014 24       		.uleb128 0x24
+ 1058 0015 00       		.byte	0
+ 1059 0016 0B       		.uleb128 0xb
+ 1060 0017 0B       		.uleb128 0xb
+ 1061 0018 3E       		.uleb128 0x3e
+ 1062 0019 0B       		.uleb128 0xb
+ 1063 001a 03       		.uleb128 0x3
+ 1064 001b 0E       		.uleb128 0xe
+ 1065 001c 00       		.byte	0
+ 1066 001d 00       		.byte	0
+ 1067 001e 03       		.uleb128 0x3
+ 1068 001f 16       		.uleb128 0x16
+ 1069 0020 00       		.byte	0
+ 1070 0021 03       		.uleb128 0x3
+ 1071 0022 0E       		.uleb128 0xe
+ 1072 0023 3A       		.uleb128 0x3a
+ 1073 0024 0B       		.uleb128 0xb
+ 1074 0025 3B       		.uleb128 0x3b
+ 1075 0026 0B       		.uleb128 0xb
+ 1076 0027 49       		.uleb128 0x49
+ 1077 0028 13       		.uleb128 0x13
+ 1078 0029 00       		.byte	0
+ 1079 002a 00       		.byte	0
+ 1080 002b 04       		.uleb128 0x4
+ 1081 002c 24       		.uleb128 0x24
+ 1082 002d 00       		.byte	0
+ 1083 002e 0B       		.uleb128 0xb
+ 1084 002f 0B       		.uleb128 0xb
+ 1085 0030 3E       		.uleb128 0x3e
+ 1086 0031 0B       		.uleb128 0xb
+ 1087 0032 03       		.uleb128 0x3
+ 1088 0033 08       		.uleb128 0x8
+ 1089 0034 00       		.byte	0
+ 1090 0035 00       		.byte	0
+ 1091 0036 05       		.uleb128 0x5
+ 1092 0037 16       		.uleb128 0x16
+ 1093 0038 00       		.byte	0
+ 1094 0039 03       		.uleb128 0x3
+ 1095 003a 0E       		.uleb128 0xe
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 22
+
+
+ 1096 003b 3A       		.uleb128 0x3a
+ 1097 003c 0B       		.uleb128 0xb
+ 1098 003d 3B       		.uleb128 0x3b
+ 1099 003e 05       		.uleb128 0x5
+ 1100 003f 49       		.uleb128 0x49
+ 1101 0040 13       		.uleb128 0x13
+ 1102 0041 00       		.byte	0
+ 1103 0042 00       		.byte	0
+ 1104 0043 06       		.uleb128 0x6
+ 1105 0044 2E       		.uleb128 0x2e
+ 1106 0045 01       		.byte	0x1
+ 1107 0046 3F       		.uleb128 0x3f
+ 1108 0047 19       		.uleb128 0x19
+ 1109 0048 03       		.uleb128 0x3
+ 1110 0049 0E       		.uleb128 0xe
+ 1111 004a 3A       		.uleb128 0x3a
+ 1112 004b 0B       		.uleb128 0xb
+ 1113 004c 3B       		.uleb128 0x3b
+ 1114 004d 0B       		.uleb128 0xb
+ 1115 004e 11       		.uleb128 0x11
+ 1116 004f 01       		.uleb128 0x1
+ 1117 0050 12       		.uleb128 0x12
+ 1118 0051 06       		.uleb128 0x6
+ 1119 0052 40       		.uleb128 0x40
+ 1120 0053 18       		.uleb128 0x18
+ 1121 0054 9742     		.uleb128 0x2117
+ 1122 0056 19       		.uleb128 0x19
+ 1123 0057 01       		.uleb128 0x1
+ 1124 0058 13       		.uleb128 0x13
+ 1125 0059 00       		.byte	0
+ 1126 005a 00       		.byte	0
+ 1127 005b 07       		.uleb128 0x7
+ 1128 005c 898201   		.uleb128 0x4109
+ 1129 005f 00       		.byte	0
+ 1130 0060 11       		.uleb128 0x11
+ 1131 0061 01       		.uleb128 0x1
+ 1132 0062 31       		.uleb128 0x31
+ 1133 0063 13       		.uleb128 0x13
+ 1134 0064 00       		.byte	0
+ 1135 0065 00       		.byte	0
+ 1136 0066 08       		.uleb128 0x8
+ 1137 0067 2E       		.uleb128 0x2e
+ 1138 0068 01       		.byte	0x1
+ 1139 0069 3F       		.uleb128 0x3f
+ 1140 006a 19       		.uleb128 0x19
+ 1141 006b 03       		.uleb128 0x3
+ 1142 006c 0E       		.uleb128 0xe
+ 1143 006d 3A       		.uleb128 0x3a
+ 1144 006e 0B       		.uleb128 0xb
+ 1145 006f 3B       		.uleb128 0x3b
+ 1146 0070 0B       		.uleb128 0xb
+ 1147 0071 27       		.uleb128 0x27
+ 1148 0072 19       		.uleb128 0x19
+ 1149 0073 11       		.uleb128 0x11
+ 1150 0074 01       		.uleb128 0x1
+ 1151 0075 12       		.uleb128 0x12
+ 1152 0076 06       		.uleb128 0x6
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 23
+
+
+ 1153 0077 40       		.uleb128 0x40
+ 1154 0078 18       		.uleb128 0x18
+ 1155 0079 9742     		.uleb128 0x2117
+ 1156 007b 19       		.uleb128 0x19
+ 1157 007c 01       		.uleb128 0x1
+ 1158 007d 13       		.uleb128 0x13
+ 1159 007e 00       		.byte	0
+ 1160 007f 00       		.byte	0
+ 1161 0080 09       		.uleb128 0x9
+ 1162 0081 05       		.uleb128 0x5
+ 1163 0082 00       		.byte	0
+ 1164 0083 03       		.uleb128 0x3
+ 1165 0084 0E       		.uleb128 0xe
+ 1166 0085 3A       		.uleb128 0x3a
+ 1167 0086 0B       		.uleb128 0xb
+ 1168 0087 3B       		.uleb128 0x3b
+ 1169 0088 0B       		.uleb128 0xb
+ 1170 0089 49       		.uleb128 0x49
+ 1171 008a 13       		.uleb128 0x13
+ 1172 008b 02       		.uleb128 0x2
+ 1173 008c 17       		.uleb128 0x17
+ 1174 008d 00       		.byte	0
+ 1175 008e 00       		.byte	0
+ 1176 008f 0A       		.uleb128 0xa
+ 1177 0090 898201   		.uleb128 0x4109
+ 1178 0093 01       		.byte	0x1
+ 1179 0094 11       		.uleb128 0x11
+ 1180 0095 01       		.uleb128 0x1
+ 1181 0096 31       		.uleb128 0x31
+ 1182 0097 13       		.uleb128 0x13
+ 1183 0098 01       		.uleb128 0x1
+ 1184 0099 13       		.uleb128 0x13
+ 1185 009a 00       		.byte	0
+ 1186 009b 00       		.byte	0
+ 1187 009c 0B       		.uleb128 0xb
+ 1188 009d 8A8201   		.uleb128 0x410a
+ 1189 00a0 00       		.byte	0
+ 1190 00a1 02       		.uleb128 0x2
+ 1191 00a2 18       		.uleb128 0x18
+ 1192 00a3 9142     		.uleb128 0x2111
+ 1193 00a5 18       		.uleb128 0x18
+ 1194 00a6 00       		.byte	0
+ 1195 00a7 00       		.byte	0
+ 1196 00a8 0C       		.uleb128 0xc
+ 1197 00a9 898201   		.uleb128 0x4109
+ 1198 00ac 01       		.byte	0x1
+ 1199 00ad 11       		.uleb128 0x11
+ 1200 00ae 01       		.uleb128 0x1
+ 1201 00af 31       		.uleb128 0x31
+ 1202 00b0 13       		.uleb128 0x13
+ 1203 00b1 00       		.byte	0
+ 1204 00b2 00       		.byte	0
+ 1205 00b3 0D       		.uleb128 0xd
+ 1206 00b4 34       		.uleb128 0x34
+ 1207 00b5 00       		.byte	0
+ 1208 00b6 03       		.uleb128 0x3
+ 1209 00b7 0E       		.uleb128 0xe
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 24
+
+
+ 1210 00b8 3A       		.uleb128 0x3a
+ 1211 00b9 0B       		.uleb128 0xb
+ 1212 00ba 3B       		.uleb128 0x3b
+ 1213 00bb 0B       		.uleb128 0xb
+ 1214 00bc 49       		.uleb128 0x49
+ 1215 00bd 13       		.uleb128 0x13
+ 1216 00be 1C       		.uleb128 0x1c
+ 1217 00bf 0B       		.uleb128 0xb
+ 1218 00c0 00       		.byte	0
+ 1219 00c1 00       		.byte	0
+ 1220 00c2 0E       		.uleb128 0xe
+ 1221 00c3 34       		.uleb128 0x34
+ 1222 00c4 00       		.byte	0
+ 1223 00c5 03       		.uleb128 0x3
+ 1224 00c6 0E       		.uleb128 0xe
+ 1225 00c7 3A       		.uleb128 0x3a
+ 1226 00c8 0B       		.uleb128 0xb
+ 1227 00c9 3B       		.uleb128 0x3b
+ 1228 00ca 05       		.uleb128 0x5
+ 1229 00cb 49       		.uleb128 0x49
+ 1230 00cc 13       		.uleb128 0x13
+ 1231 00cd 3F       		.uleb128 0x3f
+ 1232 00ce 19       		.uleb128 0x19
+ 1233 00cf 3C       		.uleb128 0x3c
+ 1234 00d0 19       		.uleb128 0x19
+ 1235 00d1 00       		.byte	0
+ 1236 00d2 00       		.byte	0
+ 1237 00d3 0F       		.uleb128 0xf
+ 1238 00d4 35       		.uleb128 0x35
+ 1239 00d5 00       		.byte	0
+ 1240 00d6 49       		.uleb128 0x49
+ 1241 00d7 13       		.uleb128 0x13
+ 1242 00d8 00       		.byte	0
+ 1243 00d9 00       		.byte	0
+ 1244 00da 10       		.uleb128 0x10
+ 1245 00db 2E       		.uleb128 0x2e
+ 1246 00dc 00       		.byte	0
+ 1247 00dd 3F       		.uleb128 0x3f
+ 1248 00de 19       		.uleb128 0x19
+ 1249 00df 03       		.uleb128 0x3
+ 1250 00e0 0E       		.uleb128 0xe
+ 1251 00e1 3A       		.uleb128 0x3a
+ 1252 00e2 0B       		.uleb128 0xb
+ 1253 00e3 3B       		.uleb128 0x3b
+ 1254 00e4 0B       		.uleb128 0xb
+ 1255 00e5 27       		.uleb128 0x27
+ 1256 00e6 19       		.uleb128 0x19
+ 1257 00e7 3C       		.uleb128 0x3c
+ 1258 00e8 19       		.uleb128 0x19
+ 1259 00e9 00       		.byte	0
+ 1260 00ea 00       		.byte	0
+ 1261 00eb 11       		.uleb128 0x11
+ 1262 00ec 2E       		.uleb128 0x2e
+ 1263 00ed 01       		.byte	0x1
+ 1264 00ee 3F       		.uleb128 0x3f
+ 1265 00ef 19       		.uleb128 0x19
+ 1266 00f0 03       		.uleb128 0x3
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 25
+
+
+ 1267 00f1 0E       		.uleb128 0xe
+ 1268 00f2 3A       		.uleb128 0x3a
+ 1269 00f3 0B       		.uleb128 0xb
+ 1270 00f4 3B       		.uleb128 0x3b
+ 1271 00f5 0B       		.uleb128 0xb
+ 1272 00f6 27       		.uleb128 0x27
+ 1273 00f7 19       		.uleb128 0x19
+ 1274 00f8 3C       		.uleb128 0x3c
+ 1275 00f9 19       		.uleb128 0x19
+ 1276 00fa 01       		.uleb128 0x1
+ 1277 00fb 13       		.uleb128 0x13
+ 1278 00fc 00       		.byte	0
+ 1279 00fd 00       		.byte	0
+ 1280 00fe 12       		.uleb128 0x12
+ 1281 00ff 05       		.uleb128 0x5
+ 1282 0100 00       		.byte	0
+ 1283 0101 49       		.uleb128 0x49
+ 1284 0102 13       		.uleb128 0x13
+ 1285 0103 00       		.byte	0
+ 1286 0104 00       		.byte	0
+ 1287 0105 13       		.uleb128 0x13
+ 1288 0106 2E       		.uleb128 0x2e
+ 1289 0107 01       		.byte	0x1
+ 1290 0108 3F       		.uleb128 0x3f
+ 1291 0109 19       		.uleb128 0x19
+ 1292 010a 03       		.uleb128 0x3
+ 1293 010b 0E       		.uleb128 0xe
+ 1294 010c 3A       		.uleb128 0x3a
+ 1295 010d 0B       		.uleb128 0xb
+ 1296 010e 3B       		.uleb128 0x3b
+ 1297 010f 0B       		.uleb128 0xb
+ 1298 0110 27       		.uleb128 0x27
+ 1299 0111 19       		.uleb128 0x19
+ 1300 0112 3C       		.uleb128 0x3c
+ 1301 0113 19       		.uleb128 0x19
+ 1302 0114 00       		.byte	0
+ 1303 0115 00       		.byte	0
+ 1304 0116 00       		.byte	0
+ 1305              		.section	.debug_loc,"",%progbits
+ 1306              	.Ldebug_loc0:
+ 1307              	.LLST0:
+ 1308 0000 00000000 		.4byte	.LVL2
+ 1309 0004 08000000 		.4byte	.LVL3
+ 1310 0008 0100     		.2byte	0x1
+ 1311 000a 50       		.byte	0x50
+ 1312 000b 08000000 		.4byte	.LVL3
+ 1313 000f 26000000 		.4byte	.LFE65
+ 1314 0013 0400     		.2byte	0x4
+ 1315 0015 F3       		.byte	0xf3
+ 1316 0016 01       		.uleb128 0x1
+ 1317 0017 50       		.byte	0x50
+ 1318 0018 9F       		.byte	0x9f
+ 1319 0019 00000000 		.4byte	0
+ 1320 001d 00000000 		.4byte	0
+ 1321              	.LLST1:
+ 1322 0021 00000000 		.4byte	.LVL2
+ 1323 0025 0B000000 		.4byte	.LVL4-1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 26
+
+
+ 1324 0029 0100     		.2byte	0x1
+ 1325 002b 51       		.byte	0x51
+ 1326 002c 0B000000 		.4byte	.LVL4-1
+ 1327 0030 26000000 		.4byte	.LFE65
+ 1328 0034 0100     		.2byte	0x1
+ 1329 0036 55       		.byte	0x55
+ 1330 0037 00000000 		.4byte	0
+ 1331 003b 00000000 		.4byte	0
+ 1332              	.LLST2:
+ 1333 003f 00000000 		.4byte	.LVL9
+ 1334 0043 0C000000 		.4byte	.LVL10
+ 1335 0047 0100     		.2byte	0x1
+ 1336 0049 50       		.byte	0x50
+ 1337 004a 0C000000 		.4byte	.LVL10
+ 1338 004e 12000000 		.4byte	.LVL12
+ 1339 0052 0100     		.2byte	0x1
+ 1340 0054 55       		.byte	0x55
+ 1341 0055 12000000 		.4byte	.LVL12
+ 1342 0059 14000000 		.4byte	.LVL13
+ 1343 005d 0100     		.2byte	0x1
+ 1344 005f 50       		.byte	0x50
+ 1345 0060 14000000 		.4byte	.LVL13
+ 1346 0064 42000000 		.4byte	.LFE66
+ 1347 0068 0100     		.2byte	0x1
+ 1348 006a 55       		.byte	0x55
+ 1349 006b 00000000 		.4byte	0
+ 1350 006f 00000000 		.4byte	0
+ 1351              	.LLST3:
+ 1352 0073 00000000 		.4byte	.LVL9
+ 1353 0077 0F000000 		.4byte	.LVL11-1
+ 1354 007b 0100     		.2byte	0x1
+ 1355 007d 51       		.byte	0x51
+ 1356 007e 0F000000 		.4byte	.LVL11-1
+ 1357 0082 12000000 		.4byte	.LVL12
+ 1358 0086 0100     		.2byte	0x1
+ 1359 0088 54       		.byte	0x54
+ 1360 0089 12000000 		.4byte	.LVL12
+ 1361 008d 17000000 		.4byte	.LVL14-1
+ 1362 0091 0100     		.2byte	0x1
+ 1363 0093 51       		.byte	0x51
+ 1364 0094 17000000 		.4byte	.LVL14-1
+ 1365 0098 42000000 		.4byte	.LFE66
+ 1366 009c 0100     		.2byte	0x1
+ 1367 009e 54       		.byte	0x54
+ 1368 009f 00000000 		.4byte	0
+ 1369 00a3 00000000 		.4byte	0
+ 1370              	.LLST4:
+ 1371 00a7 00000000 		.4byte	.LVL9
+ 1372 00ab 0F000000 		.4byte	.LVL11-1
+ 1373 00af 0100     		.2byte	0x1
+ 1374 00b1 52       		.byte	0x52
+ 1375 00b2 0F000000 		.4byte	.LVL11-1
+ 1376 00b6 12000000 		.4byte	.LVL12
+ 1377 00ba 0100     		.2byte	0x1
+ 1378 00bc 56       		.byte	0x56
+ 1379 00bd 12000000 		.4byte	.LVL12
+ 1380 00c1 17000000 		.4byte	.LVL14-1
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 27
+
+
+ 1381 00c5 0100     		.2byte	0x1
+ 1382 00c7 52       		.byte	0x52
+ 1383 00c8 17000000 		.4byte	.LVL14-1
+ 1384 00cc 42000000 		.4byte	.LFE66
+ 1385 00d0 0100     		.2byte	0x1
+ 1386 00d2 56       		.byte	0x56
+ 1387 00d3 00000000 		.4byte	0
+ 1388 00d7 00000000 		.4byte	0
+ 1389              	.LLST5:
+ 1390 00db 00000000 		.4byte	.LVL22
+ 1391 00df 08000000 		.4byte	.LVL23
+ 1392 00e3 0100     		.2byte	0x1
+ 1393 00e5 50       		.byte	0x50
+ 1394 00e6 08000000 		.4byte	.LVL23
+ 1395 00ea 26000000 		.4byte	.LFE67
+ 1396 00ee 0400     		.2byte	0x4
+ 1397 00f0 F3       		.byte	0xf3
+ 1398 00f1 01       		.uleb128 0x1
+ 1399 00f2 50       		.byte	0x50
+ 1400 00f3 9F       		.byte	0x9f
+ 1401 00f4 00000000 		.4byte	0
+ 1402 00f8 00000000 		.4byte	0
+ 1403              	.LLST6:
+ 1404 00fc 00000000 		.4byte	.LVL22
+ 1405 0100 0B000000 		.4byte	.LVL24-1
+ 1406 0104 0100     		.2byte	0x1
+ 1407 0106 51       		.byte	0x51
+ 1408 0107 0B000000 		.4byte	.LVL24-1
+ 1409 010b 26000000 		.4byte	.LFE67
+ 1410 010f 0100     		.2byte	0x1
+ 1411 0111 55       		.byte	0x55
+ 1412 0112 00000000 		.4byte	0
+ 1413 0116 00000000 		.4byte	0
+ 1414              	.LLST7:
+ 1415 011a 00000000 		.4byte	.LVL29
+ 1416 011e 06000000 		.4byte	.LVL31
+ 1417 0122 0100     		.2byte	0x1
+ 1418 0124 50       		.byte	0x50
+ 1419 0125 06000000 		.4byte	.LVL31
+ 1420 0129 24000000 		.4byte	.LFE68
+ 1421 012d 0100     		.2byte	0x1
+ 1422 012f 54       		.byte	0x54
+ 1423 0130 00000000 		.4byte	0
+ 1424 0134 00000000 		.4byte	0
+ 1425              	.LLST8:
+ 1426 0138 00000000 		.4byte	.LVL37
+ 1427 013c 06000000 		.4byte	.LVL39
+ 1428 0140 0100     		.2byte	0x1
+ 1429 0142 50       		.byte	0x50
+ 1430 0143 06000000 		.4byte	.LVL39
+ 1431 0147 24000000 		.4byte	.LFE69
+ 1432 014b 0100     		.2byte	0x1
+ 1433 014d 54       		.byte	0x54
+ 1434 014e 00000000 		.4byte	0
+ 1435 0152 00000000 		.4byte	0
+ 1436              	.LLST9:
+ 1437 0156 00000000 		.4byte	.LVL45
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 28
+
+
+ 1438 015a 06000000 		.4byte	.LVL46
+ 1439 015e 0100     		.2byte	0x1
+ 1440 0160 50       		.byte	0x50
+ 1441 0161 06000000 		.4byte	.LVL46
+ 1442 0165 32000000 		.4byte	.LVL52
+ 1443 0169 0100     		.2byte	0x1
+ 1444 016b 54       		.byte	0x54
+ 1445 016c 32000000 		.4byte	.LVL52
+ 1446 0170 38000000 		.4byte	.LFE70
+ 1447 0174 0400     		.2byte	0x4
+ 1448 0176 F3       		.byte	0xf3
+ 1449 0177 01       		.uleb128 0x1
+ 1450 0178 50       		.byte	0x50
+ 1451 0179 9F       		.byte	0x9f
+ 1452 017a 00000000 		.4byte	0
+ 1453 017e 00000000 		.4byte	0
+ 1454              		.section	.debug_aranges,"",%progbits
+ 1455 0000 54000000 		.4byte	0x54
+ 1456 0004 0200     		.2byte	0x2
+ 1457 0006 00000000 		.4byte	.Ldebug_info0
+ 1458 000a 04       		.byte	0x4
+ 1459 000b 00       		.byte	0
+ 1460 000c 0000     		.2byte	0
+ 1461 000e 0000     		.2byte	0
+ 1462 0010 00000000 		.4byte	.LFB63
+ 1463 0014 08000000 		.4byte	.LFE63-.LFB63
+ 1464 0018 00000000 		.4byte	.LFB64
+ 1465 001c 08000000 		.4byte	.LFE64-.LFB64
+ 1466 0020 00000000 		.4byte	.LFB65
+ 1467 0024 26000000 		.4byte	.LFE65-.LFB65
+ 1468 0028 00000000 		.4byte	.LFB66
+ 1469 002c 42000000 		.4byte	.LFE66-.LFB66
+ 1470 0030 00000000 		.4byte	.LFB67
+ 1471 0034 26000000 		.4byte	.LFE67-.LFB67
+ 1472 0038 00000000 		.4byte	.LFB68
+ 1473 003c 24000000 		.4byte	.LFE68-.LFB68
+ 1474 0040 00000000 		.4byte	.LFB69
+ 1475 0044 24000000 		.4byte	.LFE69-.LFB69
+ 1476 0048 00000000 		.4byte	.LFB70
+ 1477 004c 38000000 		.4byte	.LFE70-.LFB70
+ 1478 0050 00000000 		.4byte	0
+ 1479 0054 00000000 		.4byte	0
+ 1480              		.section	.debug_ranges,"",%progbits
+ 1481              	.Ldebug_ranges0:
+ 1482 0000 00000000 		.4byte	.LFB63
+ 1483 0004 08000000 		.4byte	.LFE63
+ 1484 0008 00000000 		.4byte	.LFB64
+ 1485 000c 08000000 		.4byte	.LFE64
+ 1486 0010 00000000 		.4byte	.LFB65
+ 1487 0014 26000000 		.4byte	.LFE65
+ 1488 0018 00000000 		.4byte	.LFB66
+ 1489 001c 42000000 		.4byte	.LFE66
+ 1490 0020 00000000 		.4byte	.LFB67
+ 1491 0024 26000000 		.4byte	.LFE67
+ 1492 0028 00000000 		.4byte	.LFB68
+ 1493 002c 24000000 		.4byte	.LFE68
+ 1494 0030 00000000 		.4byte	.LFB69
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 29
+
+
+ 1495 0034 24000000 		.4byte	.LFE69
+ 1496 0038 00000000 		.4byte	.LFB70
+ 1497 003c 38000000 		.4byte	.LFE70
+ 1498 0040 00000000 		.4byte	0
+ 1499 0044 00000000 		.4byte	0
+ 1500              		.section	.debug_line,"",%progbits
+ 1501              	.Ldebug_line0:
+ 1502 0000 47020000 		.section	.debug_str,"MS",%progbits,1
+ 1502      02008D01 
+ 1502      00000201 
+ 1502      FB0E0D00 
+ 1502      01010101 
+ 1503              	.LASF9:
+ 1504 0000 5F5F696E 		.ascii	"__int32_t\000"
+ 1504      7433325F 
+ 1504      7400
+ 1505              	.LASF25:
+ 1506 000a 6D6F746F 		.ascii	"motor_backward\000"
+ 1506      725F6261 
+ 1506      636B7761 
+ 1506      726400
+ 1507              	.LASF24:
+ 1508 0019 725F7370 		.ascii	"r_speed\000"
+ 1508      65656400 
+ 1509              	.LASF33:
+ 1510 0021 4D6F746F 		.ascii	"MotorDirRight_Write\000"
+ 1510      72446972 
+ 1510      52696768 
+ 1510      745F5772 
+ 1510      69746500 
+ 1511              	.LASF11:
+ 1512 0035 75696E74 		.ascii	"uint8\000"
+ 1512      3800
+ 1513              	.LASF10:
+ 1514 003b 696E7433 		.ascii	"int32_t\000"
+ 1514      325F7400 
+ 1515              	.LASF13:
+ 1516 0043 666C6F61 		.ascii	"float\000"
+ 1516      7400
+ 1517              	.LASF2:
+ 1518 0049 7369676E 		.ascii	"signed char\000"
+ 1518      65642063 
+ 1518      68617200 
+ 1519              	.LASF20:
+ 1520 0055 64656C61 		.ascii	"delay\000"
+ 1520      7900
+ 1521              	.LASF3:
+ 1522 005b 756E7369 		.ascii	"unsigned char\000"
+ 1522      676E6564 
+ 1522      20636861 
+ 1522      7200
+ 1523              	.LASF7:
+ 1524 0069 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1524      20756E73 
+ 1524      69676E65 
+ 1524      6420696E 
+ 1524      7400
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 30
+
+
+ 1525              	.LASF32:
+ 1526 007b 4D6F746F 		.ascii	"MotorDirLeft_Write\000"
+ 1526      72446972 
+ 1526      4C656674 
+ 1526      5F577269 
+ 1526      746500
+ 1527              	.LASF39:
+ 1528 008e 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1528      52784275 
+ 1528      66666572 
+ 1528      00
+ 1529              	.LASF21:
+ 1530 009b 6D6F746F 		.ascii	"motor_forward\000"
+ 1530      725F666F 
+ 1530      72776172 
+ 1530      6400
+ 1531              	.LASF14:
+ 1532 00a9 646F7562 		.ascii	"double\000"
+ 1532      6C6500
+ 1533              	.LASF29:
+ 1534 00b0 6D6F746F 		.ascii	"motor_forward_distance\000"
+ 1534      725F666F 
+ 1534      72776172 
+ 1534      645F6469 
+ 1534      7374616E 
+ 1535              	.LASF18:
+ 1536 00c7 6D6F746F 		.ascii	"motor_stop\000"
+ 1536      725F7374 
+ 1536      6F7000
+ 1537              	.LASF37:
+ 1538 00d2 5A756D6F 		.ascii	"ZumoLibrary\\Motor.c\000"
+ 1538      4C696272 
+ 1538      6172795C 
+ 1538      4D6F746F 
+ 1538      722E6300 
+ 1539              	.LASF12:
+ 1540 00e6 75696E74 		.ascii	"uint32\000"
+ 1540      333200
+ 1541              	.LASF27:
+ 1542 00ed 6D6F746F 		.ascii	"motor_static_turn_l\000"
+ 1542      725F7374 
+ 1542      61746963 
+ 1542      5F747572 
+ 1542      6E5F6C00 
+ 1543              	.LASF1:
+ 1544 0101 756E7369 		.ascii	"unsigned int\000"
+ 1544      676E6564 
+ 1544      20696E74 
+ 1544      00
+ 1545              	.LASF26:
+ 1546 010e 6D6F746F 		.ascii	"motor_static_turn_r\000"
+ 1546      725F7374 
+ 1546      61746963 
+ 1546      5F747572 
+ 1546      6E5F7200 
+ 1547              	.LASF0:
+ 1548 0122 6C6F6E67 		.ascii	"long long unsigned int\000"
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 31
+
+
+ 1548      206C6F6E 
+ 1548      6720756E 
+ 1548      7369676E 
+ 1548      65642069 
+ 1549              	.LASF17:
+ 1550 0139 6D6F746F 		.ascii	"motor_start\000"
+ 1550      725F7374 
+ 1550      61727400 
+ 1551              	.LASF34:
+ 1552 0145 50574D5F 		.ascii	"PWM_WriteCompare1\000"
+ 1552      57726974 
+ 1552      65436F6D 
+ 1552      70617265 
+ 1552      3100
+ 1553              	.LASF35:
+ 1554 0157 50574D5F 		.ascii	"PWM_WriteCompare2\000"
+ 1554      57726974 
+ 1554      65436F6D 
+ 1554      70617265 
+ 1554      3200
+ 1555              	.LASF23:
+ 1556 0169 6C5F7370 		.ascii	"l_speed\000"
+ 1556      65656400 
+ 1557              	.LASF19:
+ 1558 0171 73706565 		.ascii	"speed\000"
+ 1558      6400
+ 1559              	.LASF16:
+ 1560 0177 73697A65 		.ascii	"sizetype\000"
+ 1560      74797065 
+ 1560      00
+ 1561              	.LASF36:
+ 1562 0180 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1562      4320342E 
+ 1562      392E3320 
+ 1562      32303135 
+ 1562      30333033 
+ 1563 01b3 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1563      20726576 
+ 1563      6973696F 
+ 1563      6E203232 
+ 1563      31323230 
+ 1564 01e6 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1564      66756E63 
+ 1564      74696F6E 
+ 1564      2D736563 
+ 1564      74696F6E 
+ 1565              	.LASF28:
+ 1566 020e 73746174 		.ascii	"static_speed\000"
+ 1566      69635F73 
+ 1566      70656564 
+ 1566      00
+ 1567              	.LASF8:
+ 1568 021b 6C6F6E67 		.ascii	"long long int\000"
+ 1568      206C6F6E 
+ 1568      6720696E 
+ 1568      7400
+ 1569              	.LASF38:
+ARM GAS  C:\Users\TRIPHE~1\AppData\Local\Temp\ccgsuSzl.s 			page 32
+
+
+ 1570 0229 453A5C41 		.ascii	"E:\\Ardibot\\Zumo.release03\\Zumo01\\ZumoBot.cydsn\000"
+ 1570      72646962 
+ 1570      6F745C5A 
+ 1570      756D6F2E 
+ 1570      72656C65 
+ 1571              	.LASF15:
+ 1572 0258 63686172 		.ascii	"char\000"
+ 1572      00
+ 1573              	.LASF4:
+ 1574 025d 73686F72 		.ascii	"short int\000"
+ 1574      7420696E 
+ 1574      7400
+ 1575              	.LASF30:
+ 1576 0267 50574D5F 		.ascii	"PWM_Start\000"
+ 1576      53746172 
+ 1576      7400
+ 1577              	.LASF31:
+ 1578 0271 50574D5F 		.ascii	"PWM_Stop\000"
+ 1578      53746F70 
+ 1578      00
+ 1579              	.LASF6:
+ 1580 027a 6C6F6E67 		.ascii	"long int\000"
+ 1580      20696E74 
+ 1580      00
+ 1581              	.LASF22:
+ 1582 0283 6D6F746F 		.ascii	"motor_turn\000"
+ 1582      725F7475 
+ 1582      726E00
+ 1583              	.LASF5:
+ 1584 028e 73686F72 		.ascii	"short unsigned int\000"
+ 1584      7420756E 
+ 1584      7369676E 
+ 1584      65642069 
+ 1584      6E7400
+ 1585              	.LASF40:
+ 1586 02a1 43794465 		.ascii	"CyDelay\000"
+ 1586      6C617900 
+ 1587              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
